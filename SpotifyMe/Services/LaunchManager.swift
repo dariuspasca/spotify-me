@@ -30,11 +30,10 @@ class LaunchManager {
     
     func controlTokenValidity() {
         os_log("Control if access token is still valid", type: .info)
-        guard (userSession?.isExpired) != nil else {
+        guard (userSession?.isExpired) != true else {
             refreshToken()
             return
         }
-        
         os_log("Access token is still valid", type: .info)
         
     }

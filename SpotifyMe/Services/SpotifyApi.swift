@@ -109,36 +109,38 @@ struct SpotifyApi {
         }.resume()
     }
     
-    
-    func fetchSpotifyProfile(completion: @escaping (Profile?, Error?) -> ()){
-        let authorizationCode = UserDefaults.standard.string(forKey: "accessToken") ?? ""
-        let authorizationValue = "Bearer " + authorizationCode
+    func fetchSpotifyProfile(authorizationValue:String, completion: @escaping (Result<Profile, Error>) -> ()) {
         
-        let url = SpotifyEndpoint.userProfile.url
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: SpotifyEndpoint.userProfile.url)
         request.httpMethod = "GET"
-        request.setValue(authorizationValue, forHTTPHeaderField: "Authorization")
         
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                completion(nil,error)
+        // Header
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+        
+        
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+        
+        URLSession.shared.dataTask(with: request) { (data, response, err) in
+            if let err = err {
+                completion(.failure(err))
                 return
             }
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print(json)
+               // print(String(data: data!, encoding: String.Encoding.utf8))
                 
                 let profile = try decoder.decode(Profile.self, from: data!)
-                completion(profile,nil)
+                completion(.success(profile))
             } catch {
-                completion(nil,error)
+                completion(.failure(error))
                 return
             }
-            
         }.resume()
     }
-    
 }
 
 struct Profile:Decodable {
