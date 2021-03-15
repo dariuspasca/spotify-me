@@ -39,7 +39,7 @@ class LaunchManager {
         
     }
     
-    fileprivate func fetchUserSession() {
+    private func fetchUserSession() {
         do {
             os_log("Fetching user session", type: .info)
             self.userSession = try context.fetch(UserSession.fetchRequest()).first
@@ -48,7 +48,7 @@ class LaunchManager {
         }
     }
     
-    fileprivate func refreshToken(){
+    private func refreshToken(){
         os_log("Access token not valid, refreshing", type: .info)
         spotifyApi.requestRefreshAccessToken(refreshToken: userSession!.refreshToken!) { (res) in
             switch res {
@@ -90,20 +90,19 @@ class LaunchManager {
             // Save authorization code
             UserDefaults.standard.setValue(params[0].value!, forKey: "authorizationCode")
             
-            spotifyApi.requestAccessAndRefreshTokens { (res) in
+            spotifyApi.requestAccessAndRefreshToken { (res) in
                 switch res {
                 case .success(let response):
-                    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
                     
                     // Create a user session object
-                    let userSession = UserSession(context: context)
+                    let userSession = UserSession(context: self.context)
                     userSession.accessToken = response.accessToken
                     userSession.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
                     userSession.refreshToken = response.refreshToken
                     
                     // Save data
                     do {
-                        try context.save()
+                        try self.context.save()
                         os_log("Saved new user session", type: .info)
                     } catch  {
                         os_log("Failed to save user session with error: %@", type:.error, String(describing: error))

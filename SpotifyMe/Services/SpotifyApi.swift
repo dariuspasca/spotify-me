@@ -30,7 +30,7 @@ struct SpotifyApi {
         return urlComponents.url!
     }
     
-    func requestAccessAndRefreshTokens(completion: @escaping (Result<AccessResponse, Error>) -> ()) {
+    func requestAccessAndRefreshToken(completion: @escaping (Result<AccessResponse, Error>) -> ()) {
         
         var request = URLRequest(url: SpotifyEndpoint.tokenRequest.url)
         request.httpMethod = "POST"

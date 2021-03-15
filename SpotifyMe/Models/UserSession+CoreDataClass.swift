@@ -13,11 +13,11 @@ import CoreData
 public class UserSession: NSManagedObject {
     
     var authorizationValue: String {
-        return "Bearer \(accessToken)"
+        return "Bearer \(accessToken!)"
     }
     
     var isExpired: Bool {
-        return Date() > expireAt
+        return Date() > expireAt!
     }
 
 }
