@@ -1,6 +1,0 @@
-framework module Pods_SpotifyMe_SpotifyMeUITests {
-  umbrella header "Pods-SpotifyMe-SpotifyMeUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
