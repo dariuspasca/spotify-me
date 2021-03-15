@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="UserProfile" representedClassName="UserProfile" syncable="YES" codeGenerationType="category">
+        <attribute name="displayName" optional="YES" attributeType="String"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="followers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="product" optional="YES" attributeType="String"/>
+        <attribute name="profileImage" optional="YES" attributeType="URI"/>
+        <attribute name="profileUri" optional="YES" attributeType="URI"/>
+    </entity>
     <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="category">
         <attribute name="accessToken" attributeType="String"/>
         <attribute name="expireAt" attributeType="Date" usesScalarValueType="NO"/>
@@ -7,5 +15,6 @@
     </entity>
     <elements>
         <element name="UserSession" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="UserProfile" positionX="-63" positionY="9" width="128" height="119"/>
     </elements>
 </model>

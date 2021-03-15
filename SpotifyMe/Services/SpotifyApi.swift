@@ -144,7 +144,6 @@ struct SpotifyApi {
 }
 
 struct Profile:Decodable {
-    let country: String
     let displayName: String?
     let email: String
     let explicitContent: ExplicitContent

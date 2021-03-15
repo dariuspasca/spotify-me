@@ -22,14 +22,14 @@ class LaunchManager {
         
         guard (userSession != nil) else {
             // Should redirect to login
-            os_log("No user session", type: .info)
+            os_log("No UserSession", type: .info)
             return
         }
         controlTokenValidity()
     }
     
     func controlTokenValidity() {
-        os_log("Control if access token is still valid", type: .info)
+        os_log("Check if access token is still valid", type: .info)
         guard (userSession?.isExpired) != true else {
             refreshToken()
             return
@@ -40,10 +40,10 @@ class LaunchManager {
     
     private func fetchUserSession() {
         do {
-            os_log("Fetching user session", type: .info)
+            os_log("Fetching UserSession", type: .info)
             self.userSession = try context.fetch(UserSession.fetchRequest()).first
         } catch  {
-            os_log("Failed to fetch user session with error: %@", type:.error, String(describing: error))
+            os_log("Failed to fetch UserSession with error: %@", type:.error, String(describing: error))
         }
     }
     
@@ -60,9 +60,9 @@ class LaunchManager {
                 // Save data
                 do {
                     try self.context.save()
-                    os_log("User session updated with refreshed access token", type: .info)
+                    os_log("Updated UserSession with refreshed access token", type: .info)
                 } catch  {
-                    os_log("Failed to save user session with error: %@", type:.error, String(describing: error))
+                    os_log("Failed to save UserSession with error: %@", type:.error, String(describing: error))
                 }
                 
                 
@@ -93,7 +93,7 @@ class LaunchManager {
                 switch res {
                 case .success(let response):
                     
-                    // Create a user session object
+                    // Create a UserSession object
                     let userSession = UserSession(context: self.context)
                     userSession.accessToken = response.accessToken
                     userSession.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
@@ -102,9 +102,9 @@ class LaunchManager {
                     // Save data
                     do {
                         try self.context.save()
-                        os_log("Saved new user session", type: .info)
+                        os_log("Saved new UserSession", type: .info)
                     } catch  {
-                        os_log("Failed to save user session with error: %@", type:.error, String(describing: error))
+                        os_log("Failed to save UserSession with error: %@", type:.error, String(describing: error))
                     }
                     
                     

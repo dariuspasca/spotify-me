@@ -46,13 +46,33 @@ class ViewController: UIViewController {
             spotifyApi.fetchSpotifyProfile(authorizationValue: userSession!.authorizationValue) { (res) in
                 switch res {
                 case .success(let response):
-                    os_log("User profile fetched successfully", type:.info)
                     
-                    // DO STUFF
+                    // Create a UserProfile object
+                    let user = UserProfile(context: self.context)
+                    user.displayName = response.displayName
+                    user.email = response.email
+                    user.product = response.product
+                    user.profileUri = URL(string: response.uri)
+                    
+                    if let followers = response.followers?.total {
+                        user.followers = Int16(followers)
+                    }
+                    
+                    if let image = response.images?.first {
+                        user.profileImage = URL(string: image.url ?? "")
+                    }
+                    
+                    // Save UserProfile
+                    do {
+                        try self.context.save()
+                        os_log("Saved new UserProfile", type: .info)
+                    } catch  {
+                        os_log("Failed to save new UserProfile with error: %@", type:.error, String(describing: error))
+                    }
                     
                     
                 case .failure(let err):
-                    os_log("Request to get user profile failed with error: %@", type:.error, String(describing: err))
+                    os_log("Request to get UserProfile failed with error: %@", type:.error, String(describing: err))
                 }
             }
             return
