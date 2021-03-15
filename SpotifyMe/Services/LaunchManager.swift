@@ -14,11 +14,11 @@ import os.log
 class LaunchManager {
     
     var userSession: UserSession?
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let spotifyApi = SpotifyApi.init()
+    let sessionManager = UserSessionManager()
     
     func handleApplicationDidBecomeActive() {
-        fetchUserSession()
+        userSession = self.sessionManager.fetchUserSession()
         
         guard (userSession != nil) else {
             // Should redirect to login
@@ -29,45 +29,31 @@ class LaunchManager {
     }
     
     func controlTokenValidity() {
-        os_log("Check if access token is still valid", type: .info)
+        os_log("Controll accessToken validity", type: .info)
         guard (userSession?.isExpired) != true else {
             refreshToken()
             return
         }
-        os_log("Access token is still valid", type: .info)
+        os_log("Access accessToken is valid", type: .info)
         
     }
     
-    private func fetchUserSession() {
-        do {
-            os_log("Fetching UserSession", type: .info)
-            self.userSession = try context.fetch(UserSession.fetchRequest()).first
-        } catch  {
-            os_log("Failed to fetch UserSession with error: %@", type:.error, String(describing: error))
-        }
-    }
-    
     private func refreshToken(){
-        os_log("Access token not valid, refreshing", type: .info)
+        os_log("accessToken not valid, refreshing", type: .info)
         spotifyApi.requestRefreshAccessToken(refreshToken: userSession!.refreshToken!) { (res) in
             switch res {
             case .success(let response):
                 
-                // Update user session object
+                // Update UserSession object
                 self.userSession!.accessToken = response.accessToken
                 self.userSession!.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
                 
                 // Save data
-                do {
-                    try self.context.save()
-                    os_log("Updated UserSession with refreshed access token", type: .info)
-                } catch  {
-                    os_log("Failed to save UserSession with error: %@", type:.error, String(describing: error))
-                }
+                self.sessionManager.updateUserSession(userSession: self.userSession!)
                 
                 
             case .failure(let err):
-                os_log("Request to refresh access token failed with error: %@", type:.error, String(describing: err))
+                os_log("Request to refresh accessToken failed with error: %@", type:.error, String(describing: err))
             }
         }
     }
@@ -94,18 +80,7 @@ class LaunchManager {
                 case .success(let response):
                     
                     // Create a UserSession object
-                    let userSession = UserSession(context: self.context)
-                    userSession.accessToken = response.accessToken
-                    userSession.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
-                    userSession.refreshToken = response.refreshToken
-                    
-                    // Save data
-                    do {
-                        try self.context.save()
-                        os_log("Saved new UserSession", type: .info)
-                    } catch  {
-                        os_log("Failed to save UserSession with error: %@", type:.error, String(describing: error))
-                    }
+                    self.sessionManager.createUserSession(accessToken: response.accessToken, expiresIn: response.expiresIn, refreshToken: response.refreshToken!)
                     
                     
                 case .failure(let err):

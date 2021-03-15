@@ -11,10 +11,10 @@ struct SpotifyApi {
     
     private let decoder = JSONDecoder()
     
-    private let clientId = ProcessInfo.processInfo.environment["clientId"]!
-    private let clientSecret = ProcessInfo.processInfo.environment["clientSecret"]!
-    private let scopes = ProcessInfo.processInfo.environment["scopes"]!
-    private let redirectUri = ProcessInfo.processInfo.environment["redirectUri"]!
+    private let clientId = "e230fefaed454e198ceb79d4e21ef20c"
+    private let clientSecret = "dcfb7885665c4ca6b8f3e05756598259"
+    private let scopes = "user-read-private user-read-email playlist-read-collaborative playlist-read-private user-read-private user-read-email user-library-read user-top-read user-read-recently-played"
+    private let redirectUri = "spotifyMe://spotify-login-callback"
     
     
     func authorizationRequestURL() -> URL {
