@@ -1,0 +1,797 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		24523D45579B83B119555FCD /* Pods_SpotifyMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */; };
+		6C07396835237C9B5D9A01E4 /* Pods_SpotifyMe_SpotifyMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */; };
+		B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F625FA731600CFD6A7 /* AppDelegate.swift */; };
+		B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F825FA731600CFD6A7 /* SceneDelegate.swift */; };
+		B72298FB25FA731600CFD6A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298FA25FA731600CFD6A7 /* ViewController.swift */; };
+		B722990125FA731600CFD6A7 /* SpotifyMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B72298FF25FA731600CFD6A7 /* SpotifyMe.xcdatamodeld */; };
+		B722990325FA731700CFD6A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B722990225FA731700CFD6A7 /* Assets.xcassets */; };
+		B722990625FA731700CFD6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B722990425FA731700CFD6A7 /* LaunchScreen.storyboard */; };
+		B722991125FA731800CFD6A7 /* SpotifyMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B722991025FA731800CFD6A7 /* SpotifyMeTests.swift */; };
+		B722991C25FA731800CFD6A7 /* SpotifyMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B722991B25FA731800CFD6A7 /* SpotifyMeUITests.swift */; };
+		B722993725FA77F200CFD6A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B722993625FA77F200CFD6A7 /* Main.storyboard */; };
+		B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */; };
+		B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E215B25FF73B000C26676 /* LaunchManager.swift */; };
+		B7B65E9B25FA7F4700993ED7 /* SpotifyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B65E9A25FA7F4700993ED7 /* SpotifyApi.swift */; };
+		B7C870B025FE741C00AE3E58 /* UserSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C870AE25FE741C00AE3E58 /* UserSession+CoreDataClass.swift */; };
+		CD6B514E6CD5CC5FBEE32326 /* Pods_SpotifyMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AD359AB1E87ED9860A854B /* Pods_SpotifyMe.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B722990D25FA731800CFD6A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B72298EB25FA731600CFD6A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B72298F225FA731600CFD6A7;
+			remoteInfo = SpotifyMe;
+		};
+		B722991825FA731800CFD6A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B72298EB25FA731600CFD6A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B72298F225FA731600CFD6A7;
+			remoteInfo = SpotifyMe;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		05658044BC4A3D02B60D0586 /* Pods-SpotifyMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMeTests.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMeTests/Pods-SpotifyMeTests.release.xcconfig"; sourceTree = "<group>"; };
+		3EC30C1CEE5EBCFA60D8C595 /* Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMe-SpotifyMeUITests/Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig"; sourceTree = "<group>"; };
+		56AD359AB1E87ED9860A854B /* Pods_SpotifyMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F2CDB963457D5ECB7AD0D98 /* Pods-SpotifyMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMeTests.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMeTests/Pods-SpotifyMeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CD2FFEBF232CE0DDFBAAA32 /* Pods-SpotifyMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.debug.xcconfig"; sourceTree = "<group>"; };
+		B238DAE74C334E168558CB1C /* Pods-SpotifyMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.release.xcconfig"; sourceTree = "<group>"; };
+		B70571CFAE6BCA32CEBD2DBF /* Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe-SpotifyMeUITests/Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B72298F325FA731600CFD6A7 /* SpotifyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B72298F625FA731600CFD6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B72298F825FA731600CFD6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		B72298FA25FA731600CFD6A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B722990025FA731600CFD6A7 /* SpotifyMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SpotifyMe.xcdatamodel; sourceTree = "<group>"; };
+		B722990225FA731700CFD6A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B722990525FA731700CFD6A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B722990725FA731700CFD6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B722990C25FA731800CFD6A7 /* SpotifyMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B722991025FA731800CFD6A7 /* SpotifyMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMeTests.swift; sourceTree = "<group>"; };
+		B722991225FA731800CFD6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B722991725FA731800CFD6A7 /* SpotifyMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B722991B25FA731800CFD6A7 /* SpotifyMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMeUITests.swift; sourceTree = "<group>"; };
+		B722991D25FA731800CFD6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B722993625FA77F200CFD6A7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		B79E215B25FF73B000C26676 /* LaunchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchManager.swift; sourceTree = "<group>"; };
+		B7B65E9A25FA7F4700993ED7 /* SpotifyApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyApi.swift; sourceTree = "<group>"; };
+		B7C870AE25FE741C00AE3E58 /* UserSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UserSession+CoreDataClass.swift"; path = "../Services/UserSession+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMe_SpotifyMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B72298F025FA731600CFD6A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD6B514E6CD5CC5FBEE32326 /* Pods_SpotifyMe.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722990925FA731800CFD6A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24523D45579B83B119555FCD /* Pods_SpotifyMeTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722991425FA731800CFD6A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C07396835237C9B5D9A01E4 /* Pods_SpotifyMe_SpotifyMeUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0CA50270E97273512EBDACFD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				56AD359AB1E87ED9860A854B /* Pods_SpotifyMe.framework */,
+				E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */,
+				7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A04C6D94DDB3F7F0A076EDF7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9CD2FFEBF232CE0DDFBAAA32 /* Pods-SpotifyMe.debug.xcconfig */,
+				B238DAE74C334E168558CB1C /* Pods-SpotifyMe.release.xcconfig */,
+				B70571CFAE6BCA32CEBD2DBF /* Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig */,
+				3EC30C1CEE5EBCFA60D8C595 /* Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig */,
+				5F2CDB963457D5ECB7AD0D98 /* Pods-SpotifyMeTests.debug.xcconfig */,
+				05658044BC4A3D02B60D0586 /* Pods-SpotifyMeTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B72298EA25FA731600CFD6A7 = {
+			isa = PBXGroup;
+			children = (
+				B72298F525FA731600CFD6A7 /* SpotifyMe */,
+				B722990F25FA731800CFD6A7 /* SpotifyMeTests */,
+				B722991A25FA731800CFD6A7 /* SpotifyMeUITests */,
+				B72298F425FA731600CFD6A7 /* Products */,
+				A04C6D94DDB3F7F0A076EDF7 /* Pods */,
+				0CA50270E97273512EBDACFD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B72298F425FA731600CFD6A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B72298F325FA731600CFD6A7 /* SpotifyMe.app */,
+				B722990C25FA731800CFD6A7 /* SpotifyMeTests.xctest */,
+				B722991725FA731800CFD6A7 /* SpotifyMeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B72298F525FA731600CFD6A7 /* SpotifyMe */ = {
+			isa = PBXGroup;
+			children = (
+				B7B65E9925FA7F1B00993ED7 /* Services */,
+				B722992E25FA763100CFD6A7 /* Models */,
+				B722992D25FA761F00CFD6A7 /* ViewControllers */,
+				B722992C25FA760F00CFD6A7 /* Views */,
+				B722992F25FA766D00CFD6A7 /* Storyboards */,
+				B72298F625FA731600CFD6A7 /* AppDelegate.swift */,
+				B72298F825FA731600CFD6A7 /* SceneDelegate.swift */,
+				B722990225FA731700CFD6A7 /* Assets.xcassets */,
+				B722990725FA731700CFD6A7 /* Info.plist */,
+				B72298FF25FA731600CFD6A7 /* SpotifyMe.xcdatamodeld */,
+			);
+			path = SpotifyMe;
+			sourceTree = "<group>";
+		};
+		B722990F25FA731800CFD6A7 /* SpotifyMeTests */ = {
+			isa = PBXGroup;
+			children = (
+				B722991025FA731800CFD6A7 /* SpotifyMeTests.swift */,
+				B722991225FA731800CFD6A7 /* Info.plist */,
+			);
+			path = SpotifyMeTests;
+			sourceTree = "<group>";
+		};
+		B722991A25FA731800CFD6A7 /* SpotifyMeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B722991B25FA731800CFD6A7 /* SpotifyMeUITests.swift */,
+				B722991D25FA731800CFD6A7 /* Info.plist */,
+			);
+			path = SpotifyMeUITests;
+			sourceTree = "<group>";
+		};
+		B722992C25FA760F00CFD6A7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B722992D25FA761F00CFD6A7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B72298FA25FA731600CFD6A7 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B722992E25FA763100CFD6A7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B7C870AE25FE741C00AE3E58 /* UserSession+CoreDataClass.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B722992F25FA766D00CFD6A7 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B722993625FA77F200CFD6A7 /* Main.storyboard */,
+				B722990425FA731700CFD6A7 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		B7B65E9925FA7F1B00993ED7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B7B65E9A25FA7F4700993ED7 /* SpotifyApi.swift */,
+				B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */,
+				B79E215B25FF73B000C26676 /* LaunchManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B72298F225FA731600CFD6A7 /* SpotifyMe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B722992025FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMe" */;
+			buildPhases = (
+				1F7F4C5029686AC7A22F547A /* [CP] Check Pods Manifest.lock */,
+				B72298EF25FA731600CFD6A7 /* Sources */,
+				B72298F025FA731600CFD6A7 /* Frameworks */,
+				B72298F125FA731600CFD6A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpotifyMe;
+			productName = SpotifyMe;
+			productReference = B72298F325FA731600CFD6A7 /* SpotifyMe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B722990B25FA731800CFD6A7 /* SpotifyMeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B722992325FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMeTests" */;
+			buildPhases = (
+				7C289C968DC03E09BCF8C120 /* [CP] Check Pods Manifest.lock */,
+				B722990825FA731800CFD6A7 /* Sources */,
+				B722990925FA731800CFD6A7 /* Frameworks */,
+				B722990A25FA731800CFD6A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B722990E25FA731800CFD6A7 /* PBXTargetDependency */,
+			);
+			name = SpotifyMeTests;
+			productName = SpotifyMeTests;
+			productReference = B722990C25FA731800CFD6A7 /* SpotifyMeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B722991625FA731800CFD6A7 /* SpotifyMeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B722992625FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMeUITests" */;
+			buildPhases = (
+				FB69C1C1EA0E618710D6269A /* [CP] Check Pods Manifest.lock */,
+				B722991325FA731800CFD6A7 /* Sources */,
+				B722991425FA731800CFD6A7 /* Frameworks */,
+				B722991525FA731800CFD6A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B722991925FA731800CFD6A7 /* PBXTargetDependency */,
+			);
+			name = SpotifyMeUITests;
+			productName = SpotifyMeUITests;
+			productReference = B722991725FA731800CFD6A7 /* SpotifyMeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B72298EB25FA731600CFD6A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					B72298F225FA731600CFD6A7 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					B722990B25FA731800CFD6A7 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = B72298F225FA731600CFD6A7;
+					};
+					B722991625FA731800CFD6A7 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = B72298F225FA731600CFD6A7;
+					};
+				};
+			};
+			buildConfigurationList = B72298EE25FA731600CFD6A7 /* Build configuration list for PBXProject "SpotifyMe" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B72298EA25FA731600CFD6A7;
+			productRefGroup = B72298F425FA731600CFD6A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B72298F225FA731600CFD6A7 /* SpotifyMe */,
+				B722990B25FA731800CFD6A7 /* SpotifyMeTests */,
+				B722991625FA731800CFD6A7 /* SpotifyMeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B72298F125FA731600CFD6A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B722993725FA77F200CFD6A7 /* Main.storyboard in Resources */,
+				B722990625FA731700CFD6A7 /* LaunchScreen.storyboard in Resources */,
+				B722990325FA731700CFD6A7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722990A25FA731800CFD6A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722991525FA731800CFD6A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F7F4C5029686AC7A22F547A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpotifyMe-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C289C968DC03E09BCF8C120 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpotifyMeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FB69C1C1EA0E618710D6269A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpotifyMe-SpotifyMeUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B72298EF25FA731600CFD6A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7B65E9B25FA7F4700993ED7 /* SpotifyApi.swift in Sources */,
+				B72298FB25FA731600CFD6A7 /* ViewController.swift in Sources */,
+				B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */,
+				B7C870B025FE741C00AE3E58 /* UserSession+CoreDataClass.swift in Sources */,
+				B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */,
+				B722990125FA731600CFD6A7 /* SpotifyMe.xcdatamodeld in Sources */,
+				B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */,
+				B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722990825FA731800CFD6A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B722991125FA731800CFD6A7 /* SpotifyMeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B722991325FA731800CFD6A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B722991C25FA731800CFD6A7 /* SpotifyMeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B722990E25FA731800CFD6A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B72298F225FA731600CFD6A7 /* SpotifyMe */;
+			targetProxy = B722990D25FA731800CFD6A7 /* PBXContainerItemProxy */;
+		};
+		B722991925FA731800CFD6A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B72298F225FA731600CFD6A7 /* SpotifyMe */;
+			targetProxy = B722991825FA731800CFD6A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B722990425FA731700CFD6A7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B722990525FA731700CFD6A7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B722991E25FA731800CFD6A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B722991F25FA731800CFD6A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B722992125FA731800CFD6A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CD2FFEBF232CE0DDFBAAA32 /* Pods-SpotifyMe.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = SpotifyMe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B722992225FA731800CFD6A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B238DAE74C334E168558CB1C /* Pods-SpotifyMe.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = SpotifyMe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B722992425FA731800CFD6A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F2CDB963457D5ECB7AD0D98 /* Pods-SpotifyMeTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = SpotifyMeTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpotifyMe.app/SpotifyMe";
+			};
+			name = Debug;
+		};
+		B722992525FA731800CFD6A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05658044BC4A3D02B60D0586 /* Pods-SpotifyMeTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = SpotifyMeTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpotifyMe.app/SpotifyMe";
+			};
+			name = Release;
+		};
+		B722992725FA731800CFD6A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B70571CFAE6BCA32CEBD2DBF /* Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				INFOPLIST_FILE = SpotifyMeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SpotifyMe;
+			};
+			name = Debug;
+		};
+		B722992825FA731800CFD6A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC30C1CEE5EBCFA60D8C595 /* Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NPE3YFU9Q3;
+				INFOPLIST_FILE = SpotifyMeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SpotifyMeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SpotifyMe;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B72298EE25FA731600CFD6A7 /* Build configuration list for PBXProject "SpotifyMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B722991E25FA731800CFD6A7 /* Debug */,
+				B722991F25FA731800CFD6A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B722992025FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B722992125FA731800CFD6A7 /* Debug */,
+				B722992225FA731800CFD6A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B722992325FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B722992425FA731800CFD6A7 /* Debug */,
+				B722992525FA731800CFD6A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B722992625FA731800CFD6A7 /* Build configuration list for PBXNativeTarget "SpotifyMeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B722992725FA731800CFD6A7 /* Debug */,
+				B722992825FA731800CFD6A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B72298FF25FA731600CFD6A7 /* SpotifyMe.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B722990025FA731600CFD6A7 /* SpotifyMe.xcdatamodel */,
+			);
+			currentVersion = B722990025FA731600CFD6A7 /* SpotifyMe.xcdatamodel */;
+			path = SpotifyMe.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = B72298EB25FA731600CFD6A7 /* Project object */;
+}
