@@ -29,11 +29,35 @@ class ViewController: UIViewController {
     }
 
     @IBAction func getProfile(_ sender: Any) {
+        myPlaylists()
+    }
+
+    func myPlaylists() {
+        os_log("Fetching user playlists", type: .info)
         self.userSession = self.sessionManager.fetchUserSession()
 
         os_log("Fetching UserProfile from API request", type: .info)
         guard userSession == nil else {
-            spotifyApi.fetchSpotifyProfile(authorizationValue: userSession!.authorizationValue) { (res) in
+            spotifyApi.fetchPlaylists(authorizationValue: userSession!.authorizationValue) { (res) in
+                switch res {
+                case .success(let response):
+
+                    print(response)
+
+                case .failure(let err):
+                    // swiftlint:disable:next line_length
+                    os_log("API request to get user playlists failed with error: %@", type: .error, String(describing: err))
+                }
+            }
+            return
+        }    }
+
+    func myProfile() {
+        self.userSession = self.sessionManager.fetchUserSession()
+
+        os_log("Fetching UserProfile from API request", type: .info)
+        guard userSession == nil else {
+            spotifyApi.fetchProfile(authorizationValue: userSession!.authorizationValue) { (res) in
                 switch res {
                 case .success(let response):
 
@@ -45,7 +69,7 @@ class ViewController: UIViewController {
                     }
 
                     if let image = response.images?.first {
-                        profileImage = URL(string: image.url ?? "")
+                        profileImage = URL(string: image.url)
                     }
 
                     // swiftlint:disable:next line_length

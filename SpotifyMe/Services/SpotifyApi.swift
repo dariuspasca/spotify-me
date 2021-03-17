@@ -110,7 +110,7 @@ struct SpotifyApi {
     }
 
     // swiftlint:disable:next void_return
-    func fetchSpotifyProfile(authorizationValue: String, completion: @escaping (Result<Profile, Error>) -> ()) {
+    func fetchProfile(authorizationValue: String, completion: @escaping (Result<PrivateUser, Error>) -> ()) {
 
         var request = URLRequest(url: SpotifyEndpoint.userProfile.url)
         request.httpMethod = "GET"
@@ -133,7 +133,7 @@ struct SpotifyApi {
             do {
                // print(String(data: data!, encoding: String.Encoding.utf8))
 
-                let profile = try decoder.decode(Profile.self, from: data!)
+                let profile = try decoder.decode(PrivateUser.self, from: data!)
                 completion(.success(profile))
             } catch {
                 completion(.failure(error))
@@ -141,43 +141,37 @@ struct SpotifyApi {
             }
         }.resume()
     }
-}
 
-struct Profile: Decodable {
-    let displayName: String?
-    let email: String
-    let explicitContent: ExplicitContent
-    let externalUrls: [String: String]
-    let followers: Followers?
-    let href: String
-    // swiftlint:disable identifier_name
-    let id: String
-    let images: [Images]?
-    let product: String
-    let type: String
-    let uri: String
+    // swiftlint:disable:next void_return
+    func fetchPlaylists(authorizationValue: String, completion: @escaping (Result<Paging, Error>) -> ()) {
 
-    struct ExplicitContent: Decodable {
-        let  filterEnabled: Bool?
-        let  filterLocked: Bool?
+        var request = URLRequest(url: SpotifyEndpoint.myPlaylists.url)
+        request.httpMethod = "GET"
+
+        // Header
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+
+        // swiftlint:disable:next unused_closure_parameter
+        URLSession.shared.dataTask(with: request) { (data, response, err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            do {
+               // print(String(data: data!, encoding: String.Encoding.utf8))
+
+                let playlists = try decoder.decode(Paging.self, from: data!)
+                completion(.success(playlists))
+            } catch {
+                completion(.failure(error))
+                return
+            }
+        }.resume()
     }
-
-    struct Followers: Decodable {
-        let href: URL?
-        let total: Int
-    }
-
-    struct Images: Decodable {
-        let height: Int?
-        let url: String?
-        let width: Int?
-    }
-}
-
-struct AccessResponse: Decodable {
-    let accessToken: String
-    let tokenType: String
-    let expiresIn: Int
-
-    let refreshToken: String?
 }

@@ -23,6 +23,7 @@
 		B72F73ED25FF842100B6AF55 /* UserSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */; };
 		B771F1B12602084E006E1AE3 /* UserProfileManagerText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */; };
 		B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */; };
+		B793184326026456009C5C30 /* SpotifyResponseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793184226026456009C5C30 /* SpotifyResponseObjects.swift */; };
 		B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E215B25FF73B000C26676 /* LaunchManager.swift */; };
 		B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */; };
 		B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */; };
@@ -78,6 +79,7 @@
 		B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManagerText.swift; sourceTree = "<group>"; };
 		B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		B793184226026456009C5C30 /* SpotifyResponseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyResponseObjects.swift; sourceTree = "<group>"; };
 		B79E215B25FF73B000C26676 /* LaunchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchManager.swift; sourceTree = "<group>"; };
 		B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				B7047C3D25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift */,
 				B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */,
+				B793184226026456009C5C30 /* SpotifyResponseObjects.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7B65E9B25FA7F4700993ED7 /* SpotifyApi.swift in Sources */,
+				B793184326026456009C5C30 /* SpotifyResponseObjects.swift in Sources */,
 				B72298FB25FA731600CFD6A7 /* ViewController.swift in Sources */,
 				B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */,
 				B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */,
