@@ -49,7 +49,7 @@ class ViewController: UIViewController {
                     }
 
                     // swiftlint:disable:next line_length
-                    self.profileManager.createUserProfile(displayName: response.displayName, email: response.email, product: response.product, profileUri: URL(string: response.uri)!, followers: followersCount, image: profileImage)
+                    _ = self.profileManager.createUserProfile(displayName: response.displayName, email: response.email, product: response.product, followers: followersCount, image: profileImage)
 
                 case .failure(let err):
                     // swiftlint:disable:next line_length

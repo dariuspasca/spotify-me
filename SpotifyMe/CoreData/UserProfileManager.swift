@@ -17,12 +17,11 @@ class UserProfileManager {
     }
 
     // swiftlint:disable:next all
-    func createUserProfile(displayName: String?, email: String, product: String, profileUri: URL, followers: Int16?, image: URL?) {
+    func createUserProfile(displayName: String?, email: String, product: String, followers: Int16?, image: URL?) -> UserProfile? {
         let user = UserProfile(context: self.mainContext)
         user.displayName = displayName
         user.email = email
         user.product = product
-        user.profileUri = profileUri
         user.profileImage = image
 
         if let followersCount = followers {
@@ -32,12 +31,15 @@ class UserProfileManager {
         do {
             try self.mainContext.save()
             os_log("Saved new UserProfile", type: .info)
+            return user
         } catch {
             os_log("Failed to save new UserProfile with error: %@", type: .error, String(describing: error))
         }
+
+        return nil
     }
 
-    func updateUserSession(userSession: UserSession) {
+    func updateUserProfile(userProfile: UserProfile) {
         do {
             try self.mainContext.save()
             os_log("UserProfile updated", type: .info)

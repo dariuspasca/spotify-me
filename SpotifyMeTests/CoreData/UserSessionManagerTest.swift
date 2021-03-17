@@ -35,7 +35,6 @@ class UserSessionManagerTest: XCTestCase {
         sessionManager.updateUserSession(userSession: session)
         let updatedSession = sessionManager.fetchUserSession()!
 
-        XCTAssertNil(sessionManager.fetchUserSession())
         XCTAssertEqual("oFy8BhSH0ol0Xyv6qXE2P5u0pnEVyn1h", updatedSession.accessToken!)
 
     }
