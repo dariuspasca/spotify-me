@@ -9,7 +9,8 @@ import UIKit
 import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
+
+    // swiftlint:disable all
     var window: UIWindow?
     lazy var launchManager = LaunchManager()
     

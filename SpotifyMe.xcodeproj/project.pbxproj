@@ -27,6 +27,8 @@
 		B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */; };
 		B7A4FDEB260015C600CD7B0B /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDEA260015C600CD7B0B /* UserProfileManager.swift */; };
 		B7B65E9B25FA7F4700993ED7 /* SpotifyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B65E9A25FA7F4700993ED7 /* SpotifyApi.swift */; };
+		B7CA247D2600A234009129BC /* CoreDataStackTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA247C2600A234009129BC /* CoreDataStackTest.swift */; };
+		B7CA24822600A32E009129BC /* UserSessionManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */; };
 		CD6B514E6CD5CC5FBEE32326 /* Pods_SpotifyMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AD359AB1E87ED9860A854B /* Pods_SpotifyMe.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,8 @@
 		B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
 		B7A4FDEA260015C600CD7B0B /* UserProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
 		B7B65E9A25FA7F4700993ED7 /* SpotifyApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyApi.swift; sourceTree = "<group>"; };
+		B7CA247C2600A234009129BC /* CoreDataStackTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataStackTest.swift; path = SpotifyMeTests/CoreData/CoreDataStackTest.swift; sourceTree = SOURCE_ROOT; };
+		B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManagerTest.swift; sourceTree = "<group>"; };
 		E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMe_SpotifyMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -175,6 +179,7 @@
 		B722990F25FA731800CFD6A7 /* SpotifyMeTests */ = {
 			isa = PBXGroup;
 			children = (
+				B7F6049B2600A6F300D17BF9 /* CoreData */,
 				B722991025FA731800CFD6A7 /* SpotifyMeTests.swift */,
 				B722991225FA731800CFD6A7 /* Info.plist */,
 			);
@@ -244,6 +249,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B7F6049B2600A6F300D17BF9 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B7CA247C2600A234009129BC /* CoreDataStackTest.swift */,
+				B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -255,6 +269,7 @@
 				B72298EF25FA731600CFD6A7 /* Sources */,
 				B72298F025FA731600CFD6A7 /* Frameworks */,
 				B72298F125FA731600CFD6A7 /* Resources */,
+				B75F99CE2601F93300D31005 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -417,6 +432,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B75F99CE2601F93300D31005 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		FB69C1C1EA0E618710D6269A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -466,7 +498,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7047C4025FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift in Sources */,
+				B7CA24822600A32E009129BC /* UserSessionManagerTest.swift in Sources */,
 				B722991125FA731800CFD6A7 /* SpotifyMeTests.swift in Sources */,
+				B7CA247D2600A234009129BC /* CoreDataStackTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

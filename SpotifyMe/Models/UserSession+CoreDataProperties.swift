@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension UserSession {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<UserSession> {

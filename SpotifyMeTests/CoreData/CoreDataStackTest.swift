@@ -7,22 +7,25 @@
 
 import Foundation
 import CoreData
+@testable import SpotifyMe
 
-class CoreDataStack {
-    static let shared = CoreDataStack()
+class CoreDataStackTest {
+    static let shared = CoreDataStackTest()
 
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
-    private init() {
+
+    init() {
         persistentContainer = NSPersistentContainer(name: "SpotifyMe")
         let description = persistentContainer.persistentStoreDescriptions.first
-        description?.type = NSSQLiteStoreType
-        persistentContainer.loadPersistentStores { (_, error) in
+        description?.type = NSInMemoryStoreType
+
+        // swiftlint:disable:next unused_closure_parameter
+        persistentContainer.loadPersistentStores(completionHandler: { (description, error) in
                                                     guard error == nil else {
                                                         fatalError("Unable to load store \(error!)")
-                                                    }
-        }
+                                                    }})
 
         mainContext = persistentContainer.viewContext
         backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)

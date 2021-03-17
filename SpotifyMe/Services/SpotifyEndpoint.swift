@@ -24,7 +24,9 @@ enum SpotifyEndpoint {
 }
 
 extension SpotifyEndpoint {
-    
+
+    // swiftlint:disable identifier_name
+
     var url: URL {
         switch self {
         case .userProfile:
