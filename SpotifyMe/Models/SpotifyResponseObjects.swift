@@ -15,7 +15,6 @@ struct PrivateUser: Decodable {
     let externalUrls: [String: String]
     let followers: Followers?
     let href: String
-    // swiftlint:disable identifier_name
     let id: String
     let images: [Image]?
     let product: String

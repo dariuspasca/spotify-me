@@ -18,23 +18,33 @@ class ViewController: UIViewController {
     @IBOutlet weak var connectToSpotify: UIButton!
     @IBOutlet weak var fetchData: UIButton!
 
+    // MARK: - INIT
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
+
+        guard authorizationCode != nil else {
+            return
+        }
+
+        userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
+
     }
 
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func connect(_ sender: Any) {
         let connectString = SpotifyApi.init().authorizationRequestURL()
         UIApplication.shared.open(connectString)
     }
 
     @IBAction func getProfile(_ sender: Any) {
-        myPlaylists()
+        // myPlaylists()
+        myProfile()
     }
 
     func myPlaylists() {
         os_log("Fetching user playlists", type: .info)
-        self.userSession = self.sessionManager.fetchUserSession()
 
         os_log("Fetching UserProfile from API request", type: .info)
         guard userSession == nil else {
@@ -45,7 +55,6 @@ class ViewController: UIViewController {
                     print(response)
 
                 case .failure(let err):
-                    // swiftlint:disable:next line_length
                     os_log("API request to get user playlists failed with error: %@", type: .error, String(describing: err))
                 }
             }
@@ -53,8 +62,6 @@ class ViewController: UIViewController {
         }    }
 
     func myProfile() {
-        self.userSession = self.sessionManager.fetchUserSession()
-
         os_log("Fetching UserProfile from API request", type: .info)
         guard userSession == nil else {
             spotifyApi.fetchProfile(authorizationValue: userSession!.authorizationValue) { (res) in
@@ -73,10 +80,9 @@ class ViewController: UIViewController {
                     }
 
                     // swiftlint:disable:next line_length
-                    _ = self.profileManager.createUserProfile(displayName: response.displayName, email: response.email, product: response.product, followers: followersCount, image: profileImage)
+                    self.profileManager.createUserProfile(displayName: response.displayName, email: response.email, product: response.product, followers: followersCount, image: profileImage, session: self.userSession!)
 
                 case .failure(let err):
-                    // swiftlint:disable:next line_length
                     os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
                 }
             }

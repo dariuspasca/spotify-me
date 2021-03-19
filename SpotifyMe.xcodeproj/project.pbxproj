@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		24523D45579B83B119555FCD /* Pods_SpotifyMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */; };
 		6C07396835237C9B5D9A01E4 /* Pods_SpotifyMe_SpotifyMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */; };
-		B7047C3F25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7047C3D25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift */; };
-		B7047C4025FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7047C3D25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift */; };
 		B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F625FA731600CFD6A7 /* AppDelegate.swift */; };
 		B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F825FA731600CFD6A7 /* SceneDelegate.swift */; };
 		B72298FB25FA731600CFD6A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298FA25FA731600CFD6A7 /* ViewController.swift */; };
@@ -23,6 +21,8 @@
 		B72F73ED25FF842100B6AF55 /* UserSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */; };
 		B771F1B12602084E006E1AE3 /* UserProfileManagerText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */; };
 		B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */; };
+		B790AE4D2604FC2300826B66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B790AE4C2604FC2300826B66 /* .swiftlint.yml */; };
+		B790AE752605002F00826B66 /* UserProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790AE732605002F00826B66 /* UserProfile+CoreDataClass.swift */; };
 		B793184326026456009C5C30 /* SpotifyResponseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793184226026456009C5C30 /* SpotifyResponseObjects.swift */; };
 		B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E215B25FF73B000C26676 /* LaunchManager.swift */; };
 		B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */; };
@@ -59,7 +59,6 @@
 		7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD2FFEBF232CE0DDFBAAA32 /* Pods-SpotifyMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.debug.xcconfig"; sourceTree = "<group>"; };
 		B238DAE74C334E168558CB1C /* Pods-SpotifyMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.release.xcconfig"; sourceTree = "<group>"; };
-		B7047C3D25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		B70571CFAE6BCA32CEBD2DBF /* Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe-SpotifyMeUITests/Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B72298F325FA731600CFD6A7 /* SpotifyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B72298F625FA731600CFD6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +78,8 @@
 		B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManagerText.swift; sourceTree = "<group>"; };
 		B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		B790AE4C2604FC2300826B66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		B790AE732605002F00826B66 /* UserProfile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		B793184226026456009C5C30 /* SpotifyResponseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyResponseObjects.swift; sourceTree = "<group>"; };
 		B79E215B25FF73B000C26676 /* LaunchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchManager.swift; sourceTree = "<group>"; };
 		B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		B72298EA25FA731600CFD6A7 = {
 			isa = PBXGroup;
 			children = (
+				B790AE4C2604FC2300826B66 /* .swiftlint.yml */,
 				B72298F525FA731600CFD6A7 /* SpotifyMe */,
 				B722990F25FA731800CFD6A7 /* SpotifyMeTests */,
 				B722991A25FA731800CFD6A7 /* SpotifyMeUITests */,
@@ -217,7 +219,7 @@
 		B722992E25FA763100CFD6A7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B7047C3D25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift */,
+				B790AE732605002F00826B66 /* UserProfile+CoreDataClass.swift */,
 				B72F73EC25FF842100B6AF55 /* UserSession+CoreDataClass.swift */,
 				B793184226026456009C5C30 /* SpotifyResponseObjects.swift */,
 			);
@@ -236,10 +238,10 @@
 		B7A4FDDF26000AB500CD7B0B /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				B72298FF25FA731600CFD6A7 /* SpotifyMe.xcdatamodeld */,
 				B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */,
 				B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */,
 				B7A4FDEA260015C600CD7B0B /* UserProfileManager.swift */,
+				B72298FF25FA731600CFD6A7 /* SpotifyMe.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -371,6 +373,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B790AE4D2604FC2300826B66 /* .swiftlint.yml in Resources */,
 				B722993725FA77F200CFD6A7 /* Main.storyboard in Resources */,
 				B722990625FA731700CFD6A7 /* LaunchScreen.storyboard in Resources */,
 				B722990325FA731700CFD6A7 /* Assets.xcassets in Resources */,
@@ -490,11 +493,11 @@
 				B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */,
 				B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */,
 				B722990125FA731600CFD6A7 /* SpotifyMe.xcdatamodeld in Sources */,
+				B790AE752605002F00826B66 /* UserProfile+CoreDataClass.swift in Sources */,
 				B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */,
 				B72F73ED25FF842100B6AF55 /* UserSession+CoreDataClass.swift in Sources */,
 				B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */,
 				B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */,
-				B7047C3F25FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift in Sources */,
 				B7A4FDEB260015C600CD7B0B /* UserProfileManager.swift in Sources */,
 				B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */,
 			);
@@ -504,7 +507,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7047C4025FFD1ED0016ECC3 /* UserProfile+CoreDataClass.swift in Sources */,
 				B7CA24822600A32E009129BC /* UserSessionManagerTest.swift in Sources */,
 				B771F1B12602084E006E1AE3 /* UserProfileManagerText.swift in Sources */,
 				B722991125FA731800CFD6A7 /* SpotifyMeTests.swift in Sources */,

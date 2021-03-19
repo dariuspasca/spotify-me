@@ -17,23 +17,28 @@ class UserSessionManagerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         coreDataStack = CoreDataStackTest()
-        sessionManager = UserSessionManager(mainContext: coreDataStack.mainContext)
+        sessionManager = UserSessionManager(mainContext: coreDataStack.mainContext, backgroundContext: coreDataStack.backgroundContext)
     }
 
     func testCreateSession() {
+        let authorizationCode = "FsFsoo7ZTFsw237asqsRAS"
         // swiftlint:disable:next line_length
-        _ = sessionManager.createUserSession(accessToken: "BQDOMq4_at2seFso7ZTFsw7qnu4iNfxJ", expiresIn: 3600, refreshToken: "seFso7ZTFsw7")
-        let session = sessionManager.fetchUserSession()!
+        sessionManager.createUserSession(accessToken: "BQDOMq4_at2seFso7ZTFsw7qnu4iNfxJ", expiresIn: 3600, refreshToken: "seFso7ZTFsw7", authorizationCode: authorizationCode)
+        let session = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode)
 
-        XCTAssertEqual("BQDOMq4_at2seFso7ZTFsw7qnu4iNfxJ", session.accessToken!)
+        XCTAssertEqual("FsFsoo7ZTFsw237asqsRAS", session?.authorizationCode!)
     }
 
     func testUpdateSession() {
+        let authorizationCode = "FsFsoo7ZTFsw237asqsRAS"
         // swiftlint:disable:next line_length
-        let session = sessionManager.createUserSession(accessToken: "BQDOMq4_at2seFso7ZTFsw7qnu4iNfxJ", expiresIn: 3600, refreshToken: "seFso7ZTFsw7")!
+        sessionManager.createUserSession(accessToken: "BQDOMq4_at2seFso7ZTFsw7qnu4iNfxJ", expiresIn: 3600, refreshToken: "seFso7ZTFsw7", authorizationCode: authorizationCode)
+
+        let session = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode)!
         session.accessToken = "oFy8BhSH0ol0Xyv6qXE2P5u0pnEVyn1h"
         sessionManager.updateUserSession(userSession: session)
-        let updatedSession = sessionManager.fetchUserSession()!
+
+        let updatedSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode)!
 
         XCTAssertEqual("oFy8BhSH0ol0Xyv6qXE2P5u0pnEVyn1h", updatedSession.accessToken!)
 

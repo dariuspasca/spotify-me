@@ -14,14 +14,17 @@ class CoreDataStack {
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
+
+    // MARK: - Core Data stack
+
     private init() {
         persistentContainer = NSPersistentContainer(name: "SpotifyMe")
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType
         persistentContainer.loadPersistentStores { (_, error) in
-                                                    guard error == nil else {
-                                                        fatalError("Unable to load store \(error!)")
-                                                    }
+            guard error == nil else {
+                fatalError("Unable to load store \(error!)")
+            }
         }
 
         mainContext = persistentContainer.viewContext

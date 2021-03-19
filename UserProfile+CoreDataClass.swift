@@ -2,7 +2,7 @@
 //  UserProfile+CoreDataClass.swift
 //  SpotifyMe
 //
-//  Created by Darius Pasca on 15/03/21.
+//  Created by Darius Pasca on 19/03/21.
 //
 //
 

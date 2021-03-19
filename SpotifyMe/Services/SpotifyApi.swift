@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct SpotifyApi {
 
@@ -131,7 +132,7 @@ struct SpotifyApi {
                 return
             }
             do {
-               // print(String(data: data!, encoding: String.Encoding.utf8))
+                // print(String(data: data!, encoding: String.Encoding.utf8))
 
                 let profile = try decoder.decode(PrivateUser.self, from: data!)
                 completion(.success(profile))
@@ -164,7 +165,7 @@ struct SpotifyApi {
                 return
             }
             do {
-               // print(String(data: data!, encoding: String.Encoding.utf8))
+                // print(String(data: data!, encoding: String.Encoding.utf8))
 
                 let playlists = try decoder.decode(Paging.self, from: data!)
                 completion(.success(playlists))
@@ -173,5 +174,42 @@ struct SpotifyApi {
                 return
             }
         }.resume()
+    }
+
+    func testPlaylist(authorizationValue: String, withUrl: URL) {
+        var cancellable: AnyCancellable?
+        var request = URLRequest(url: withUrl)
+        request.httpMethod = "GET"
+
+        // Header
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+
+        cancellable = URLSession.shared
+            .dataTaskPublisher(for: request)
+            .receive(on: DispatchQueue.main)
+            .tryMap() { element -> Data in
+                guard let httpResponse = element.response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return element.data
+            }
+            .decode(type: Paging.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    fatalError(error.localizedDescription)
+                }
+            },
+            receiveValue: { playlist
+                in print("Received user: \(playlist).")})
     }
 }

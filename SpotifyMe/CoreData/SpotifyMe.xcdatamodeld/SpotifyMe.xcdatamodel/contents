@@ -6,14 +6,22 @@
         <attribute name="followers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="product" optional="YES" attributeType="String"/>
         <attribute name="profileImage" optional="YES" attributeType="URI"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserSession" inverseName="profile" inverseEntity="UserSession"/>
     </entity>
     <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="category">
-        <attribute name="accessToken" attributeType="String"/>
-        <attribute name="expireAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="accessToken" optional="YES" attributeType="String"/>
+        <attribute name="authorizationCode" attributeType="String"/>
+        <attribute name="expireAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="refreshToken" optional="YES" attributeType="String"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="session" inverseEntity="UserProfile"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="authorizationCode"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="UserProfile" positionX="-63" positionY="9" width="128" height="104"/>
-        <element name="UserSession" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="UserProfile" positionX="-63" positionY="9" width="128" height="119"/>
+        <element name="UserSession" positionX="-63" positionY="-18" width="128" height="104"/>
     </elements>
 </model>

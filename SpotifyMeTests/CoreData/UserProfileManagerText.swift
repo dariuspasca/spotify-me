@@ -17,26 +17,29 @@ class UserProfileManagerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         coreDataStack = CoreDataStackTest()
-        profileManager = UserProfileManager(mainContext: coreDataStack.mainContext)
+        profileManager = UserProfileManager(mainContext: coreDataStack.mainContext, backgroundContext: coreDataStack.backgroundContext)
     }
 
     func testCreateSession() {
-        // swiftlint:disable:next line_length
-        _ = profileManager.createUserProfile(displayName: "Test", email: "user@test.com", product: "premium", followers: 7, image: nil)
-        let profile = profileManager.fetchUserProfile()
+        let email = "user@test.com"
+        profileManager.createUserProfile(displayName: "Test", email: email, product: "premium", followers: 7, image: nil)
 
-        XCTAssertEqual("Test", profile?.displayName)
+        let profile = profileManager.fetchUserProfile(withEmail: "user@test.com")
+
+        XCTAssertEqual(email, profile?.email)
     }
 
     func testUpdateSession() {
-        // swiftlint:disable:next line_length
-        let profile = profileManager.createUserProfile(displayName: "Test", email: "user@test.com", product: "premium", followers: 7, image: nil)!
+        let email = "user@test.com"
+        profileManager.createUserProfile(displayName: "Test", email: email, product: "premium", followers: 7, image: nil)
+
+        let profile = profileManager.fetchUserProfile(withEmail: email)!
         profile.followers = 10
         profileManager.updateUserProfile(userProfile: profile)
-        let updatedProfile = profileManager.fetchUserProfile()!
+
+        let updatedProfile = profileManager.fetchUserProfile(withEmail: email)!
 
         XCTAssertEqual(10, updatedProfile.followers)
-
     }
 
 }
