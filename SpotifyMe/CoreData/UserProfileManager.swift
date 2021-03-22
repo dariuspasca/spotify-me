@@ -23,24 +23,28 @@ class UserProfileManager {
 
     // MARK: - CREATE
 
-    // swiftlint:disable:next all
-    func createUserProfile(displayName: String?, email: String, product: String, followers: Int16?, image: URL?, session: UserSession) {
+    func createUserProfile(userObj: PrivateUser, sessionId: NSManagedObjectID?) {
         backgroundContext.performAndWait {
-            // swiftlint:disable:next all
-            let user = NSEntityDescription.insertNewObject(forEntityName: "UserProfile", into: backgroundContext) as! UserProfile
-            user.displayName = displayName
-            user.email = email
-            user.product = product
-            user.profileImage = image
-            user.session = session
+            let user = UserProfile(context: backgroundContext)
+            user.displayName = userObj.displayName
+            user.email = userObj.email
+            user.product = userObj.product
 
-            if let followersCount = followers {
-                user.followers = followersCount
+            if sessionId != nil {
+                user.session = backgroundContext.object(with: sessionId!) as? UserSession
+            }
+
+            if let followersCount = userObj.followers?.total {
+                user.followers = Int16(followersCount)
+            }
+
+            if let image = userObj.images?.first {
+                user.profileImage = image.url
             }
 
             do {
                 try self.backgroundContext.save()
-                os_log("Created new UserProfile", type: .info)
+                os_log("Created user with email '%@'", type: .info, String(describing: user.email))
             } catch {
                 os_log("Failed to create new UserProfile with error: %@", type: .error, String(describing: error))
             }
@@ -54,7 +58,7 @@ class UserProfileManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("UserProfile updated", type: .info)
+                os_log("Updated user with email '%@'", type: .info, String(describing: userProfile.email))
             } catch {
                 os_log("Failed to update UserProfile with error: %@", type: .error, String(describing: error))
             }
@@ -72,7 +76,7 @@ class UserProfileManager {
             var userProfile: UserProfile?
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching UserProfile", type: .info)
+                    os_log("Fetching user with email '%@'", type: .info, String(describing: email))
                     userProfile = try self.mainContext.fetch(fetchRequest).first
                 } catch {
                     os_log("Failed to fetch UserSession", type: .info)

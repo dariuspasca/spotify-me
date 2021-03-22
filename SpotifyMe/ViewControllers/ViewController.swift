@@ -11,82 +11,127 @@ import os.log
 class ViewController: UIViewController {
 
     let spotifyApi = SpotifyApi.init()
-    var userSession: UserSession?
     let sessionManager = UserSessionManager()
     let profileManager = UserProfileManager()
-
+    let playlistManager = PlaylistManager()
+    let trackManager = TrackManager()
+    var userSession: UserSession?
     @IBOutlet weak var connectToSpotify: UIButton!
-    @IBOutlet weak var fetchData: UIButton!
+    @IBOutlet weak var populateData: UIButton!
 
     // MARK: - INIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-
-        guard authorizationCode != nil else {
-            return
-        }
-
-        userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
-
     }
 
-    // MARK: - Actions
+    // MARK: - Buttons
     @IBAction func connect(_ sender: Any) {
         let connectString = SpotifyApi.init().authorizationRequestURL()
         UIApplication.shared.open(connectString)
     }
 
-    @IBAction func getProfile(_ sender: Any) {
-        // myPlaylists()
-        myProfile()
-    }
+    @IBAction func populateSpotify(_ sender: Any) {
+        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
 
-    func myPlaylists() {
-        os_log("Fetching user playlists", type: .info)
+        userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
+        guard userSession != nil else {
+            return
+        }
 
-        os_log("Fetching UserProfile from API request", type: .info)
-        guard userSession == nil else {
-            spotifyApi.fetchPlaylists(authorizationValue: userSession!.authorizationValue) { (res) in
-                switch res {
-                case .success(let response):
+        var userProfile:PrivateUser?
+        var userPlaylists: [SimplifiedPlaylist]?
+        var playlistsTracks: [[String:[PlaylistTrack]]] = []
 
-                    print(response)
+        let dispatchGroup = DispatchGroup()
 
-                case .failure(let err):
-                    os_log("API request to get user playlists failed with error: %@", type: .error, String(describing: err))
+        dispatchGroup.enter()
+        fetchProfile {(profile) in
+            userProfile = profile
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        fetchPlaylists {(playlists) in
+            userPlaylists = playlists
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        fetchPlaylists {(playlists) in
+            userPlaylists = playlists
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+
+        dispatchGroup.enter()
+        for playlist in userPlaylists! {
+            fetchTracks(fromUrl: playlist.tracks.href) {(tracks) in
+               // playlistsTracks.append([playlist.id :tracks!])
+            }
+        }
+        dispatchGroup.leave()
+
+        dispatchGroup.notify(queue: .main) {
+            print(playlistsTracks)
+            if userProfile != nil {
+                self.profileManager.createUserProfile(userObj: userProfile!, sessionId: self.userSession!.objectID)
+            }
+
+            if userPlaylists != nil {
+                for playlist in userPlaylists! {
+                    print(playlist.id)
+                   // self.playlistManager.createPlaylist(playlistObj: playlist, userProfileId: self.userSession!.profile!.objectID)
                 }
             }
-            return
-        }    }
+        }
 
-    func myProfile() {
-        os_log("Fetching UserProfile from API request", type: .info)
-        guard userSession == nil else {
-            spotifyApi.fetchProfile(authorizationValue: userSession!.authorizationValue) { (res) in
+    }
+
+    // MARK: - Actions
+
+    func fetchProfile(completion: @escaping (PrivateUser?) -> Void) {
+        os_log("Fetching user profile", type: .info)
+        spotifyApi.fetchProfile(authorizationValue: userSession!.authorizationValue) { (res) in
+            switch res {
+            case .success(let response):
+                completion(response)
+            case .failure(let err):
+                completion(nil)
+                os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
+            }
+        }
+        return
+
+    }
+
+    func fetchPlaylists(completion: @escaping ([SimplifiedPlaylist]?) -> Void) {
+        os_log("Fetching user playlists", type: .info)
+        spotifyApi.fetchPlaylists(authorizationValue: userSession!.authorizationValue) { (res) in
+            switch res {
+            case .success(let response):
+                let playlists = response.items
+                completion(playlists)
+            case .failure(let err):
+                completion(nil)
+                os_log("API request to get user playlists failed with error: %@", type: .error, String(describing: err))
+            }
+        }
+        return
+    }
+
+    func fetchTracks(fromUrl url:URL, completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
+            self.spotifyApi.fetchTracks(authorizationValue: userSession!.authorizationValue, withUrl: url ) { (res) in
+                print(res)
                 switch res {
                 case .success(let response):
-
-                    var followersCount: Int16?
-                    var profileImage: URL?
-
-                    if let followers = response.followers?.total {
-                        followersCount = Int16(followers)
-                    }
-
-                    if let image = response.images?.first {
-                        profileImage = URL(string: image.url)
-                    }
-
-                    // swiftlint:disable:next line_length
-                    self.profileManager.createUserProfile(displayName: response.displayName, email: response.email, product: response.product, followers: followersCount, image: profileImage, session: self.userSession!)
-
+                    print(response)
+                    completion(response)
                 case .failure(let err):
+                    completion(nil)
                     os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
                 }
             }
-            return
         }
-    }
 }

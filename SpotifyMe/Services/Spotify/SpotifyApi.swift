@@ -32,7 +32,7 @@ struct SpotifyApi {
     }
 
     // swiftlint:disable:next void_return
-    func requestAccessAndRefreshToken(completion: @escaping (Result<AccessResponse, Error>) -> ()) {
+    func requestAccessAndRefreshToken(completion: @escaping (Result<RefreshTokenResponse, Error>) -> ()) {
 
         var request = URLRequest(url: SpotifyEndpoint.tokenRequest.url)
         request.httpMethod = "POST"
@@ -62,7 +62,7 @@ struct SpotifyApi {
                 return
             }
             do {
-                let accessTokens = try decoder.decode(AccessResponse.self, from: data!)
+                let accessTokens = try decoder.decode(RefreshTokenResponse.self, from: data!)
                 completion(.success(accessTokens))
             } catch {
                 completion(.failure(error))
@@ -72,7 +72,7 @@ struct SpotifyApi {
     }
 
     // swiftlint:disable:next void_return
-    func requestRefreshAccessToken(refreshToken: String, completion: @escaping (Result<AccessResponse, Error>) -> ()) {
+    func requestRefreshAccessToken(refreshToken: String, completion: @escaping (Result<RefreshTokenResponse, Error>) -> ()) {
 
         var request = URLRequest(url: SpotifyEndpoint.tokenRequest.url)
         request.httpMethod = "POST"
@@ -101,7 +101,7 @@ struct SpotifyApi {
                 return
             }
             do {
-                let refreshToken = try decoder.decode(AccessResponse.self, from: data!)
+                let refreshToken = try decoder.decode(RefreshTokenResponse.self, from: data!)
                 completion(.success(refreshToken))
             } catch {
                 completion(.failure(error))
@@ -144,7 +144,7 @@ struct SpotifyApi {
     }
 
     // swiftlint:disable:next void_return
-    func fetchPlaylists(authorizationValue: String, completion: @escaping (Result<Paging, Error>) -> ()) {
+    func fetchPlaylists(authorizationValue: String, completion: @escaping (Result<Paginated<SimplifiedPlaylist>, Error>) -> ()) {
 
         var request = URLRequest(url: SpotifyEndpoint.myPlaylists.url)
         request.httpMethod = "GET"
@@ -165,10 +165,8 @@ struct SpotifyApi {
                 return
             }
             do {
-                // print(String(data: data!, encoding: String.Encoding.utf8))
-
-                let playlists = try decoder.decode(Paging.self, from: data!)
-                completion(.success(playlists))
+                let playlistsRequest = try decoder.decode(Paginated<SimplifiedPlaylist>.self, from: data!)
+                completion(.success(playlistsRequest))
             } catch {
                 completion(.failure(error))
                 return
@@ -176,9 +174,15 @@ struct SpotifyApi {
         }.resume()
     }
 
-    func testPlaylist(authorizationValue: String, withUrl: URL) {
-        var cancellable: AnyCancellable?
-        var request = URLRequest(url: withUrl)
+    // swiftlint:disable:next void_return
+    func fetchTracks(authorizationValue: String, withUrl url:URL, completion: @escaping (Result<Paginated<PlaylistTrack>, Error>) -> ()) {
+
+        var urlWithParams = URLComponents(string: url.absoluteString)!
+        urlWithParams.queryItems = [
+            URLQueryItem(name: "additional_types", value: "track")
+        ]
+
+        var request = URLRequest(url: urlWithParams.url!)
         request.httpMethod = "GET"
 
         // Header
@@ -190,26 +194,20 @@ struct SpotifyApi {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .iso8601
 
-        cancellable = URLSession.shared
-            .dataTaskPublisher(for: request)
-            .receive(on: DispatchQueue.main)
-            .tryMap() { element -> Data in
-                guard let httpResponse = element.response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return element.data
+        // swiftlint:disable:next unused_closure_parameter
+        URLSession.shared.dataTask(with: request) { (data, response, err) in
+           //  print(String(data: data!, encoding: String.Encoding.utf8))
+            if let err = err {
+                completion(.failure(err))
+                return
             }
-            .decode(type: Paging.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    fatalError(error.localizedDescription)
-                }
-            },
-            receiveValue: { playlist
-                in print("Received user: \(playlist).")})
+            do {
+                let tracksRequest = try decoder.decode(Paginated<PlaylistTrack>.self, from: data!)
+                completion(.success(tracksRequest))
+            } catch {
+                completion(.failure(error))
+                return
+            }
+        }.resume()
     }
 }

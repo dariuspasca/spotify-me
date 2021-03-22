@@ -1,19 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Album" representedClassName="Album" syncable="YES" codeGenerationType="category">
+        <attribute name="albumType" attributeType="String"/>
+        <attribute name="coverImageUrl" attributeType="URI"/>
+        <attribute name="href" attributeType="URI"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="releaseDate" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <attribute name="uri" attributeType="URI"/>
+        <relationship name="artists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="albums" inverseEntity="Artist"/>
+        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="albums" inverseEntity="Track"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Artist" representedClassName="Artist" syncable="YES" codeGenerationType="category">
+        <attribute name="href" attributeType="URI"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <attribute name="uri" attributeType="URI"/>
+        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artists" inverseEntity="Album"/>
+        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="artists" inverseEntity="Track"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="category">
+        <attribute name="coverImage" optional="YES" attributeType="String"/>
+        <attribute name="coverImageUrl" optional="YES" attributeType="URI"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="isPublic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="snapshotId" attributeType="String"/>
+        <attribute name="spotifyUri" attributeType="URI"/>
+        <attribute name="type" attributeType="String"/>
+        <attribute name="uri" attributeType="URI"/>
+        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="playlists" inverseEntity="Track"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="playlists" inverseEntity="UserProfile"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="category">
+        <attribute name="durationMs" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="href" attributeType="URI"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="popularity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uri" attributeType="URI"/>
+        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="tracks" inverseEntity="Album"/>
+        <relationship name="artists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="tracks" inverseEntity="Artist"/>
+        <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="tracks" inverseEntity="Playlist"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="tracks" inverseEntity="UserProfile"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="UserProfile" representedClassName="UserProfile" syncable="YES" codeGenerationType="category">
         <attribute name="displayName" optional="YES" attributeType="String"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="followers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="product" optional="YES" attributeType="String"/>
         <attribute name="profileImage" optional="YES" attributeType="URI"/>
+        <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="users" inverseEntity="Playlist"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserSession" inverseName="profile" inverseEntity="UserSession"/>
+        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="users" inverseEntity="Track"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="email"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="category">
         <attribute name="accessToken" optional="YES" attributeType="String"/>
         <attribute name="authorizationCode" attributeType="String"/>
         <attribute name="expireAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="refreshToken" optional="YES" attributeType="String"/>
-        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="session" inverseEntity="UserProfile"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="session" inverseEntity="UserProfile"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="authorizationCode"/>
@@ -21,7 +95,11 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="UserProfile" positionX="-63" positionY="9" width="128" height="119"/>
-        <element name="UserSession" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="Album" positionX="263.0208129882812" positionY="95.66378784179688" width="128" height="179"/>
+        <element name="Artist" positionX="256.4507446289062" positionY="347.1714172363281" width="128" height="148"/>
+        <element name="Playlist" positionX="53.08685302734375" positionY="-54.08779907226562" width="128" height="223"/>
+        <element name="Track" positionX="44.82525634765625" positionY="232.4036560058594" width="128" height="193"/>
+        <element name="UserProfile" positionX="-244.3428955078125" positionY="126.71240234375" width="128" height="163"/>
+        <element name="UserSession" positionX="-470.7582397460938" positionY="118.4189300537109" width="128" height="104"/>
     </elements>
 </model>

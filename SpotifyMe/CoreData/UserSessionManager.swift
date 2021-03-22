@@ -25,8 +25,7 @@ class UserSessionManager {
 
     func createUserSession(accessToken: String, expiresIn: Int, refreshToken: String, authorizationCode: String) {
         backgroundContext.performAndWait {
-            // swiftlint:disable:next all
-            let userSession = NSEntityDescription.insertNewObject(forEntityName: "UserSession", into: backgroundContext) as! UserSession
+            let userSession = UserSession(context: backgroundContext)
             userSession.accessToken = accessToken
             userSession.expireAt = Date().addingTimeInterval(TimeInterval(expiresIn - 300))
             userSession.refreshToken = refreshToken
@@ -39,7 +38,6 @@ class UserSessionManager {
                 os_log("Failed to create UserSession with error: %@", type: .error, String(describing: error))
             }
         }
-
     }
 
     // MARK: - UPDATE

@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="R45-53-PZR">
-                                <rect key="frame" x="127" y="433" width="160" height="30"/>
+                                <rect key="frame" x="131" y="433" width="152" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFr-8i-3gI">
                                         <rect key="frame" x="0.0" y="0.0" width="59" height="30"/>
@@ -27,10 +27,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wka-vb-WUq">
-                                        <rect key="frame" x="91" y="0.0" width="69" height="30"/>
-                                        <state key="normal" title="GetProfile"/>
+                                        <rect key="frame" x="91" y="0.0" width="61" height="30"/>
+                                        <state key="normal" title="Populate"/>
                                         <connections>
-                                            <action selector="getProfile:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bdb-ky-2Yt"/>
+                                            <action selector="populateSpotify:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m7F-oU-xas"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -45,7 +45,7 @@
                     </view>
                     <connections>
                         <outlet property="connectToSpotify" destination="vFr-8i-3gI" id="WwR-4d-koH"/>
-                        <outlet property="fetchData" destination="Wka-vb-WUq" id="NB8-Y3-bf8"/>
+                        <outlet property="populateData" destination="Wka-vb-WUq" id="Rkj-Da-Jtv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
