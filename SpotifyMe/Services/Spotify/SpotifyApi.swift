@@ -4,13 +4,12 @@
 //
 //  Created by Darius Pasca on 11/03/21.
 //
+// swiftlint:disable void_return
 
 import Foundation
 import Combine
 
 struct SpotifyApi {
-
-    private let decoder = JSONDecoder()
 
     private let clientId = "e230fefaed454e198ceb79d4e21ef20c"
     private let clientSecret = "dcfb7885665c4ca6b8f3e05756598259"
@@ -31,7 +30,6 @@ struct SpotifyApi {
         return urlComponents.url!
     }
 
-    // swiftlint:disable:next void_return
     func requestAccessAndRefreshToken(completion: @escaping (Result<RefreshTokenResponse, Error>) -> ()) {
 
         var request = URLRequest(url: SpotifyEndpoint.tokenRequest.url)
@@ -52,162 +50,105 @@ struct SpotifyApi {
                                     URLQueryItem(name: "redirect_uri", value: redirectUri)]
         request.httpBody = bodyComponent.query?.data(using: .utf8)
 
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-
-        // swiftlint:disable:next unused_closure_parameter
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            do {
-                let accessTokens = try decoder.decode(RefreshTokenResponse.self, from: data!)
-                completion(.success(accessTokens))
-            } catch {
-                completion(.failure(error))
-                return
-            }
-        }.resume()
+        URLSession.shared.getResponse(for: request, responseType: RefreshTokenResponse.self) { (result) in
+            completion(result)
+        }
     }
 
-    // swiftlint:disable:next void_return
     func requestRefreshAccessToken(refreshToken: String, completion: @escaping (Result<RefreshTokenResponse, Error>) -> ()) {
+        let base64ClientKey = "Basic \((clientId + ":" + clientSecret).data(using: .utf8)!.base64EncodedString())"
 
         var request = URLRequest(url: SpotifyEndpoint.tokenRequest.url)
         request.httpMethod = "POST"
-
-        let base64ClientKey = "Basic \((clientId + ":" + clientSecret).data(using: .utf8)!.base64EncodedString())"
-
-        // Header
         request.addValue(base64ClientKey, forHTTPHeaderField:
                             "Authorization")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
                             "Content-Type")
 
-        // Body
         var bodyComponent = URLComponents()
         bodyComponent.queryItems = [URLQueryItem(name: "grant_type", value: "refresh_token"),
                                     URLQueryItem(name: "refresh_token", value: refreshToken)]
         request.httpBody = bodyComponent.query?.data(using: .utf8)
 
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-
-        // swiftlint:disable:next unused_closure_parameter
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            do {
-                let refreshToken = try decoder.decode(RefreshTokenResponse.self, from: data!)
-                completion(.success(refreshToken))
-            } catch {
-                completion(.failure(error))
-                return
-            }
-        }.resume()
+        URLSession.shared.getResponse(for: request, responseType: RefreshTokenResponse.self) { (result) in
+            completion(result)
+        }
     }
 
-    // swiftlint:disable:next void_return
     func fetchProfile(authorizationValue: String, completion: @escaping (Result<PrivateUser, Error>) -> ()) {
-
         var request = URLRequest(url: SpotifyEndpoint.userProfile.url)
         request.httpMethod = "GET"
-
-        // Header
         request.addValue(authorizationValue, forHTTPHeaderField:
                             "Authorization")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
                             "Content-Type")
 
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-
-        // swiftlint:disable:next unused_closure_parameter
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            do {
-                // print(String(data: data!, encoding: String.Encoding.utf8))
-
-                let profile = try decoder.decode(PrivateUser.self, from: data!)
-                completion(.success(profile))
-            } catch {
-                completion(.failure(error))
-                return
-            }
-        }.resume()
+        URLSession.shared.getResponse(for: request, responseType: PrivateUser.self) { (result) in
+            completion(result)
+        }
     }
 
-    // swiftlint:disable:next void_return
     func fetchPlaylists(authorizationValue: String, completion: @escaping (Result<Paginated<SimplifiedPlaylist>, Error>) -> ()) {
-
-        var request = URLRequest(url: SpotifyEndpoint.myPlaylists.url)
+        var request = URLRequest(url: SpotifyEndpoint.myPlalists.url)
         request.httpMethod = "GET"
-
-        // Header
         request.addValue(authorizationValue, forHTTPHeaderField:
                             "Authorization")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
                             "Content-Type")
 
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-
-        // swiftlint:disable:next unused_closure_parameter
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            do {
-                let playlistsRequest = try decoder.decode(Paginated<SimplifiedPlaylist>.self, from: data!)
-                completion(.success(playlistsRequest))
-            } catch {
-                completion(.failure(error))
-                return
-            }
-        }.resume()
+        URLSession.shared.getResponse(for: request, responseType: Paginated<SimplifiedPlaylist>.self) { (result) in
+            completion(result)
+        }
     }
 
     // swiftlint:disable:next void_return
     func fetchTracks(authorizationValue: String, withUrl url:URL, completion: @escaping (Result<Paginated<PlaylistTrack>, Error>) -> ()) {
-
         var urlWithParams = URLComponents(string: url.absoluteString)!
         urlWithParams.queryItems = [
             URLQueryItem(name: "additional_types", value: "track")
         ]
-
         var request = URLRequest(url: urlWithParams.url!)
         request.httpMethod = "GET"
-
-        // Header
         request.addValue(authorizationValue, forHTTPHeaderField:
                             "Authorization")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
                             "Content-Type")
 
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
+        URLSession.shared.getResponse(for: request, responseType: Paginated<PlaylistTrack>.self) { (result) in
+            completion(result)
+        }
 
-        // swiftlint:disable:next unused_closure_parameter
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-           //  print(String(data: data!, encoding: String.Encoding.utf8))
-            if let err = err {
-                completion(.failure(err))
+    }
+}
+
+extension URLSession {
+
+    func getResponse<T: Codable>(for request: URLRequest,
+                                 responseType: T.Type,
+                                 completition: @escaping (Result<T, Error>) -> Void) {
+        let task = dataTask(with: request) { data, _, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completition(.failure(error!))
+                }
                 return
             }
+
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            decoder.dateDecodingStrategy = .iso8601
+
             do {
-                let tracksRequest = try decoder.decode(Paginated<PlaylistTrack>.self, from: data!)
-                completion(.success(tracksRequest))
+                let responseObject = try decoder.decode(responseType, from: data)
+                DispatchQueue.main.async {
+                    completition(.success(responseObject))
+                }
             } catch {
-                completion(.failure(error))
-                return
+                DispatchQueue.main.async {
+                    completition(.failure(error))
+                }
             }
-        }.resume()
+        }
+        task.resume()
     }
 }

@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     let profileManager = UserProfileManager()
     let playlistManager = PlaylistManager()
     let trackManager = TrackManager()
+    var auth: String!
     var userSession: UserSession?
     @IBOutlet weak var connectToSpotify: UIButton!
     @IBOutlet weak var populateData: UIButton!
@@ -43,6 +44,8 @@ class ViewController: UIViewController {
         var userPlaylists: [SimplifiedPlaylist]?
         var playlistsTracks: [[String:[PlaylistTrack]]] = []
 
+        auth = userSession!.authorizationValue
+
         let dispatchGroup = DispatchGroup()
 
         dispatchGroup.enter()
@@ -67,8 +70,13 @@ class ViewController: UIViewController {
 
         dispatchGroup.enter()
         for playlist in userPlaylists! {
-            fetchTracks(fromUrl: playlist.tracks.href) {(tracks) in
-               // playlistsTracks.append([playlist.id :tracks!])
+            if (playlist.tracks.total > 400 ) {
+                print("Playlist \(playlist.name) with \(playlist.tracks.total) tracks")
+                fetchTracks(fromUrl: playlist.tracks.href) { (res) in
+                    print(res)
+                }
+
+
             }
         }
         dispatchGroup.leave()
@@ -81,7 +89,6 @@ class ViewController: UIViewController {
 
             if userPlaylists != nil {
                 for playlist in userPlaylists! {
-                    print(playlist.id)
                    // self.playlistManager.createPlaylist(playlistObj: playlist, userProfileId: self.userSession!.profile!.objectID)
                 }
             }
@@ -122,16 +129,15 @@ class ViewController: UIViewController {
     }
 
     func fetchTracks(fromUrl url:URL, completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
-            self.spotifyApi.fetchTracks(authorizationValue: userSession!.authorizationValue, withUrl: url ) { (res) in
-                print(res)
+            self.spotifyApi.fetchTracks(authorizationValue: auth, withUrl: url ) { (res) in
                 switch res {
                 case .success(let response):
-                    print(response)
-                    completion(response)
+                        completion(response)
                 case .failure(let err):
                     completion(nil)
                     os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
                 }
             }
         }
+
 }
