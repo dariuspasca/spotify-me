@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Album" representedClassName="Album" syncable="YES" codeGenerationType="category">
+    <entity name="Album" representedClassName="Album" syncable="YES" codeGenerationType="class">
         <attribute name="albumType" attributeType="String"/>
         <attribute name="coverImageUrl" attributeType="URI"/>
         <attribute name="href" attributeType="URI"/>
@@ -17,7 +17,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Artist" representedClassName="Artist" syncable="YES" codeGenerationType="category">
+    <entity name="Artist" representedClassName="Artist" syncable="YES" codeGenerationType="class">
         <attribute name="href" attributeType="URI"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
@@ -31,7 +31,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="category">
+    <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="class">
         <attribute name="coverImage" optional="YES" attributeType="String"/>
         <attribute name="coverImageUrl" optional="YES" attributeType="URI"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
@@ -50,7 +50,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="category">
+    <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="class">
         <attribute name="durationMs" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="href" attributeType="URI"/>
         <attribute name="id" attributeType="String"/>
@@ -67,7 +67,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="UserProfile" representedClassName="UserProfile" syncable="YES" codeGenerationType="category">
+    <entity name="UserProfile" representedClassName="UserProfile" syncable="YES" codeGenerationType="class">
         <attribute name="displayName" optional="YES" attributeType="String"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="followers" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -96,10 +96,10 @@
     </entity>
     <elements>
         <element name="Album" positionX="263.0208129882812" positionY="95.66378784179688" width="128" height="179"/>
-        <element name="Artist" positionX="256.4507446289062" positionY="347.1714172363281" width="128" height="148"/>
-        <element name="Playlist" positionX="53.08685302734375" positionY="-54.08779907226562" width="128" height="223"/>
-        <element name="Track" positionX="44.82525634765625" positionY="232.4036560058594" width="128" height="193"/>
-        <element name="UserProfile" positionX="-244.3428955078125" positionY="126.71240234375" width="128" height="163"/>
+        <element name="Artist" positionX="256.4507446289062" positionY="347.1714172363281" width="128" height="134"/>
+        <element name="Playlist" positionX="53.08685302734375" positionY="-54.08779907226562" width="128" height="209"/>
+        <element name="Track" positionX="44.82525634765625" positionY="232.4036560058594" width="128" height="179"/>
+        <element name="UserProfile" positionX="-244.3428955078125" positionY="126.71240234375" width="128" height="149"/>
         <element name="UserSession" positionX="-470.7582397460938" positionY="118.4189300537109" width="128" height="104"/>
     </elements>
 </model>
