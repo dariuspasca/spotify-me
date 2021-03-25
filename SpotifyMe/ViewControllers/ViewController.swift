@@ -17,22 +17,81 @@ class ViewController: UIViewController {
     let trackManager = TrackManager()
     var auth: String!
     var userSession: UserSession?
-    @IBOutlet weak var connectToSpotify: UIButton!
-    @IBOutlet weak var populateData: UIButton!
+
+    // Layout
+    lazy var connectButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Connect", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    lazy var populateButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Populate", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    lazy var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .equalCentering
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
 
     // MARK: - INIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupLayout()
+
     }
 
-    // MARK: - Buttons
-    @IBAction func connect(_ sender: Any) {
+    // MARK: - Layout
+
+    func setupLayout() {
+        view.backgroundColor = .white
+
+        view.addSubview(stackView)
+        view.addSubview(connectButton)
+        view.addSubview(populateButton)
+        setStackViewConstaints()
+        setConnectButtonConstraints()
+        setPopulateButtonConstraints()
+    }
+
+    func setStackViewConstaints() {
+        let constraints = [
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 200)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    func setConnectButtonConstraints() {
+        connectButton.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        populateButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        stackView.addArrangedSubview(connectButton)
+    }
+
+    func setPopulateButtonConstraints() {
+        populateButton.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        populateButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        stackView.addArrangedSubview(populateButton)
+    }
+
+    // MARK: - Actions
+    func connect() {
         let connectString = SpotifyApi.init().authorizationRequestURL()
         UIApplication.shared.open(connectString)
     }
 
-    @IBAction func populateSpotify(_ sender: Any) {
+    func populateSpotify() {
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
 
         userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
@@ -89,7 +148,7 @@ class ViewController: UIViewController {
 
             if userPlaylists != nil {
                 for playlist in userPlaylists! {
-                   // self.playlistManager.createPlaylist(playlistObj: playlist, userProfileId: self.userSession!.profile!.objectID)
+                    // self.playlistManager.createPlaylist(playlistObj: playlist, userProfileId: self.userSession!.profile!.objectID)
                 }
             }
         }
@@ -129,15 +188,15 @@ class ViewController: UIViewController {
     }
 
     func fetchTracks(fromUrl url:URL, completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
-            self.spotifyApi.fetchTracks(authorizationValue: auth, withUrl: url ) { (res) in
-                switch res {
-                case .success(let response):
-                        completion(response)
-                case .failure(let err):
-                    completion(nil)
-                    os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
-                }
+        self.spotifyApi.fetchTracks(authorizationValue: auth, withUrl: url ) { (res) in
+            switch res {
+            case .success(let response):
+                completion(response)
+            case .failure(let err):
+                completion(nil)
+                os_log("API request to get UserProfile failed with error: %@", type: .error, String(describing: err))
             }
         }
+    }
 
 }
