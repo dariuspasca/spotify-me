@@ -19,7 +19,7 @@ class WelcomeViewController: UIViewController {
         configureSpotifyButton()
     }
 
-    // MARK: - Layout
+    // MARK: - Views
 
     lazy var appStackView: UIStackView = {
         let stack = UIStackView()
@@ -89,7 +89,7 @@ class WelcomeViewController: UIViewController {
         return myButton
     }()
 
-    // MARK: - Setup & Constraints
+    // MARK: - Layout
 
     func configureStacksView() {
         view.addSubview(appStackView)
@@ -155,25 +155,11 @@ class WelcomeViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
-    // MARK: - Action
+    // MARK: - Actions
 
     @objc func redirectToSpotify(_ sender: UIButton?) {
         let connectString = SpotifyApi.init().authorizationRequestURL()
         UIApplication.shared.open(connectString)
     }
 
-}
-
-extension String {
-    func image(size: CGSize) -> UIImage? {
-        let size = size
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        UIColor.white.set()
-        let rect = CGRect(origin: .zero, size: size)
-        UIRectFill(CGRect(origin: .zero, size: size))
-        (self as AnyObject).draw(in: rect, withAttributes: [.font: UIFont.systemFont(ofSize: 40)])
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-    }
 }

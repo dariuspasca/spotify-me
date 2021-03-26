@@ -10,9 +10,14 @@ import CoreData
 import UIKit
 import os.log
 
+protocol LaunchManagerDelegate: AnyObject {
+    func didCompleteAuthorization(ready: Bool)
+}
+
 class LaunchManager {
 
     var userSession: UserSession?
+    weak var authorizationDelegate: LaunchManagerDelegate!
     let spotifyApi = SpotifyApi.init()
     let sessionManager = UserSessionManager()
 
@@ -20,7 +25,6 @@ class LaunchManager {
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
 
         guard authorizationCode != nil else {
-            // Should redirect to login
             os_log("No UserSession", type: .info)
             return
         }
@@ -32,6 +36,21 @@ class LaunchManager {
             return
         }
         controlTokenValidity()
+    }
+
+    func isUserConnected(withAuthorizationCode code: String?) -> Bool {
+
+        guard code != nil else {
+            return false
+        }
+
+        let userSession = self.sessionManager.fetchUserSession(withAuthorizationCode: code!)
+
+        if (userSession != nil) {
+            return true
+        } else {
+            return false
+        }
     }
 
     func controlTokenValidity() {
@@ -63,13 +82,13 @@ class LaunchManager {
     }
 
     public func handleURL(url: URL) {
-        // A host, a path and query params are expected, else the URL will not be handled.
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
               let host = components.host,
               let params = components.queryItems else {
             os_log("Invalid URL. Host, path and query params are expected", type: .info)
             return
         }
+
         // Handle Spotify authorization flow
         if host == "spotify-login-callback" {
             os_log("Handling spotify login callback", type: .info)
@@ -84,7 +103,9 @@ class LaunchManager {
 
                     // swiftlint:disable:next line_length
                     self.sessionManager.createUserSession(accessToken: response.accessToken, expiresIn: response.expiresIn, refreshToken: response.refreshToken!, authorizationCode: authorizationCode)
+                    self.authorizationDelegate.didCompleteAuthorization(ready: true)
                 case .failure(let err):
+                    self.authorizationDelegate.didCompleteAuthorization(ready: false)
                     os_log("Request to access and refresh token failed with error: %@", type: .error, String(describing: err))
                 }
             }

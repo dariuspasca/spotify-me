@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     lazy var launchManager = LaunchManager()
     lazy var mainContext = CoreDataStack.shared.mainContext
+    var isUserConnected = false
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -21,7 +22,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = WelcomeViewController()
+
+        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
+        isUserConnected = launchManager.isUserConnected(withAuthorizationCode: authorizationCode)
+
+        if isUserConnected {
+            let navController = UINavigationController(rootViewController: PlaylistListVideoController())
+            navController.navigationBar.prefersLargeTitles = true
+            window?.rootViewController = navController
+        } else {
+            window?.rootViewController = WelcomeViewController()
+        }
+
         window?.makeKeyAndVisible()
     }
     
@@ -44,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        launchManager.handleApplicationDidBecomeActive()
+        launchManager.authorizationDelegate = self
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
@@ -76,3 +88,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
 }
 
+extension SceneDelegate: LaunchManagerDelegate {
+    func didCompleteAuthorization(ready: Bool) {
+        if ready {
+            let navController = UINavigationController(rootViewController: PlaylistListVideoController())
+            navController.navigationBar.prefersLargeTitles = true
+            window?.rootViewController = navController
+        } else {
+            // Should handle error
+            print("Error login")
+        }
+    }
+}
