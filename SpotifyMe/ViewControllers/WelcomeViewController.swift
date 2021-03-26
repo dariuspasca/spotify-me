@@ -13,19 +13,32 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        configureStackView()
+        configureStacksView()
         configureImageView()
-        configureAppNameLabel()
+        configureLabels()
+        configureSpotifyButton()
     }
 
     // MARK: - Layout
 
-    lazy var stackView: UIStackView = {
+    lazy var appStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .fillProportionally
+        stack.distribution = .fill
         stack.spacing = 12
         stack.alignment = .bottom
+
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    lazy var heroeStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.spacing = 8
+        stack.alignment = .center
+
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -40,34 +53,115 @@ class WelcomeViewController: UIViewController {
         label.text = "SpotifyMe"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textAlignment = .left
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    func configureStackView() {
-        view.addSubview(stackView)
-        setStackViewConstaints()
+    lazy var heroeLabelA: UILabel = {
+        let label = UILabel()
+        label.text = "Listening is"
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    lazy var heroeLabelB: UILabel = {
+        let label = UILabel()
+        label.text = "Everything"
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.textAlignment = .right
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    lazy var spotifyButton:SpotifyButton = {
+        let myButton = SpotifyButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60))
+        myButton.backgroundColor = .black
+        myButton.translatesAutoresizingMaskIntoConstraints = false
+        myButton.addTarget(self, action: #selector(redirectToSpotify(_:)), for: .touchUpInside)
+        return myButton
+    }()
+
+    // MARK: - Setup & Constraints
+
+    func configureStacksView() {
+        view.addSubview(appStackView)
+        view.addSubview(heroeStackView)
+        setStackViewsConstaints()
     }
 
-    func setStackViewConstaints() {
+    func setStackViewsConstaints() {
         let constraints = [
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            appStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -170),
+            appStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
+            heroeStackView.topAnchor.constraint(equalTo: appStackView.topAnchor, constant: 100),
+            heroeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
     func configureImageView() {
-        stackView.addArrangedSubview(imageView)
+        appStackView.addArrangedSubview(imageView)
+        setImageViewConstraints()
     }
 
-    func configureAppNameLabel() {
-        stackView.addArrangedSubview(appNameLabel)
+    func setImageViewConstraints() {
+        let constraints = [
+            imageView.widthAnchor.constraint(equalToConstant: 40),
+            imageView.heightAnchor.constraint(equalToConstant: 45)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
+
+    func configureLabels() {
+        appStackView.addArrangedSubview(appNameLabel)
+        heroeStackView.addArrangedSubview(heroeLabelA)
+        heroeStackView.addArrangedSubview(heroeLabelB)
+        setLabelsConstraints()
+    }
+
+    func setLabelsConstraints() {
+        let constraints = [
+            appNameLabel.widthAnchor.constraint(equalToConstant: 150),
+            heroeLabelA.widthAnchor.constraint(equalToConstant: view.frame.width/2.5),
+            heroeLabelB.widthAnchor.constraint(equalToConstant: view.frame.width/2.5)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    func configureSpotifyButton() {
+        view.addSubview(spotifyButton)
+        setSpotifyButtonConstraints()
+    }
+
+    func setSpotifyButtonConstraints() {
+        let constraints = [
+            spotifyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            spotifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spotifyButton.widthAnchor.constraint(equalToConstant: 300),
+            spotifyButton.heightAnchor.constraint(equalToConstant: 60)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    // MARK: - Action
+
+    @objc func redirectToSpotify(_ sender: UIButton?) {
+        let connectString = SpotifyApi.init().authorizationRequestURL()
+        UIApplication.shared.open(connectString)
+    }
+
 }
 
 extension String {

@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Spotify_Icon_RGB_White.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Spotify_Icon_RGB_Green.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
