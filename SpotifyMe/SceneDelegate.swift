@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
 
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-        isUserConnected = launchManager.isUserConnected(withAuthorizationCode: authorizationCode)
+        isUserConnected = launchManager.isUserConnected(with: authorizationCode)
 
         if isUserConnected {
             let navController = UINavigationController(rootViewController: PlaylistListVideoController())
@@ -56,7 +56,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        launchManager.handleApplicationDidBecomeActive()
         launchManager.authorizationDelegate = self
     }
     

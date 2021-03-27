@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		24523D45579B83B119555FCD /* Pods_SpotifyMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */; };
 		6C07396835237C9B5D9A01E4 /* Pods_SpotifyMe_SpotifyMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */; };
+		B701C801260F9C19003CDE06 /* PublicUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701C800260F9C19003CDE06 /* PublicUser.swift */; };
 		B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F625FA731600CFD6A7 /* AppDelegate.swift */; };
 		B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298F825FA731600CFD6A7 /* SceneDelegate.swift */; };
 		B72298FB25FA731600CFD6A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72298FA25FA731600CFD6A7 /* ViewController.swift */; };
@@ -76,6 +77,7 @@
 		7479FCC79DC0F327237AA3C0 /* Pods_SpotifyMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD2FFEBF232CE0DDFBAAA32 /* Pods-SpotifyMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.debug.xcconfig"; sourceTree = "<group>"; };
 		B238DAE74C334E168558CB1C /* Pods-SpotifyMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMe/Pods-SpotifyMe.release.xcconfig"; sourceTree = "<group>"; };
+		B701C800260F9C19003CDE06 /* PublicUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicUser.swift; sourceTree = "<group>"; };
 		B70571CFAE6BCA32CEBD2DBF /* Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyMe-SpotifyMeUITests/Pods-SpotifyMe-SpotifyMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B72298F325FA731600CFD6A7 /* SpotifyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B72298F625FA731600CFD6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			children = (
 				B7849D0B2608AECF006BF971 /* RefreshTokenResponse.swift */,
 				B7849D132608AF03006BF971 /* PrivateUser.swift */,
+				B701C800260F9C19003CDE06 /* PublicUser.swift */,
 				B7849D192608AF34006BF971 /* Followers.swift */,
 			);
 			path = user;
@@ -586,6 +589,7 @@
 				B7849D442608B9F0006BF971 /* SimplifiedTrack.swift in Sources */,
 				B727C5B8260E86D400F9F1FB /* UIView+Ext.swift in Sources */,
 				B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */,
+				B701C801260F9C19003CDE06 /* PublicUser.swift in Sources */,
 				B727C5C8260E892600F9F1FB /* PlaylistViewCell.swift in Sources */,
 				B722990125FA731600CFD6A7 /* SpotifyMe.xcdatamodeld in Sources */,
 				B7280BFF260CEAE2004472A6 /* WelcomeViewController.swift in Sources */,

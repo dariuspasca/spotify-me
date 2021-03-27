@@ -14,6 +14,7 @@ struct SimplifiedPlaylist: Codable {
     let name: String
     let `public`: Bool?
     let snapshotId: String
+    let owner: PublicUser
     let tracks: TracksLink
     let type: String
     let uri: URL

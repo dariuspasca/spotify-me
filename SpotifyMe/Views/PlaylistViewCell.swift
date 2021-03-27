@@ -9,17 +9,12 @@ import UIKit
 
 class PlaylistViewCell: UITableViewCell {
 
-    var playlistCoverImage = UIImageView()
-    var playlistTitleLabel = UILabel()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        addSubview(playlistTitleLabel)
-        addSubview(playlistCoverImage)
-
         configureImageView()
-        configureTitleLabel()
+        configureStackView()
+        configurePlaylistLabels()
     }
 
     required init?(coder: NSCoder) {
@@ -27,43 +22,95 @@ class PlaylistViewCell: UITableViewCell {
     }
 
     func set(playlist: SimplifiedPlaylist) {
-        playlistTitleLabel.text = playlist.name
+        titleLabel.text = playlist.name
+        authorLabel.text = "by \(playlist.owner.displayName ?? "Spotify user")"
 
         if let images = playlist.images {
-            playlistCoverImage.loadImage(from: images.first!.url)
+            coverImage.loadImage(from: images.first!.url)
         }
     }
 
+    // MARK: - Views
+
+    var coverImage: UIImageView = {
+        let image = UIImageView()
+        image.layer.cornerRadius = 10
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
+
+    var playlistStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .leading
+        stack.spacing = -15
+
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 21, weight: .medium)
+        label.textAlignment = .left
+        label.textColor = UIColor(red: 15/255, green: 11/255, blue: 16/255, alpha: 1.0)
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    var authorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor(red: 196/255, green: 199/255, blue: 202/255, alpha: 1.0)
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     func configureImageView() {
-        playlistCoverImage.layer.cornerRadius = 10
-        playlistCoverImage.clipsToBounds = true
-        playlistCoverImage.contentMode = .scaleAspectFill
+        addSubview(coverImage)
         setImageViewConstraints()
     }
 
-    func configureTitleLabel() {
-        playlistTitleLabel.numberOfLines = 1
-        playlistTitleLabel.adjustsFontSizeToFitWidth = true
-        setTitleLabelConstraints()
-    }
-
     func setImageViewConstraints() {
-        playlistCoverImage.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [ playlistCoverImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-                            playlistCoverImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                            playlistCoverImage.heightAnchor.constraint(equalToConstant: 80),
-                            playlistCoverImage.widthAnchor.constraint(equalToConstant: 80)
+        coverImage.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [ coverImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+                            coverImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                            coverImage.heightAnchor.constraint(equalToConstant: 80),
+                            coverImage.widthAnchor.constraint(equalToConstant: 80)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
-    func setTitleLabelConstraints() {
-        playlistTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [ playlistTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-                            playlistTitleLabel.leadingAnchor.constraint(equalTo: playlistCoverImage.trailingAnchor, constant: 20),
-                            playlistTitleLabel.heightAnchor.constraint(equalToConstant: 80),
-                            playlistTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12)
+    func configureStackView() {
+        addSubview(playlistStackView)
+        setStackViewConstraints()
+    }
+
+    func setStackViewConstraints() {
+        let constraints = [ playlistStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                            playlistStackView.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
+                            playlistStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    func configurePlaylistLabels() {
+        playlistStackView.addArrangedSubview(titleLabel)
+        playlistStackView.addArrangedSubview(authorLabel)
+        setPlaylistLabelsConstraints()
+    }
+
+    func setPlaylistLabelsConstraints() {
+        let constraints = [
+            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            authorLabel.heightAnchor.constraint(equalToConstant: 40)
         ]
 
         NSLayoutConstraint.activate(constraints)

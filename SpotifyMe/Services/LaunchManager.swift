@@ -21,61 +21,17 @@ class LaunchManager {
     let spotifyApi = SpotifyApi.init()
     let sessionManager = UserSessionManager()
 
-    func handleApplicationDidBecomeActive() {
-        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-
+    func isUserConnected(with authorizationCode: String?) -> Bool {
         guard authorizationCode != nil else {
-            os_log("No UserSession", type: .info)
-            return
-        }
-
-        userSession = self.sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
-
-        guard userSession != nil else {
-            os_log("No UserSession found with authorizationCode %@", type: .error, String(describing: authorizationCode!))
-            return
-        }
-        controlTokenValidity()
-    }
-
-    func isUserConnected(withAuthorizationCode code: String?) -> Bool {
-
-        guard code != nil else {
             return false
         }
 
-        let userSession = self.sessionManager.fetchUserSession(withAuthorizationCode: code!)
+        let userSession = self.sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
 
         if (userSession != nil) {
             return true
         } else {
             return false
-        }
-    }
-
-    func controlTokenValidity() {
-        os_log("Verifying accessToken validity", type: .info)
-        guard (userSession?.isExpired) != true else {
-            os_log("accessToken expired", type: .info)
-            refreshToken()
-            return
-        }
-        os_log("accessToken is valid", type: .info)
-    }
-
-    private func refreshToken() {
-        spotifyApi.requestRefreshAccessToken(refreshToken: userSession!.refreshToken!) { (res) in
-            switch res {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self.userSession!.accessToken = response.accessToken
-                    self.userSession!.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
-                    self.sessionManager.updateUserSession(userSession: self.userSession!)
-                    os_log("accessToken refreshed", type: .info)
-                }
-            case .failure(let err):
-                os_log("Request to refresh accessToken failed with error: %@", type: .error, String(describing: err))
-            }
         }
     }
 

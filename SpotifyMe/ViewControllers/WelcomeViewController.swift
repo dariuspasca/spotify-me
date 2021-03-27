@@ -21,7 +21,7 @@ class WelcomeViewController: UIViewController {
 
     // MARK: - Views
 
-    lazy var appStackView: UIStackView = {
+    var appStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fill
@@ -32,7 +32,7 @@ class WelcomeViewController: UIViewController {
         return stack
     }()
 
-    lazy var heroeStackView: UIStackView = {
+    var heroeStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fill
@@ -43,12 +43,12 @@ class WelcomeViewController: UIViewController {
         return stack
     }()
 
-    lazy var imageView: UIImageView = {
+    var imageView: UIImageView = {
         let image = UIImageView(image: "🎵".image(size: CGSize(width: 40, height: 45)))
         return image
     }()
 
-    lazy var appNameLabel: UILabel = {
+    var appNameLabel: UILabel = {
         let label = UILabel()
         label.text = "SpotifyMe"
         label.font = UIFont.boldSystemFont(ofSize: 30)
@@ -59,7 +59,7 @@ class WelcomeViewController: UIViewController {
         return label
     }()
 
-    lazy var heroeLabelA: UILabel = {
+    var heroeLabelA: UILabel = {
         let label = UILabel()
         label.text = "Listening is"
         label.font = UIFont.systemFont(ofSize: 24)
@@ -70,7 +70,7 @@ class WelcomeViewController: UIViewController {
         return label
     }()
 
-    lazy var heroeLabelB: UILabel = {
+    var heroeLabelB: UILabel = {
         let label = UILabel()
         label.text = "Everything"
         label.font = UIFont.systemFont(ofSize: 24)
@@ -81,7 +81,7 @@ class WelcomeViewController: UIViewController {
         return label
     }()
 
-    lazy var spotifyButton:SpotifyButton = {
+    var spotifyButton:SpotifyButton = {
         let myButton = SpotifyButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60))
         myButton.backgroundColor = .black
         myButton.translatesAutoresizingMaskIntoConstraints = false
