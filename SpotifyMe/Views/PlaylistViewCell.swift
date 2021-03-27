@@ -30,7 +30,7 @@ class PlaylistViewCell: UITableViewCell {
         playlistTitleLabel.text = playlist.name
 
         if let images = playlist.images {
-            playlistCoverImage.load(url: images.first!.url)
+            playlistCoverImage.loadImage(from: images.first!.url)
         }
     }
 
