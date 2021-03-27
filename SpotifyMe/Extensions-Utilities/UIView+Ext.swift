@@ -14,7 +14,7 @@ extension UIView {
         let constraints = [ topAnchor.constraint(equalTo: superView.topAnchor),
                             leadingAnchor.constraint(equalTo: superView.leadingAnchor),
                             trailingAnchor.constraint(equalTo: superView.trailingAnchor),
-                            leadingAnchor.constraint(equalTo: superView.leadingAnchor)
+                            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)

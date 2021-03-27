@@ -64,16 +64,14 @@ class LaunchManager {
     }
 
     private func refreshToken() {
-        os_log("Refreshing accessToken", type: .info)
         spotifyApi.requestRefreshAccessToken(refreshToken: userSession!.refreshToken!) { (res) in
             switch res {
             case .success(let response):
                 DispatchQueue.main.async {
-                    // Update UserSession object
                     self.userSession!.accessToken = response.accessToken
                     self.userSession!.expireAt = Date().addingTimeInterval(TimeInterval(response.expiresIn - 300))
-                    // Save data
                     self.sessionManager.updateUserSession(userSession: self.userSession!)
+                    os_log("accessToken refreshed", type: .info)
                 }
             case .failure(let err):
                 os_log("Request to refresh accessToken failed with error: %@", type: .error, String(describing: err))
