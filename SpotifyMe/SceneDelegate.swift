@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         isUserConnected = launchManager.isUserConnected(with: authorizationCode)
 
         if isUserConnected {
-            let navController = UINavigationController(rootViewController: PlaylistListVideoController())
+            let navController = UINavigationController(rootViewController: PlaylistListViewController())
             navController.navigationBar.prefersLargeTitles = true
             window?.rootViewController = navController
         } else {
@@ -91,7 +91,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: LaunchManagerDelegate {
     func didCompleteAuthorization(ready: Bool) {
         if ready {
-            let navController = UINavigationController(rootViewController: PlaylistListVideoController())
+            let navController = UINavigationController(rootViewController: PlaylistListViewController())
             navController.navigationBar.prefersLargeTitles = true
             window?.rootViewController = navController
         } else {

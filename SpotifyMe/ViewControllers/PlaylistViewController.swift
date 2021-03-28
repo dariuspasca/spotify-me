@@ -1,30 +1,33 @@
 //
-//  PlaylistListViewController.swift
+//  PlaylistViewController.swift
 //  SpotifyMe
 //
-//  Created by Darius Pasca on 26/03/21.
+//  Created by Darius Pasca on 28/03/21.
 //
 
 import UIKit
 import os.log
 
-class PlaylistListViewController: UIViewController {
+class PlaylistViewController: UIViewController {
 
     var tableView = UITableView()
     let spotifyApi = SpotifyApi.init()
     let sessionManager = UserSessionManager()
-    var playlists = [SimplifiedPlaylist]()
+    var tracks = [PlaylistTrack]()
     var userSession: UserSession?
+    var playlistId:String!
+    var playlistName:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Playlists"
+        navigationItem.largeTitleDisplayMode = .never
+        self.title = playlistName
 
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
         userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
 
-        loadPlaylists { (playlists) in
-            self.playlists = playlists!.items
+        loadTracks { (tracks) in
+            self.tracks = tracks!.items
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -37,7 +40,7 @@ class PlaylistListViewController: UIViewController {
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 100
-        tableView.register(PlaylistViewCell.self, forCellReuseIdentifier: "PlaylistCell")
+        tableView.register(TrackViewCell.self, forCellReuseIdentifier: "TrackCell")
         tableView.pin(to: view)
     }
 
@@ -49,40 +52,26 @@ class PlaylistListViewController: UIViewController {
 
 // MARK: - Table Delegate
 
-extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource {
+extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playlists.count
+        return tracks.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell") as? PlaylistViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as? TrackViewCell
         cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        cell!.accessoryType = .disclosureIndicator
-
-       //  cell!.accessoryView = UIImageView(image: #imageLiteral(resourceName: "chevron-right"))
-        let chevronIcon = UIImage(named: "chevron_right")
-        let chevronIconView = UIImageView(image: chevronIcon)
-        chevronIconView.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
-
-        cell!.accessoryView = chevronIconView
-        cell!.set(playlist: playlists[indexPath.row])
+        
+        cell!.set(track: tracks[indexPath.row].track)
         return cell!
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let playlistViewController = PlaylistViewController()
-        playlistViewController.playlistId = playlists[indexPath.row].id
-        playlistViewController.playlistName = playlists[indexPath.row].name
-        self.navigationController?.pushViewController(playlistViewController, animated: true)
     }
 }
 
 // MARK: - Fetching Playlists
 
-extension PlaylistListViewController {
+extension PlaylistViewController {
 
-    func loadPlaylists(completion: @escaping (Paginated<SimplifiedPlaylist>?) -> Void) {
+    func loadTracks(completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
 
         guard userSession != nil else { return }
 
@@ -90,26 +79,27 @@ extension PlaylistListViewController {
         if userSession!.isExpired {
             refreshToken { (res) in
                 if res {
-                    self.loadPlaylists(completion: completion)
+                    self.loadTracks(completion: completion)
                 }
             }
         } else {
-            fetchPlaylists { (res) in
+            fetchTracks { (res) in
                 completion(res)
             }
         }
 
     }
 
-    func fetchPlaylists(completion: @escaping (Paginated<SimplifiedPlaylist>?) -> Void) {
-        spotifyApi.fetchPlaylists(authorizationValue: userSession!.authorizationValue) { (res) in
+    func fetchTracks(completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
+        let playlistTracksUrl = SpotifyEndpoint.playlistTracks(playlistId).url
+        spotifyApi.fetchTracks(authorizationValue: userSession!.authorizationValue, withUrl: playlistTracksUrl) { (res) in
             switch res {
             case .success(let response):
                 completion(response)
-                os_log("Fetching user playlists", type: .info)
+                os_log("Fetching playlist tracks", type: .info)
             case .failure(let err):
                 completion(nil)
-                os_log("API request to get user playlists failed with error: %@", type: .error, String(describing: err))
+                os_log("API request to get playlist tracks failed with error: %@", type: .error, String(describing: err))
             }
         }
         return

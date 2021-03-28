@@ -1,13 +1,13 @@
 //
-//  PlaylistViewCell.swift
+//  TrackTableViewCell.swift
 //  SpotifyMe
 //
-//  Created by Darius Pasca on 26/03/21.
+//  Created by Darius Pasca on 28/03/21.
 //
 
 import UIKit
 
-class PlaylistViewCell: UITableViewCell {
+class TrackViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,13 +21,12 @@ class PlaylistViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(playlist: SimplifiedPlaylist) {
-        titleLabel.text = playlist.name
-        authorLabel.text = "by \(playlist.owner.displayName ?? "Spotify user")"
+    func set(track: SimplifiedTrack) {
+        titleLabel.text = track.name
+        authorLabel.text = track.artists.map({$0.name}).joined(separator: ",")
 
-        if let images = playlist.images {
-            coverImage.loadImage(from: images.first!.url)
-        }
+        coverImage.loadImage(from: track.album.images.first!.url)
+
     }
 
     // MARK: - Views
