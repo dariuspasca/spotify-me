@@ -4,11 +4,11 @@
 //
 //  Created by Darius Pasca on 26/03/21.
 //
+// Credits: https://twitter.com/seanallen_dev
 
 import UIKit
 
 extension UIView {
-
     func pin(to superView: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         let constraints = [ topAnchor.constraint(equalTo: superView.topAnchor),

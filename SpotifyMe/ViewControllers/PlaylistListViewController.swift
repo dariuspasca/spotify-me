@@ -47,7 +47,7 @@ class PlaylistListViewController: UIViewController {
     }
 }
 
-// MARK: - Table Delegate
+// MARK: - Table Data
 
 extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource {
 
@@ -72,13 +72,13 @@ extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlistViewController = PlaylistViewController()
-        playlistViewController.playlistId = playlists[indexPath.row].id
-        playlistViewController.playlistName = playlists[indexPath.row].name
+        playlistViewController.playlist = playlists[indexPath.row]
         self.navigationController?.pushViewController(playlistViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-// MARK: - Fetching Playlists
+// MARK: - Fetching Data
 
 extension PlaylistListViewController {
 

@@ -4,10 +4,9 @@
 //
 //  Created by Darius Pasca on 26/03/21.
 //
+// Credits: Luca Angeletti https://stackoverflow.com/questions/38809425/convert-apple-emoji-string-to-uiimage
 
 import UIKit
-
-// Emoji to image
 
 extension String {
     func image(size: CGSize) -> UIImage? {

@@ -4,7 +4,10 @@
 //
 //  Created by Darius Pasca on 27/03/21.
 //
+// Credits: Let's Build That App https://www.youtube.com/channel/UCuP2vJ6kRutQBfRmdcI92mA
+
 import UIKit
+import os.log
 
 var imageCache = NSCache<AnyObject, AnyObject>()
 
@@ -19,7 +22,7 @@ extension UIImageView {
 
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
-                print("Couldn't download image: ", error)
+                os_log("Couldn't download image with error: %@", type: .error, String(describing: error))
                 return
             }
 

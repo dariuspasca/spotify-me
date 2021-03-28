@@ -10,18 +10,17 @@ import os.log
 
 class PlaylistViewController: UIViewController {
 
-    var tableView = UITableView()
+    var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     let spotifyApi = SpotifyApi.init()
     let sessionManager = UserSessionManager()
     var tracks = [PlaylistTrack]()
     var userSession: UserSession?
-    var playlistId:String!
-    var playlistName:String!
+    var playlist:SimplifiedPlaylist!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        self.title = playlistName
+        self.title = playlist.name
 
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
         userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
@@ -39,8 +38,11 @@ class PlaylistViewController: UIViewController {
     func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 80
         tableView.register(TrackViewCell.self, forCellReuseIdentifier: "TrackCell")
+        tableView.register(PlaylistHeaderView.self, forHeaderFooterViewReuseIdentifier: "PlaylistHeader")
+        tableView.backgroundColor = .white
+        tableView.separatorColor = .clear
         tableView.pin(to: view)
     }
 
@@ -50,7 +52,7 @@ class PlaylistViewController: UIViewController {
     }
 }
 
-// MARK: - Table Delegate
+// MARK: - Table Data
 
 extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
 
@@ -61,20 +63,27 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as? TrackViewCell
         cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        
         cell!.set(track: tracks[indexPath.row].track)
         return cell!
     }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PlaylistHeader") as? PlaylistHeaderView
+        header!.set(playlist: playlist)
+        return header
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 180
+    }
 }
 
-// MARK: - Fetching Playlists
+// MARK: - Fetching Data
 
 extension PlaylistViewController {
 
     func loadTracks(completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
-
         guard userSession != nil else { return }
-
         // Check if access token is valid or has to be refreshed
         if userSession!.isExpired {
             refreshToken { (res) in
@@ -91,7 +100,7 @@ extension PlaylistViewController {
     }
 
     func fetchTracks(completion: @escaping (Paginated<PlaylistTrack>?) -> Void) {
-        let playlistTracksUrl = SpotifyEndpoint.playlistTracks(playlistId).url
+        let playlistTracksUrl = SpotifyEndpoint.playlistTracks(playlist.id).url
         spotifyApi.fetchTracks(authorizationValue: userSession!.authorizationValue, withUrl: playlistTracksUrl) { (res) in
             switch res {
             case .success(let response):

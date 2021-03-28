@@ -42,7 +42,7 @@ class PlaylistViewCell: UITableViewCell {
 
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 21, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
         label.numberOfLines = 1
@@ -52,7 +52,7 @@ class PlaylistViewCell: UITableViewCell {
 
     var authorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor(named: "light_gray")
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -82,10 +82,9 @@ class PlaylistViewCell: UITableViewCell {
     }
 
     func setPlaylistTitleLabelsConstraints() {
-        let constraints = [ titleLabel.topAnchor.constraint(equalTo: topAnchor,constant: 25),
+        let constraints = [ titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -11),
                             titleLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-                            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
-                            titleLabel.heightAnchor.constraint(equalToConstant: 25)
+                            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55)
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -97,10 +96,9 @@ class PlaylistViewCell: UITableViewCell {
     }
 
     func setPlaylistAuthorLabelsConstraints() {
-        let constraints = [ authorLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 25),
+        let constraints = [ authorLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 11),
                             authorLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-                            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
-                            authorLabel.heightAnchor.constraint(equalToConstant: 25)
+                            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55)
         ]
 
         NSLayoutConstraint.activate(constraints)

@@ -26,7 +26,6 @@ class TrackViewCell: UITableViewCell {
         authorLabel.text = track.artists.map({$0.name}).joined(separator: ",")
 
         coverImage.loadImage(from: track.album.images.first!.url)
-
     }
 
     // MARK: - Views
@@ -41,7 +40,7 @@ class TrackViewCell: UITableViewCell {
 
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 21, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
         label.numberOfLines = 1
@@ -51,7 +50,7 @@ class TrackViewCell: UITableViewCell {
 
     var authorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(named: "light_gray")
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -68,8 +67,8 @@ class TrackViewCell: UITableViewCell {
         coverImage.translatesAutoresizingMaskIntoConstraints = false
         let constraints = [ coverImage.centerYAnchor.constraint(equalTo: centerYAnchor),
                             coverImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                            coverImage.heightAnchor.constraint(equalToConstant: 80),
-                            coverImage.widthAnchor.constraint(equalToConstant: 80)
+                            coverImage.heightAnchor.constraint(equalToConstant: 60),
+                            coverImage.widthAnchor.constraint(equalToConstant: 60)
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -81,10 +80,9 @@ class TrackViewCell: UITableViewCell {
     }
 
     func setPlaylistTitleLabelsConstraints() {
-        let constraints = [ titleLabel.topAnchor.constraint(equalTo: topAnchor,constant: 25),
+        let constraints = [ titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -10),
                             titleLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-                            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
-                            titleLabel.heightAnchor.constraint(equalToConstant: 25)
+                            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -96,10 +94,9 @@ class TrackViewCell: UITableViewCell {
     }
 
     func setPlaylistAuthorLabelsConstraints() {
-        let constraints = [ authorLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 25),
+        let constraints = [ authorLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 10),
                             authorLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-                            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
-                            authorLabel.heightAnchor.constraint(equalToConstant: 25)
+                            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ]
 
         NSLayoutConstraint.activate(constraints)

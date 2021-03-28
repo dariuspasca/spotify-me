@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
+        window?.tintColor = .black
 
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
         isUserConnected = launchManager.isUserConnected(with: authorizationCode)
