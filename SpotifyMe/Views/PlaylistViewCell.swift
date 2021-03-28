@@ -13,8 +13,8 @@ class PlaylistViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         configureImageView()
-        configureStackView()
-        configurePlaylistLabels()
+        configurePlaylistTitleLabel()
+        configurePlaylistAuthorLabel()
     }
 
     required init?(coder: NSCoder) {
@@ -38,17 +38,6 @@ class PlaylistViewCell: UITableViewCell {
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         return image
-    }()
-
-    var playlistStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .leading
-        stack.spacing = -15
-
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
     }()
 
     var titleLabel: UILabel = {
@@ -87,33 +76,33 @@ class PlaylistViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
     }
 
-    func configureStackView() {
-        addSubview(playlistStackView)
-        setStackViewConstraints()
+    func configurePlaylistTitleLabel() {
+        addSubview(titleLabel)
+        setPlaylistTitleLabelsConstraints()
     }
 
-    func setStackViewConstraints() {
-        let constraints = [ playlistStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                            playlistStackView.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
-                            playlistStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55)
+    func setPlaylistTitleLabelsConstraints() {
+        let constraints = [ titleLabel.topAnchor.constraint(equalTo: topAnchor,constant: 25),
+                            titleLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
+                            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
+                            titleLabel.heightAnchor.constraint(equalToConstant: 25)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
-    func configurePlaylistLabels() {
-        playlistStackView.addArrangedSubview(titleLabel)
-        playlistStackView.addArrangedSubview(authorLabel)
-        setPlaylistLabelsConstraints()
+    func configurePlaylistAuthorLabel() {
+        addSubview(authorLabel)
+        setPlaylistAuthorLabelsConstraints()
     }
 
-    func setPlaylistLabelsConstraints() {
-        let constraints = [
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
-            authorLabel.heightAnchor.constraint(equalToConstant: 40)
+    func setPlaylistAuthorLabelsConstraints() {
+        let constraints = [ authorLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 25),
+                            authorLabel.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
+                            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -55),
+                            authorLabel.heightAnchor.constraint(equalToConstant: 25)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
-
 }
