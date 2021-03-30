@@ -23,10 +23,10 @@ class PlaylistHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(playlist: SimplifiedPlaylist) {
+    func set(playlist: Playlist) {
         titleLabel.text = playlist.name
-        tracksLabel.text = "\(playlist.tracks.total) songs"
-        coverImage.loadImage(from: playlist.images!.first!.url)
+        tracksLabel.text = "\(playlist.tracks?.count ?? 0) songs"
+        coverImage.loadImage(from: playlist.coverImageUrl!)
     }
 
     // MARK: - Views

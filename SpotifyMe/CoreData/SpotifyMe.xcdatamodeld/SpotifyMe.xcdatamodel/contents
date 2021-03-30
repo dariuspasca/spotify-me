@@ -36,12 +36,10 @@
         <attribute name="coverImageUrl" optional="YES" attributeType="URI"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
-        <attribute name="isPublic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="owner" optional="YES" attributeType="String"/>
         <attribute name="snapshotId" attributeType="String"/>
-        <attribute name="spotifyUri" attributeType="URI"/>
         <attribute name="type" attributeType="String"/>
-        <attribute name="uri" attributeType="URI"/>
         <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="playlists" inverseEntity="Track"/>
         <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="playlists" inverseEntity="UserProfile"/>
         <uniquenessConstraints>
@@ -51,7 +49,7 @@
         </uniquenessConstraints>
     </entity>
     <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="class">
-        <attribute name="durationMs" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="durationMs" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="href" attributeType="URI"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
@@ -97,7 +95,7 @@
     <elements>
         <element name="Album" positionX="263.0208129882812" positionY="95.66378784179688" width="128" height="179"/>
         <element name="Artist" positionX="256.4507446289062" positionY="347.1714172363281" width="128" height="134"/>
-        <element name="Playlist" positionX="53.08685302734375" positionY="-54.08779907226562" width="128" height="209"/>
+        <element name="Playlist" positionX="53.08685302734375" positionY="-54.08779907226562" width="128" height="179"/>
         <element name="Track" positionX="44.82525634765625" positionY="232.4036560058594" width="128" height="179"/>
         <element name="UserProfile" positionX="-244.3428955078125" positionY="126.71240234375" width="128" height="149"/>
         <element name="UserSession" positionX="-470.7582397460938" positionY="118.4189300537109" width="128" height="104"/>

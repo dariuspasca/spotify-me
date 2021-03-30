@@ -4,10 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SpotifyMe.xcscheme_^#shared#^_</key>
+		<key>Dev.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>0</integer>
+		</dict>
+		<key>SpotifyMe.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

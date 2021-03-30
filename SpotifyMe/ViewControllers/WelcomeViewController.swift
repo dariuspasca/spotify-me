@@ -158,7 +158,7 @@ class WelcomeViewController: UIViewController {
     // MARK: - Actions
 
     @objc func redirectToSpotify(_ sender: UIButton?) {
-        let connectString = SpotifyApi.init().authorizationRequestURL()
+        let connectString = SpotifyAuthorizationConfig.authorizationRequestURL()
         UIApplication.shared.open(connectString)
     }
 

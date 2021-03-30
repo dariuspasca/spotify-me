@@ -23,12 +23,12 @@ class UserSessionManager {
 
     // MARK: - CREATE
 
-    func createUserSession(accessToken: String, expiresIn: Int, refreshToken: String, authorizationCode: String) {
+    func createUserSession(authorization: AccessAuthorization, authorizationCode: String) {
         backgroundContext.performAndWait {
             let userSession = UserSession(context: backgroundContext)
-            userSession.accessToken = accessToken
-            userSession.expireAt = Date().addingTimeInterval(TimeInterval(expiresIn - 300))
-            userSession.refreshToken = refreshToken
+            userSession.accessToken = authorization.accessToken
+            userSession.expireAt = Date().addingTimeInterval(TimeInterval(authorization.expiresIn - 300))
+            userSession.refreshToken = authorization.refreshToken
             userSession.authorizationCode = authorizationCode
 
             do {

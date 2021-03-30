@@ -16,24 +16,9 @@ protocol LaunchManagerDelegate: AnyObject {
 
 class LaunchManager {
 
-    var userSession: UserSession?
+    weak var userSession: UserSession?
     weak var authorizationDelegate: LaunchManagerDelegate!
-    let spotifyApi = SpotifyApi.init()
     let sessionManager = UserSessionManager()
-
-    func isUserConnected(with authorizationCode: String?) -> Bool {
-        guard authorizationCode != nil else {
-            return false
-        }
-
-        let userSession = self.sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
-
-        if (userSession != nil) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     public func handleURL(url: URL) {
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
@@ -51,12 +36,10 @@ class LaunchManager {
             let authorizationCode = params[0].value!
             UserDefaults.standard.setValue(authorizationCode, forKey: "authorizationCode")
 
-            spotifyApi.requestAccessAndRefreshToken { (res) in
+            SpotifyService.shared.getAccessToken { (res) in
                 switch res {
                 case .success(let response):
-
-                    // swiftlint:disable:next line_length
-                    self.sessionManager.createUserSession(accessToken: response.accessToken, expiresIn: response.expiresIn, refreshToken: response.refreshToken!, authorizationCode: authorizationCode)
+                    self.sessionManager.createUserSession(authorization: response, authorizationCode: authorizationCode)
                     self.authorizationDelegate.didCompleteAuthorization(ready: true)
                 case .failure(let err):
                     self.authorizationDelegate.didCompleteAuthorization(ready: false)

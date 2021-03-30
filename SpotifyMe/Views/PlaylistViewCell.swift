@@ -21,12 +21,12 @@ class PlaylistViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(playlist: SimplifiedPlaylist) {
+    func set(playlist: Playlist) {
         titleLabel.text = playlist.name
-        authorLabel.text = "by \(playlist.owner.displayName ?? "Spotify user")"
+        authorLabel.text = "by \(playlist.owner ?? "Spotify user")"
 
-        if let images = playlist.images {
-            coverImage.loadImage(from: images.first!.url)
+        if let coverUrl = playlist.coverImageUrl {
+            coverImage.loadImage(from: coverUrl)
         }
     }
 

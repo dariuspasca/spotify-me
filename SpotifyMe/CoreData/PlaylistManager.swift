@@ -30,12 +30,8 @@ class PlaylistManager {
             newPlaylist.name = playlist.name
             newPlaylist.desc = playlist.description
             newPlaylist.snapshotId = playlist.snapshotId
-            newPlaylist.spotifyUri = playlist.uri
+            newPlaylist.owner = playlist.owner.displayName
             newPlaylist.type = playlist.type
-
-            if let isPublic = playlist.public {
-                newPlaylist.isPublic = isPublic
-            }
 
             if let coverImage = playlist.images {
                 newPlaylist.coverImageUrl = coverImage[0].url

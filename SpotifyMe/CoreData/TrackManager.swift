@@ -23,7 +23,7 @@ class TrackManager {
 
     // MARK: - CREATE
 
-    func createTrack(track: SimplifiedTrack) {
+    func createTrack(track: SimplifiedTrack, playlistId:NSManagedObjectID?) {
         backgroundContext.performAndWait {
             // Create album
             let album = Album(context: backgroundContext)
@@ -52,7 +52,7 @@ class TrackManager {
             }
 
             let newTrack = Track(context: backgroundContext)
-            newTrack.durationMs = Int16(track.durationMs)
+            newTrack.durationMs = Int64(track.durationMs)
             newTrack.href = track.href
             newTrack.id = track.id
             newTrack.name = track.name
@@ -62,25 +62,30 @@ class TrackManager {
             newTrack.addToAlbums(album)
             newTrack.addToArtists(NSSet.init(array: artists))
 
+            if playlistId != nil {
+                let playlist = backgroundContext.object(with: playlistId!) as? Playlist
+                newTrack.addToPlaylists(playlist!)
+            }
+
             do {
                 try self.backgroundContext.save()
-                os_log("Playlist '%@' created", type: .info, String(describing: track.name))
+                os_log("Track '%@' created", type: .info, String(describing: track.name))
             } catch {
-                os_log("Failed to create new Playlist with error: %@", type: .error, String(describing: error))
+                os_log("Failed to create new track with error: %@", type: .error, String(describing: error))
             }
         }
     }
 
     // MARK: - UPDATE
 
-    func updateTrack(playlist: Playlist) {
+    func updateTrack(track: Track) {
         backgroundContext.performAndWait {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Playlist '%@' updated", type: .info, String(describing: playlist.name))
+                os_log("Track '%@' updated", type: .info, String(describing: track.name))
             } catch {
-                os_log("Failed to update Playlist with error: %@", type: .error, String(describing: error))
+                os_log("Failed to update track with error: %@", type: .error, String(describing: error))
             }
         }
 

@@ -21,11 +21,11 @@ class TrackViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(track: SimplifiedTrack) {
+    func set(track: Track) {
         titleLabel.text = track.name
-        authorLabel.text = track.artists.map({$0.name}).joined(separator: ",")
+       // authorLabel.text = track.artists.map({$0.name}).joined(separator: ",")
 
-        coverImage.loadImage(from: track.album.images.first!.url)
+       // coverImage.loadImage(from: "track.album.images.first!.url")
     }
 
     // MARK: - Views

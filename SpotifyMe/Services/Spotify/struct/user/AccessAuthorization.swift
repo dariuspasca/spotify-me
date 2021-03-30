@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RefreshTokenResponse: Codable {
+struct AccessAuthorization: Codable {
     let accessToken: String
     let tokenType: String
     let expiresIn: Int

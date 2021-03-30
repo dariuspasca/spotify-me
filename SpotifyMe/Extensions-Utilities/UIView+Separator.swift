@@ -31,7 +31,7 @@ extension UIView {
             view.leftAnchor.constraint(equalTo: self.leftAnchor, constant: insets.left).isActive = true
             view.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -insets.right).isActive = true
             view.heightAnchor.constraint(equalToConstant: weight).isActive = true
-            
+
         case .bottom:
             view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -insets.bottom).isActive = true
             view.leftAnchor.constraint(equalTo: self.leftAnchor, constant: insets.left).isActive = true
