@@ -147,7 +147,8 @@ extension DownloadManager {
                     }
 
                     if res.next != nil {
-                        self.downloadTracks(playlist: playlist, offset: res.offset, completion: completion)
+                        let newOffset = res.offset+100
+                        self.downloadTracks(playlist: playlist, offset: newOffset, completion: completion)
                     } else {
                         completion()
                     }
