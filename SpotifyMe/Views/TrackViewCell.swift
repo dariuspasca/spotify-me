@@ -23,9 +23,15 @@ class TrackViewCell: UITableViewCell {
 
     func set(track: Track) {
         titleLabel.text = track.name
-       // authorLabel.text = track.artists.map({$0.name}).joined(separator: ",")
 
-       // coverImage.loadImage(from: "track.album.images.first!.url")
+        if let artists = track.artists?.allObjects as? [Artist] {
+            authorLabel.text = artists.map { ($0.name!)}.joined(separator: ",")
+
+        }
+
+        if let albums = track.albums?.allObjects as? [Album] {
+            coverImage.loadImage(from: albums.first!.coverImageUrl!)
+        }
     }
 
     // MARK: - Views

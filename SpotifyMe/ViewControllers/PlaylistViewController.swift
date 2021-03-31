@@ -20,15 +20,19 @@ class PlaylistViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         self.title = playlist.name
 
-        if (playlist.tracks != nil) {
+        if (playlist.tracks!.allObjects.isEmpty) {
             downloadManager.downloadTracks(playlist: playlist.id!) {
-                self.tracks = self.playlist!.tracks!.allObjects as! [Track]
+                if let playlistTracks = self.playlist.tracks!.allObjects as? [Track] {
+                    self.tracks = playlistTracks
+                }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
         } else {
-            self.tracks = playlist.tracks!.allObjects as! [Track]
+            if let playlistTracks = playlist.tracks!.allObjects as? [Track] {
+                self.tracks = playlistTracks
+            }
         }
 
         configureTableView()

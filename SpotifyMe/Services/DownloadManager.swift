@@ -16,6 +16,8 @@ class DownloadManager {
     private lazy var userManager = UserProfileManager()
     private lazy var playlistManager = PlaylistManager()
     private lazy var tracktManager = TrackManager()
+    private lazy var albumtManager = AlbumManager()
+    private lazy var artistManager = ArtistManager()
 
     init() {
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
@@ -137,13 +139,34 @@ extension DownloadManager {
                 }
             })
         } else {
+            // swiftlint:disable:next line_length
             SpotifyService.shared.getTracks(authorizationValue: userSession!.authorizationValue, playlist: playlist, offset: offset) { (res) in
                 switch res {
                 case .success(let res):
-                    let playlistRef = self.playlistManager.fetchPlaylist(withId: playlist)
                     let tracks = res.items
                     for trackItem in tracks {
-                        self.tracktManager.createTrack(track: trackItem.track, playlistId: playlistRef?.objectID)
+
+                        // Create track, album and artist
+                        self.tracktManager.createTrack(track: trackItem.track)
+                        self.albumtManager.createAlbum(album: trackItem.track.album)
+                        for artist in trackItem.track.artists {
+                            self.artistManager.createArtist(artist: artist)
+                        }
+
+                        // Fetch created objects
+                        let trackRef = self.tracktManager.fetchTrack(withId: trackItem.track.id)
+                        let albumRef = self.albumtManager.fetchAlbum(withId: trackItem.track.album.id)
+                        let playlistRef = self.playlistManager.fetchPlaylist(withId: playlist)
+                        let artistsRef = self.artistManager.fetchArtists(withIds: trackItem.track.artists.map { ($0.id)})
+
+                        // Add track relationships
+                        if let newTrack = trackRef, let newAlbum = albumRef, let newPlaylist = playlistRef, let newArtists = artistsRef {
+                            newTrack.addToPlaylists(newPlaylist)
+                            newTrack.addToAlbums(newAlbum)
+                            newTrack.addToArtists(NSSet.init(array: newArtists))
+                            self.tracktManager.updateTrack(track: newTrack)
+                        }
+
                     }
 
                     if res.next != nil {

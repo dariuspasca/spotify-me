@@ -12,7 +12,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     lazy var launchManager = LaunchManager()
-    lazy var mainContext = CoreDataStack.shared.mainContext
     lazy var downloadManager = DownloadManager()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -71,15 +70,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        if mainContext.hasChanges {
-            do {
-                print("Saving context")
-                try mainContext.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Failed to save context with error \(nserror), \(nserror.userInfo)")
-            }
-        }
+
+        CoreDataStack.shared.saveMainContext()
     }
 
 }

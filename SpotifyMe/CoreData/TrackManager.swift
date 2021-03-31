@@ -23,34 +23,8 @@ class TrackManager {
 
     // MARK: - CREATE
 
-    func createTrack(track: SimplifiedTrack, playlistId:NSManagedObjectID?) {
+    func createTrack(track: SimplifiedTrack) {
         backgroundContext.performAndWait {
-            // Create album
-            let album = Album(context: backgroundContext)
-            album.albumType = track.album.type
-            if let coverImage = track.album.images.first {
-                album.coverImageUrl = coverImage.url
-            }
-            album.href =  track.album.href
-            album.id = track.album.id
-            album.name = track.album.name
-            album.type = track.album.type
-            album.uri = track.album.uri
-            album.releaseDate = track.album.releaseDate
-
-            // Create artist
-            var artists:[Artist] = []
-            for artist in track.artists {
-                let newArtist = Artist(context: backgroundContext)
-                newArtist.href = track.album.href
-                newArtist.id = artist.id
-                newArtist.name = artist.name
-                newArtist.type = artist.type
-                newArtist.uri = artist.href
-
-                artists.append(newArtist)
-            }
-
             let newTrack = Track(context: backgroundContext)
             newTrack.durationMs = Int64(track.durationMs)
             newTrack.href = track.href
@@ -58,14 +32,6 @@ class TrackManager {
             newTrack.name = track.name
             newTrack.popularity = Int16(track.popularity)
             newTrack.uri = track.uri
-
-            newTrack.addToAlbums(album)
-            newTrack.addToArtists(NSSet.init(array: artists))
-
-            if playlistId != nil {
-                let playlist = backgroundContext.object(with: playlistId!) as? Playlist
-                newTrack.addToPlaylists(playlist!)
-            }
 
             do {
                 try self.backgroundContext.save()
@@ -107,7 +73,6 @@ class TrackManager {
                     os_log("Failed to fetch Track", type: .info)
                 }
             }
-
             return track
         }
     }

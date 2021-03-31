@@ -28,8 +28,22 @@ class CoreDataStack {
         }
 
         mainContext = persistentContainer.viewContext
+        mainContext.automaticallyMergesChangesFromParent = true
+        mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        backgroundContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         backgroundContext.parent = self.mainContext
+    }
+
+    func saveMainContext() {
+        if mainContext.hasChanges {
+            do {
+                print("Saving context")
+                try mainContext.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Failed to save context with error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }

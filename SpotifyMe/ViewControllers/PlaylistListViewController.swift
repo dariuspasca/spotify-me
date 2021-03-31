@@ -29,13 +29,17 @@ class PlaylistListViewController: UIViewController {
 
         if userSession!.profile!.playlists!.allObjects.isEmpty {
             downloadManager.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) {
-                self.playlists = userSession!.profile!.playlists!.allObjects as! [Playlist]
+                if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
+                    self.playlists = playlistList
+                }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
         } else {
-            self.playlists = userSession!.profile!.playlists!.allObjects as! [Playlist]
+            if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
+                self.playlists = playlistList
+            }
         }
 
         configureTableView()
@@ -79,9 +83,9 @@ extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-                let playlistViewController = PlaylistViewController()
-                playlistViewController.playlist = playlists[indexPath.row]
-                self.navigationController?.pushViewController(playlistViewController, animated: true)
-                tableView.deselectRow(at: indexPath, animated: true)
+        let playlistViewController = PlaylistViewController()
+        playlistViewController.playlist = playlists[indexPath.row]
+        self.navigationController?.pushViewController(playlistViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
