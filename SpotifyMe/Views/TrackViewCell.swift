@@ -50,7 +50,7 @@ class TrackViewCell: UITableViewCell {
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
         label.numberOfLines = 2
-        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = false
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,8 +60,8 @@ class TrackViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(named: "light_gray")
         label.textAlignment = .left
-        label.numberOfLines = 2
-        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = false
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

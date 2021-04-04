@@ -11,7 +11,7 @@ import os.log
 class PlaylistListViewController: UIViewController {
 
     var tableView = UITableView()
-    var playlists = [Playlist]()
+    var playlists: [Playlist]?
 
     let downloadManager = DownloadManager()
     let sessionManager = UserSessionManager()
@@ -28,11 +28,13 @@ class PlaylistListViewController: UIViewController {
         }
 
         if userSession!.profile!.playlists!.allObjects.isEmpty {
+            self.showLoadingSpinner()
             downloadManager.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) {
                 if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
                     self.playlists = playlistList
                 }
                 DispatchQueue.main.async {
+                    self.removeLoadingSpinner()
                     self.tableView.reloadData()
                 }
             }
@@ -43,6 +45,13 @@ class PlaylistListViewController: UIViewController {
         }
 
         configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        guard playlists != nil else {
+            self.showLoadingSpinner()
+            return
+        }
     }
 
     func configureTableView() {
@@ -64,7 +73,7 @@ class PlaylistListViewController: UIViewController {
 extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playlists.count
+        return playlists?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,13 +87,13 @@ extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource
         chevronIconView.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
 
         cell!.accessoryView = chevronIconView
-        cell!.set(playlist: playlists[indexPath.row])
+        cell!.set(playlist: playlists![indexPath.row])
         return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlistViewController = PlaylistViewController()
-        playlistViewController.playlist = playlists[indexPath.row]
+        playlistViewController.playlist = playlists![indexPath.row]
         self.navigationController?.pushViewController(playlistViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }

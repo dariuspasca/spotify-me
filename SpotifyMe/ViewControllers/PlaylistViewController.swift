@@ -12,7 +12,7 @@ class PlaylistViewController: UIViewController {
 
     var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     let downloadManager = DownloadManager()
-    var tracks = [Track]()
+    var tracks: [Track]?
     var playlist:Playlist!
 
     override func viewDidLoad() {
@@ -26,6 +26,7 @@ class PlaylistViewController: UIViewController {
                     self.tracks = playlistTracks
                 }
                 DispatchQueue.main.async {
+                    self.removeLoadingSpinner()
                     self.tableView.reloadData()
                 }
             }
@@ -36,6 +37,13 @@ class PlaylistViewController: UIViewController {
         }
 
         configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        guard tracks != nil else {
+            self.showLoadingSpinner()
+            return
+        }
     }
 
     func configureTableView() {
@@ -60,13 +68,13 @@ class PlaylistViewController: UIViewController {
 extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks.count
+        return tracks?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as? TrackViewCell
         cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        cell!.set(track: tracks[indexPath.row])
+        cell!.set(track: tracks![indexPath.row])
         return cell!
     }
 

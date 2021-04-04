@@ -93,7 +93,7 @@ class PlaylistViewCell: UITableViewCell {
         addSubview(stackView)
         setStackViewConstraints()
     }
-    
+
     func setStackViewConstraints() {
         let constraints = [ stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
                             stackView.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 20),
