@@ -25,7 +25,7 @@ class PlaylistViewCell: UITableViewCell {
         titleLabel.text = playlist.name
         authorLabel.text = "by \(playlist.owner ?? "Spotify user")"
 
-        if let coverUrl = playlist.coverImageUrl {
+        if let coverUrl = playlist.coverImage {
             coverImage.loadImage(from: coverUrl)
         }
     }

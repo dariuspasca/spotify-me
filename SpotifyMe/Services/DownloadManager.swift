@@ -166,7 +166,6 @@ extension DownloadManager {
                             newTrack.addToArtists(NSSet.init(array: newArtists))
                             self.tracktManager.updateTrack(track: newTrack)
                         }
-
                     }
 
                     if res.next != nil {

@@ -26,7 +26,7 @@ class PlaylistHeaderView: UITableViewHeaderFooterView {
     func set(playlist: Playlist) {
         titleLabel.text = playlist.name
         tracksLabel.text = "\(playlist.tracks?.count ?? 0) songs"
-        coverImage.loadImage(from: playlist.coverImageUrl!)
+        coverImage.loadImage(from: playlist.coverImage!)
     }
 
     // MARK: - Views

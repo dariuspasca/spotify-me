@@ -30,7 +30,7 @@ class TrackViewCell: UITableViewCell {
         }
 
         if let albums = track.albums?.allObjects as? [Album] {
-            coverImage.loadImage(from: albums.first!.coverImageUrl!)
+            coverImage.loadImage(from: albums.first!.coverImage!)
         }
     }
 

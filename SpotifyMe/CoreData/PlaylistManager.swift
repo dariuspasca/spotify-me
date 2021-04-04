@@ -34,7 +34,7 @@ class PlaylistManager {
             newPlaylist.type = playlist.type
 
             if let coverImage = playlist.images {
-                newPlaylist.coverImageUrl = coverImage[0].url
+                newPlaylist.coverImage = coverImage[0].url
             }
 
             if userProfileId != nil {

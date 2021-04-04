@@ -9,7 +9,6 @@ import Foundation
 import CoreData
 import os.log
 
-
 class AlbumManager {
     let mainContext: NSManagedObjectContext // Reading
     let backgroundContext: NSManagedObjectContext // Writing
@@ -36,7 +35,7 @@ class AlbumManager {
             newAlbum.releaseDate = album.releaseDate
 
             if let coverImage = album.images.first {
-                newAlbum.coverImageUrl = coverImage.url
+                newAlbum.coverImage = coverImage.url
             }
 
             do {
