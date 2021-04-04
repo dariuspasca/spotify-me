@@ -67,7 +67,7 @@ class PlaylistManager {
     }
 
     // MARK: - Fetch
-
+    
     func fetchPlaylist(withId id: String) -> Playlist? {
         do {
             let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
