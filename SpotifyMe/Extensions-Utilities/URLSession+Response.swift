@@ -11,14 +11,31 @@ extension URLSession {
     func getResponse<T: Codable>(for request: URLRequest,
                                  responseType: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void) {
-        let task = dataTask(with: request) { data, _, error in
+        let task = dataTask(with: request) { data, response, error in
             guard let data = data else {
                 DispatchQueue.main.async {
                     completion(.failure(error!))
                 }
                 return
             }
-           // print(String(data: data, encoding: String.Encoding.utf8))
+
+            if let httpResponse = response as? HTTPURLResponse {
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    let statusCode = httpResponse.statusCode
+
+                    switch statusCode {
+                    case 400:
+                        completion(.failure(ServiceError.badRequest))
+                    case 401:
+                        completion(.failure(ServiceError.unauthorized))
+                    default:
+                        completion(.failure(ServiceError.internalError(code: statusCode)))
+                    }
+                    return
+                }
+            }
+
+            // print(String(data: data, encoding: String.Encoding.utf8))
 
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase

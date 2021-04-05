@@ -45,6 +45,7 @@
 		B7849D442608B9F0006BF971 /* SimplifiedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7849D432608B9F0006BF971 /* SimplifiedTrack.swift */; };
 		B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */; };
 		B790AE4D2604FC2300826B66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B790AE4C2604FC2300826B66 /* .swiftlint.yml */; };
+		B799E629261B5BE300EA00CE /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E628261B5BE300EA00CE /* ServiceError.swift */; };
 		B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E215B25FF73B000C26676 /* LaunchManager.swift */; };
 		B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */; };
 		B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */; };
@@ -129,6 +130,7 @@
 		B7849D432608B9F0006BF971 /* SimplifiedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplifiedTrack.swift; sourceTree = "<group>"; };
 		B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
 		B790AE4C2604FC2300826B66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		B799E628261B5BE300EA00CE /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		B79E215B25FF73B000C26676 /* LaunchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchManager.swift; sourceTree = "<group>"; };
 		B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				B7849CFA2608AE09006BF971 /* Spotify */,
 				B79E215B25FF73B000C26676 /* LaunchManager.swift */,
 				B710959326127BC60083D8DD /* DownloadManager.swift */,
+				B799E628261B5BE300EA00CE /* ServiceError.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				B79E215C25FF73B000C26676 /* LaunchManager.swift in Sources */,
 				B7584E7C2610767000B494A6 /* PlaylistViewController.swift in Sources */,
 				B701C801260F9C19003CDE06 /* PublicUser.swift in Sources */,
+				B799E629261B5BE300EA00CE /* ServiceError.swift in Sources */,
 				B7584E81261076E600B494A6 /* TrackViewCell.swift in Sources */,
 				B727C5C8260E892600F9F1FB /* PlaylistViewCell.swift in Sources */,
 				B7A80741261A08B1002D15E4 /* UIViewController+Spinner.swift in Sources */,
