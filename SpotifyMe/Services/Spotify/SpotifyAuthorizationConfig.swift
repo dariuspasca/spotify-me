@@ -10,7 +10,6 @@ import Foundation
 struct SpotifyAuthorizationConfig {
     static let clientId = ProcessInfo.processInfo.environment["client_id"]!
     static let clientSecret = ProcessInfo.processInfo.environment["client_secret"]!
-    // swiftlint:disable line_length
     static let scopes = "user-read-private user-read-email playlist-read-collaborative playlist-read-private user-read-private user-read-email user-library-read user-top-read user-read-recently-played"
     static let redirectUri = "spotifyMe://spotify-login-callback"
 

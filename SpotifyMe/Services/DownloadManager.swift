@@ -19,9 +19,9 @@ class DownloadManager {
     private lazy var albumtManager = AlbumManager()
     private lazy var artistManager = ArtistManager()
 
-    init() {
+    func loadUserSession() -> UserSession? {
         let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-        userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
+        return sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
     }
 }
 
@@ -29,10 +29,13 @@ class DownloadManager {
 
 extension DownloadManager {
 
-    func downloadProfile(completion: @escaping  (Result<PrivateUser, Error>) -> Void) {
-        guard userSession != nil else {
-            os_log("Could not load user session", type: .error)
-            return
+    func downloadProfile(completion: @escaping  (Result<Void, Error>) -> Void) {
+        if userSession == nil {
+            userSession = loadUserSession()
+            guard userSession != nil else {
+                completion(.failure(ServiceError.missingSession))
+                return
+            }
         }
 
         if userSession!.isExpired {
@@ -54,7 +57,7 @@ extension DownloadManager {
                 switch res {
                 case .success(let response):
                     self.userManager.createUserProfile(userObj: response, sessionId: self.userSession!.objectID)
-                    completion(.success(response))
+                    completion(.success(()))
                     os_log("User profile created", type: .info)
                 case .failure(let err):
                     os_log("Request to get and create user profile failed with error: %@", type: .error, String(describing: err))
@@ -71,10 +74,13 @@ extension DownloadManager {
 
 extension DownloadManager {
 
-    func downloadPlaylists(url: URL, completion: @escaping  (() -> Void)) {
-        guard userSession != nil else {
-            os_log("Could not load user session", type: .error)
-            return
+    func downloadPlaylists(url: URL, completion: @escaping  ((Result<Void, Error>) -> Void)) {
+        if userSession == nil {
+            userSession = loadUserSession()
+            guard userSession != nil else {
+                completion(.failure(ServiceError.missingSession))
+                return
+            }
         }
 
         if userSession!.isExpired {
@@ -88,7 +94,7 @@ extension DownloadManager {
                     self.downloadPlaylists(url: url, completion: completion)
                 case .failure(let err):
                     os_log("Request to refresh accessToken failed with error: %@", type: .error, String(describing: err))
-                    completion()
+                    completion(.success(()))
                 }
             })
         } else {
@@ -103,11 +109,11 @@ extension DownloadManager {
                     if let next = res.next {
                         self.downloadPlaylists(url: next, completion: completion)
                     } else {
-                        completion()
+                        completion(.success(()))
                     }
                 case .failure(let err):
                     os_log("Failed to download playlists with error: %@", type: .error, String(describing: err))
-                    completion()
+                    completion(.failure(err))
                 }
             }
         }
@@ -118,10 +124,13 @@ extension DownloadManager {
 
 extension DownloadManager {
 
-    func downloadTracks(playlist: String, offset: Int = 0, completion: @escaping  (() -> Void)) {
-        guard userSession != nil else {
-            os_log("Could not load user session", type: .error)
-            return
+    func downloadTracks(playlist: String, offset: Int = 0, completion: @escaping  ((Result<Void, Error>) -> Void)) {
+        if userSession == nil {
+            userSession = loadUserSession()
+            guard userSession != nil else {
+                completion(.failure(ServiceError.missingSession))
+                return
+            }
         }
 
         if userSession!.isExpired {
@@ -135,11 +144,10 @@ extension DownloadManager {
                     self.downloadTracks(playlist: playlist, completion: completion)
                 case .failure(let err):
                     os_log("Request to refresh accessToken failed with error: %@", type: .error, String(describing: err))
-                    completion()
+                    completion(.failure(err))
                 }
             })
         } else {
-            // swiftlint:disable:next line_length
             SpotifyService.shared.getTracks(authorizationValue: userSession!.authorizationValue, playlist: playlist, offset: offset) { (res) in
                 switch res {
                 case .success(let res):
@@ -169,16 +177,40 @@ extension DownloadManager {
                     }
 
                     if res.next != nil {
-                        let newOffset = res.offset+100
+                        let newOffset = res.offset + 100
                         self.downloadTracks(playlist: playlist, offset: newOffset, completion: completion)
                     } else {
-                        completion()
+                        completion(.success(()))
                     }
                 case .failure(let err):
                     os_log("Failed to download playlists with error: %@", type: .error, String(describing: err))
-                    completion()
+                    completion(.failure(err))
                 }
             }
+        }
+    }
+}
+
+// MARK: - Lyrics
+
+extension DownloadManager {
+
+    func getMusixmatchTrack(track: Track, completion: @escaping (TrackItem?) -> Void) {
+        var artists: String?
+
+        if let trackArtists = track.artists?.allObjects as? [Artist] {
+            artists = trackArtists.map { ($0.name!)}.joined(separator: " ")
+        }
+
+        MusixmatchService.shared.getTrack(name: track.name!, artist: artists ?? "") { (result) in
+            completion(result)
+        }
+    }
+
+    func getMusixmatchLyrics(trackId: Int, completion: @escaping (String?) -> Void) {
+        MusixmatchService.shared.getLyrics(trackId: trackId) { (lyrics) in
+            guard lyrics != nil else { return }
+            completion(lyrics)
         }
     }
 }

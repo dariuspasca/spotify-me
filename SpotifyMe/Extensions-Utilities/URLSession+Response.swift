@@ -34,9 +34,7 @@ extension URLSession {
                     return
                 }
             }
-
             // print(String(data: data, encoding: String.Encoding.utf8))
-
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             decoder.dateDecodingStrategy = .iso8601

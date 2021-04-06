@@ -11,6 +11,8 @@ import os.log
 
 class SpotifyService {
 
+    static let shared = SpotifyService()
+
     var urlSession: URLSession = {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForResource = 60
@@ -20,8 +22,6 @@ class SpotifyService {
     }()
 
     private init() {}
-
-    static let shared = SpotifyService()
 
 }
 // MARK: - Access Token

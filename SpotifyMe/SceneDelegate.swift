@@ -81,7 +81,7 @@ extension SceneDelegate: LaunchManagerDelegate {
         if ready {
             downloadManager.downloadProfile { (res) in
                 switch res {
-                case .success(let user):
+                case .success:
                     let navController = UINavigationController(rootViewController: PlaylistListViewController())
                     navController.navigationBar.prefersLargeTitles = true
                     self.window?.rootViewController = navController

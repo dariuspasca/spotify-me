@@ -18,7 +18,6 @@ extension UIView {
     }
 
     @discardableResult
-    // swiftlint:disable:next line_length
     func addSeparator(at position: SeparatorPosition, color: UIColor, weight: CGFloat = 1.0 / UIScreen.main.scale, insets: UIEdgeInsets = .zero) -> UIView {
         let view = UIView()
         view.backgroundColor = color

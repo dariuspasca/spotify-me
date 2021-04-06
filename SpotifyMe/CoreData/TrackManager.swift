@@ -15,7 +15,6 @@ class TrackManager {
 
     // MARK: - INIT
 
-    // swiftlint:disable:next line_length
     init(mainContext: NSManagedObjectContext = CoreDataStack.shared.mainContext, backgroundContext: NSManagedObjectContext = CoreDataStack.shared.backgroundContext ) {
         self.mainContext = mainContext
         self.backgroundContext = backgroundContext
@@ -45,6 +44,21 @@ class TrackManager {
     // MARK: - UPDATE
 
     func updateTrack(track: Track) {
+        backgroundContext.performAndWait {
+
+            do {
+                try self.backgroundContext.save()
+                os_log("Track '%@' updated", type: .info, String(describing: track.name))
+            } catch {
+                os_log("Failed to update track with error: %@", type: .error, String(describing: error))
+            }
+        }
+
+    }
+
+    // MARK: - Relationships
+
+    func addTrackToAlbum(track: Track, album: Album) {
         backgroundContext.performAndWait {
 
             do {

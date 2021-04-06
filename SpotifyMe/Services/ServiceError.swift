@@ -9,12 +9,15 @@ import Foundation
 
 enum ServiceError: Error {
 
+    case missingSession
     case badRequest
     case unauthorized
     case internalError(code: Int)
 
     public var description: String {
         switch self {
+        case .missingSession:
+            return "Could not find user session."
         case .badRequest:
             return "The request could not be understood by the server due to malformed syntax."
         case .unauthorized:

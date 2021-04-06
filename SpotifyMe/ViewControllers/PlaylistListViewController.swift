@@ -20,31 +20,8 @@ class PlaylistListViewController: UIViewController {
         super.viewDidLoad()
         title = "Playlists"
 
-        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-        let userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
-
-        guard userSession != nil else {
-            return
-        }
-
-        if userSession!.profile!.playlists!.allObjects.isEmpty {
-            self.showLoadingSpinner()
-            downloadManager.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) {
-                if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
-                    self.playlists = playlistList
-                }
-                DispatchQueue.main.async {
-                    self.removeLoadingSpinner()
-                    self.tableView.reloadData()
-                }
-            }
-        } else {
-            if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
-                self.playlists = playlistList
-            }
-        }
-
         configureTableView()
+        loadPlaylists()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +42,39 @@ class PlaylistListViewController: UIViewController {
     func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+
+    func loadPlaylists() {
+        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
+        let userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
+
+        guard userSession != nil else {
+            return
+        }
+
+        if userSession!.profile!.playlists!.allObjects.isEmpty {
+            downloadManager.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) { (result) in
+                switch result {
+                case .success:
+                    if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
+                        self.playlists = playlistList
+                    }
+                    DispatchQueue.main.async {
+                        self.removeLoadingSpinner()
+                        self.tableView.reloadData()
+                    }
+                case .failure(let err):
+                    // Failed fetching playlist, should handle error (UI)
+                    self.removeLoadingSpinner()
+                    print(err)
+                }
+
+            }
+        } else {
+            if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
+                self.playlists = playlistList
+            }
+        }
     }
 }
 

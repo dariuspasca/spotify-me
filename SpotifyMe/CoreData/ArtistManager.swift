@@ -15,7 +15,6 @@ class ArtistManager {
 
     // MARK: - INIT
 
-    // swiftlint:disable:next line_length
     init(mainContext: NSManagedObjectContext = CoreDataStack.shared.mainContext, backgroundContext: NSManagedObjectContext = CoreDataStack.shared.backgroundContext ) {
         self.mainContext = mainContext
         self.backgroundContext = backgroundContext

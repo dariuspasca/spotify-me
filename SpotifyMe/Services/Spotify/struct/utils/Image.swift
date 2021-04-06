@@ -8,7 +8,7 @@
 import Foundation
 
 struct Image: Codable {
-    public let url: URL
-    public let width: Double?
-    public let height: Double?
+    let url: URL
+    let width: Double?
+    let height: Double?
 }

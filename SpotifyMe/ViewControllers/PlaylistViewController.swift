@@ -20,23 +20,8 @@ class PlaylistViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         self.title = playlist.name
 
-        if (playlist.tracks!.allObjects.isEmpty) {
-            downloadManager.downloadTracks(playlist: playlist.id!) {
-                if let playlistTracks = self.playlist.tracks!.allObjects as? [Track] {
-                    self.tracks = playlistTracks
-                }
-                DispatchQueue.main.async {
-                    self.removeLoadingSpinner()
-                    self.tableView.reloadData()
-                }
-            }
-        } else {
-            if let playlistTracks = playlist.tracks!.allObjects as? [Track] {
-                self.tracks = playlistTracks
-            }
-        }
-
         configureTableView()
+        loadTracks()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +45,32 @@ class PlaylistViewController: UIViewController {
     func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+
+    func loadTracks() {
+        if (playlist.tracks!.allObjects.isEmpty) {
+            downloadManager.downloadTracks(playlist: playlist.id!) { (result) in
+                switch result {
+                case .success:
+                    if let playlistTracks = self.playlist.tracks!.allObjects as? [Track] {
+                        self.tracks = playlistTracks
+                    }
+                    DispatchQueue.main.async {
+                        self.removeLoadingSpinner()
+                        self.tableView.reloadData()
+                    }
+                case .failure(let err):
+                    // Failed fetching playlist, should handle error (UI)
+                    self.removeLoadingSpinner()
+                    print(err)
+                }
+
+            }
+        } else {
+            if let playlistTracks = playlist.tracks!.allObjects as? [Track] {
+                self.tracks = playlistTracks
+            }
+        }
     }
 }
 
@@ -86,5 +97,13 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 180
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let track = tracks![indexPath.row]
+        let lyricsViewcontroller = LyricsViewController()
+        lyricsViewcontroller.track = track
+        let navController = UINavigationController(rootViewController: lyricsViewcontroller)
+        present(navController, animated: true, completion: nil)
     }
 }

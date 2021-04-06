@@ -15,7 +15,6 @@ class PlaylistHeaderView: UITableViewHeaderFooterView {
         configureImageView()
         configureStackView()
         configureLabels()
-        // swiftlint:disable:next line_length
         addSeparator(at: .bottom, color: UIColor(named: "almost_white")!, weight: 1.2, insets: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 15.0, right: 20.0))
     }
 

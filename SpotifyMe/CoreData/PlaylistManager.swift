@@ -15,7 +15,6 @@ class PlaylistManager {
 
     // MARK: - INIT
 
-    // swiftlint:disable:next line_length
     init(mainContext: NSManagedObjectContext = CoreDataStack.shared.mainContext, backgroundContext: NSManagedObjectContext = CoreDataStack.shared.backgroundContext ) {
         self.mainContext = mainContext
         self.backgroundContext = backgroundContext
@@ -67,7 +66,7 @@ class PlaylistManager {
     }
 
     // MARK: - Fetch
-    
+
     func fetchPlaylist(withId id: String) -> Playlist? {
         do {
             let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
