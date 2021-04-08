@@ -105,5 +105,6 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
         lyricsViewcontroller.track = track
         let navController = UINavigationController(rootViewController: lyricsViewcontroller)
         present(navController, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -19,22 +19,24 @@ class LyricsViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))
 
-        configureContainerView()
+        configureScrollView()
         configurelyricsTextView()
+        configureButton()
 
         guard track != nil else { return }
         getTrackLyrics(track: track!) { (trackLyrics) in
             if let lyrics = trackLyrics {
                 self.lyricsTextView.text = lyrics
-                self.updateContainerViewHeight()
+                // self.updateContainerViewHeight()
             }
             DispatchQueue.main.async {
                 self.removeLoadingSpinner()
+                self.muxicmatchButton.isHidden = false
             }
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.showLoadingSpinner()
     }
 
@@ -42,36 +44,62 @@ class LyricsViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
+    var scrollView = UIScrollView()
+    var contentView = UIView()
+
     var lyricsTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         textView.textAlignment = .center
-        textView.isScrollEnabled = true
+        textView.isScrollEnabled = false
         return textView
     }()
 
-    var containerView: UIView = {
-        let view = UIView()
-        return view
+    var muxicmatchButton:CustomButton = {
+        let myButton = CustomButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60), title: "Open on Musixmatch", icon: #imageLiteral(resourceName: "test"))
+        myButton.backgroundColor = .black
+        myButton.translatesAutoresizingMaskIntoConstraints = false
+        myButton.addTarget(self, action: #selector(redirectToMusixmatch(_:)), for: .touchUpInside)
+        myButton.isHidden = true
+        return myButton
     }()
 
-    func configureContainerView() {
-        view.addSubview(containerView)
-        setContainerViewConstraints()
+    func configureScrollView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
+        setScrollViewConstraints()
+        setContentViewConstraints()
     }
 
     func configurelyricsTextView() {
-        view.addSubview(lyricsTextView)
+        contentView.addSubview(lyricsTextView)
         setLyricsTextViewConstraints()
     }
 
-    func setContainerViewConstraints() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [ containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-                            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+    func configureButton() {
+        contentView.addSubview(muxicmatchButton)
+        setButtonConstraints()
+    }
 
+    func setScrollViewConstraints() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [ scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+                            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    func setContentViewConstraints() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [ contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+                            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+                            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -79,19 +107,29 @@ class LyricsViewController: UIViewController {
 
     func setLyricsTextViewConstraints() {
         lyricsTextView.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [ lyricsTextView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                            lyricsTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                            lyricsTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                            lyricsTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+        let constraints = [lyricsTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 50),
+                           lyricsTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                           lyricsTextView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+                           lyricsTextView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
-    func updateContainerViewHeight() {
-        containerViewHeight = DynamicTextViewSize.height(text: lyricsTextView.text, font: lyricsTextView.font!, width: (view.frame.width-40))
-        containerView.heightAnchor.constraint(equalToConstant: containerViewHeight*2).isActive = true
-        containerView.layoutIfNeeded()
+    func setButtonConstraints() {
+        let constraints = [
+            muxicmatchButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 100),
+            muxicmatchButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            muxicmatchButton.widthAnchor.constraint(equalToConstant: 300),
+            muxicmatchButton.heightAnchor.constraint(equalToConstant: 60)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    @objc func redirectToMusixmatch(_ sender: UIButton?) {
+        print("tap")
+        // UIApplication.shared.open(connectString)
     }
 
 }
@@ -105,13 +143,14 @@ extension LyricsViewController {
         if let artists = track.artists?.allObjects as? [Artist] {
             trackArtists = artists.map { ($0.name!)}.joined(separator: " ")
         }
-
+        
         MusixmatchService.shared.getLyrics(name: track.name!, artist: trackArtists ) { (lyrics) in
             if let trackLyrics = lyrics, trackLyrics != "" {
                 let cleanLyrics = self.clearLyricsFromWatermark(lyrics: trackLyrics)
                 completion(cleanLyrics)
+            } else {
+                completion("🥲 No lyrics found")
             }
-            completion(nil)
         }
 
     }

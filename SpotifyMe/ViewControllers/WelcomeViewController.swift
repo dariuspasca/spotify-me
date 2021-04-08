@@ -81,8 +81,8 @@ class WelcomeViewController: UIViewController {
         return label
     }()
 
-    var spotifyButton:SpotifyButton = {
-        let myButton = SpotifyButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60))
+    var spotifyButton:CustomButton = {
+        let myButton = CustomButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60), title: "Continue with Spotify", icon: #imageLiteral(resourceName: "spotify_icon"))
         myButton.backgroundColor = .black
         myButton.translatesAutoresizingMaskIntoConstraints = false
         myButton.addTarget(self, action: #selector(redirectToSpotify(_:)), for: .touchUpInside)

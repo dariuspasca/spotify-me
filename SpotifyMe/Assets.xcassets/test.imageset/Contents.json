@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "https _assets.ifttt.com_images_channels_104610909_icons_monochrome_large.png?version=0.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

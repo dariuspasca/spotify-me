@@ -63,7 +63,7 @@
 		B7CA24822600A32E009129BC /* UserSessionManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */; };
 		B7CA77862610D09B00A0F3E4 /* PlaylistHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA77852610D09B00A0F3E4 /* PlaylistHeaderView.swift */; };
 		B7CA77942610E29700A0F3E4 /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA77932610E29700A0F3E4 /* UIView+Separator.swift */; };
-		B7D9F67B260DEFD600F43BF2 /* SpotifyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9F67A260DEFD600F43BF2 /* SpotifyButton.swift */; };
+		B7D9F67B260DEFD600F43BF2 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */; };
 		B7E09A652606AA8000831787 /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E09A642606AA8000831787 /* TrackManager.swift */; };
 		B7EB4C37260BA0ED006D14C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */; };
 		CD6B514E6CD5CC5FBEE32326 /* Pods_SpotifyMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AD359AB1E87ED9860A854B /* Pods_SpotifyMe.framework */; };
@@ -155,7 +155,7 @@
 		B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManagerTest.swift; sourceTree = "<group>"; };
 		B7CA77852610D09B00A0F3E4 /* PlaylistHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderView.swift; sourceTree = "<group>"; };
 		B7CA77932610E29700A0F3E4 /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
-		B7D9F67A260DEFD600F43BF2 /* SpotifyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyButton.swift; sourceTree = "<group>"; };
+		B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		B7E09A642606AA8000831787 /* TrackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
 		B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E65715D03EDD8C72F76A3317 /* Pods_SpotifyMe_SpotifyMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyMe_SpotifyMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,7 +275,7 @@
 		B722992C25FA760F00CFD6A7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B7D9F67A260DEFD600F43BF2 /* SpotifyButton.swift */,
+				B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */,
 				B727C5C7260E892600F9F1FB /* PlaylistViewCell.swift */,
 				B7584E80261076E600B494A6 /* TrackViewCell.swift */,
 				B7CA77852610D09B00A0F3E4 /* PlaylistHeaderView.swift */,
@@ -677,7 +677,7 @@
 				B715CD43261330C500DE22BD /* SpotifyService.swift in Sources */,
 				B7A80749261A166D002D15E4 /* LoadingSpinnerView.swift in Sources */,
 				B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */,
-				B7D9F67B260DEFD600F43BF2 /* SpotifyButton.swift in Sources */,
+				B7D9F67B260DEFD600F43BF2 /* CustomButton.swift in Sources */,
 				B743B251260F3A3900982B35 /* UIImageView+URL.swift in Sources */,
 				B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */,
 				B799E645261B6F2C00EA00CE /* ResponseBody.swift in Sources */,

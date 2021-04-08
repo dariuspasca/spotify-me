@@ -7,11 +7,10 @@
 
 import UIKit
 
-class SpotifyButton: UIButton {
+class CustomButton: UIButton {
 
     private let buttonLabel: UILabel = {
         let label = UILabel()
-        label.text = "Continue with Spotify"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 1
         label.textColor = .white
@@ -20,18 +19,21 @@ class SpotifyButton: UIButton {
     }()
 
     private let iconView: UIImageView  = {
-        let spotifyIcon =  UIImageView(image: #imageLiteral(resourceName: "spotify_icon"))
-        spotifyIcon.contentMode = .scaleAspectFit
-        return spotifyIcon
+        let icon =  UIImageView()
+        icon.contentMode = .scaleAspectFit
+        return icon
     }()
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, title: String, icon: UIImage) {
         super.init(frame: frame)
 
         layer.masksToBounds = true
         layer.cornerRadius = 8
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 1.5
+
+        buttonLabel.text = title
+        iconView.image = icon
 
         addSubview(iconView)
         addSubview(buttonLabel)
