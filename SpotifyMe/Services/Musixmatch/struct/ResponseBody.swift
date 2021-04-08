@@ -12,6 +12,5 @@ struct ResponseBody<T: Codable>: Codable {
 
     struct MessageBody<T: Codable>: Codable {
         let body: T
-        
     }
 }

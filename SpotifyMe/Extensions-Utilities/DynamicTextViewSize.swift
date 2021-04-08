@@ -6,7 +6,6 @@
 //
 // Credits:  Rebeloper - Rebel Developer https://www.youtube.com/channel/UCK88iDIf2V6w68WvC-k7jcg
 
-
 import UIKit
 
 struct DynamicTextViewSize {

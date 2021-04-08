@@ -56,21 +56,6 @@ class TrackManager {
 
     }
 
-    // MARK: - Relationships
-
-    func addTrackToAlbum(track: Track, album: Album) {
-        backgroundContext.performAndWait {
-
-            do {
-                try self.backgroundContext.save()
-                os_log("Track '%@' updated", type: .info, String(describing: track.name))
-            } catch {
-                os_log("Failed to update track with error: %@", type: .error, String(describing: error))
-            }
-        }
-
-    }
-
     // MARK: - Fetch
 
     func fetchTrack(withId id: String) -> Track? {

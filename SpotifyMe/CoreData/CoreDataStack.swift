@@ -28,9 +28,8 @@ class CoreDataStack {
         }
 
         mainContext = persistentContainer.viewContext
-        mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        backgroundContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         backgroundContext.parent = self.mainContext
     }
 

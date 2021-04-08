@@ -153,27 +153,7 @@ extension DownloadManager {
                 case .success(let res):
                     let tracks = res.items
                     for trackItem in tracks {
-
-                        // Create track, album and artist
-                        self.tracktManager.createTrack(track: trackItem.track)
-                        self.albumtManager.createAlbum(album: trackItem.track.album)
-                        for artist in trackItem.track.artists {
-                            self.artistManager.createArtist(artist: artist)
-                        }
-
-                        // Fetch created objects
-                        let trackRef = self.tracktManager.fetchTrack(withId: trackItem.track.id)
-                        let albumRef = self.albumtManager.fetchAlbum(withId: trackItem.track.album.id)
-                        let playlistRef = self.playlistManager.fetchPlaylist(withId: playlist)
-                        let artistsRef = self.artistManager.fetchArtists(withIds: trackItem.track.artists.map { ($0.id)})
-
-                        // Add track relationships
-                        if let newTrack = trackRef, let newAlbum = albumRef, let newPlaylist = playlistRef, let newArtists = artistsRef {
-                            newTrack.addToPlaylists(newPlaylist)
-                            newTrack.addToAlbums(newAlbum)
-                            newTrack.addToArtists(NSSet.init(array: newArtists))
-                            self.tracktManager.updateTrack(track: newTrack)
-                        }
+                        self.createNewTrack(track: trackItem.track, playlistId: playlist)
                     }
 
                     if res.next != nil {
@@ -188,6 +168,40 @@ extension DownloadManager {
                 }
             }
         }
+    }
+
+    func createNewTrack(track: SimplifiedTrack, playlistId: String) {
+
+        // Track already exists
+        guard self.tracktManager.fetchTrack(withId: track.id) == nil else { return }
+
+        // Create track
+        self.tracktManager.createTrack(track: track)
+        let trackRef = self.tracktManager.fetchTrack(withId: track.id)
+
+        // Album
+        var albumRef = self.albumtManager.fetchAlbum(withId: track.album.id)
+
+        if albumRef == nil {
+            self.albumtManager.createAlbum(album: track.album)
+            albumRef = self.albumtManager.fetchAlbum(withId: track.album.id)
+        }
+        trackRef!.addToAlbums(albumRef!)
+
+        // Artists
+        for artist in track.artists {
+            if self.artistManager.fetchArtist(withId: artist.id) == nil {
+                self.artistManager.createArtist(artist: artist)
+            }
+        }
+        let artistsRef = self.artistManager.fetchArtists(withIds: track.artists.map { ($0.id)})
+        trackRef!.addToArtists(NSSet.init(array: artistsRef!))
+
+        // Playlist
+        let playlistRef = self.playlistManager.fetchPlaylist(withId: playlistId)
+        trackRef?.addToPlaylists(playlistRef!)
+
+        self.tracktManager.updateTrack(track: trackRef!)
     }
 }
 
