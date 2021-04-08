@@ -23,10 +23,9 @@ class LyricsViewController: UIViewController {
         configurelyricsTextView()
 
         guard track != nil else { return }
-        getTrackLyrics(trackId: nil) { (trackLyrics) in
+        getTrackLyrics(track: track!) { (trackLyrics) in
             if let lyrics = trackLyrics {
                 self.lyricsTextView.text = lyrics
-                print(lyrics)
                 self.updateContainerViewHeight()
             }
             DispatchQueue.main.async {
@@ -101,26 +100,18 @@ class LyricsViewController: UIViewController {
 
 extension LyricsViewController {
 
-    func getTrackLyrics(trackId: Int?, completion: @escaping (String?) -> Void) {
-        if trackId == nil {
-            downloadManager.getMusixmatchTrack(track: track!) { (res) in
-                if let trackItem = res?.track {
-                    self.getTrackLyrics(trackId: trackItem.trackId, completion: completion)
-                } else {
-                    // No track No lyrics
-                    completion(nil)
-                }
+    func getTrackLyrics(track: Track, completion: @escaping (String?) -> Void) {
+        var trackArtists: String = ""
+        if let artists = track.artists?.allObjects as? [Artist] {
+            trackArtists = artists.map { ($0.name!)}.joined(separator: " ")
+        }
+
+        MusixmatchService.shared.getLyrics(name: track.name!, artist: trackArtists ) { (lyrics) in
+            if let trackLyrics = lyrics, trackLyrics != "" {
+                let cleanLyrics = self.clearLyricsFromWatermark(lyrics: trackLyrics)
+                completion(cleanLyrics)
             }
-        } else {
-            downloadManager.getMusixmatchLyrics(trackId: trackId!) { (res) in
-                if let trackLyrics = res {
-                    let cleanLyrics = self.clearLyricsFromWatermark(lyrics: trackLyrics)
-                    completion(cleanLyrics)
-                } else {
-                    // Track has no lyrics
-                    completion(nil)
-                }
-            }
+            completion(nil)
         }
 
     }

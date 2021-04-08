@@ -204,27 +204,3 @@ extension DownloadManager {
         self.tracktManager.updateTrack(track: trackRef!)
     }
 }
-
-// MARK: - Lyrics
-
-extension DownloadManager {
-
-    func getMusixmatchTrack(track: Track, completion: @escaping (TrackItem?) -> Void) {
-        var artists: String?
-
-        if let trackArtists = track.artists?.allObjects as? [Artist] {
-            artists = trackArtists.map { ($0.name!)}.joined(separator: " ")
-        }
-
-        MusixmatchService.shared.getTrack(name: track.name!, artist: artists ?? "") { (result) in
-            completion(result)
-        }
-    }
-
-    func getMusixmatchLyrics(trackId: Int, completion: @escaping (String?) -> Void) {
-        MusixmatchService.shared.getLyrics(trackId: trackId) { (lyrics) in
-            guard lyrics != nil else { return }
-            completion(lyrics)
-        }
-    }
-}

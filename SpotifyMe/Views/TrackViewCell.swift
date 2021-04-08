@@ -26,7 +26,6 @@ class TrackViewCell: UITableViewCell {
 
         if let artists = track.artists?.allObjects as? [Artist] {
             authorLabel.text = artists.map { ($0.name!)}.joined(separator: ",")
-
         }
 
         if let albums = track.albums?.allObjects as? [Album] {

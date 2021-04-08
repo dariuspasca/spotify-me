@@ -47,7 +47,6 @@
 		B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */; };
 		B790AE4D2604FC2300826B66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B790AE4C2604FC2300826B66 /* .swiftlint.yml */; };
 		B799E629261B5BE300EA00CE /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E628261B5BE300EA00CE /* ServiceError.swift */; };
-		B799E633261B67F600EA00CE /* TrackItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E632261B67F600EA00CE /* TrackItem.swift */; };
 		B799E640261B697000EA00CE /* MusixmatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E63F261B697000EA00CE /* MusixmatchService.swift */; };
 		B799E645261B6F2C00EA00CE /* ResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E644261B6F2C00EA00CE /* ResponseBody.swift */; };
 		B799E64F261BA03900EA00CE /* LyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B799E64E261BA03900EA00CE /* LyricsView.swift */; };
@@ -140,7 +139,6 @@
 		B78BA6E325FCCD9C00EC2E9C /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
 		B790AE4C2604FC2300826B66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B799E628261B5BE300EA00CE /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
-		B799E632261B67F600EA00CE /* TrackItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackItem.swift; sourceTree = "<group>"; };
 		B799E63F261B697000EA00CE /* MusixmatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusixmatchService.swift; sourceTree = "<group>"; };
 		B799E644261B6F2C00EA00CE /* ResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseBody.swift; sourceTree = "<group>"; };
 		B799E64E261BA03900EA00CE /* LyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsView.swift; sourceTree = "<group>"; };
@@ -386,7 +384,6 @@
 		B799E631261B67C600EA00CE /* struct */ = {
 			isa = PBXGroup;
 			children = (
-				B799E632261B67F600EA00CE /* TrackItem.swift */,
 				B799E658261BAD5500EA00CE /* Lyrics.swift */,
 				B799E644261B6F2C00EA00CE /* ResponseBody.swift */,
 			);
@@ -654,7 +651,6 @@
 				B7849D282608B0B2006BF971 /* PlaylistTrack.swift in Sources */,
 				B7CA77862610D09B00A0F3E4 /* PlaylistHeaderView.swift in Sources */,
 				B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */,
-				B799E633261B67F600EA00CE /* TrackItem.swift in Sources */,
 				B7849D312608B12C006BF971 /* SimplifiedArtist.swift in Sources */,
 				B7CA77942610E29700A0F3E4 /* UIView+Separator.swift in Sources */,
 				B710959426127BC60083D8DD /* DownloadManager.swift in Sources */,
