@@ -21,7 +21,6 @@ class LyricsViewController: UIViewController {
 
         configureScrollView()
         configurelyricsTextView()
-        configureButton()
 
         guard track != nil else { return }
         getTrackLyrics(track: track!) { (trackLyrics) in
@@ -31,7 +30,6 @@ class LyricsViewController: UIViewController {
             }
             DispatchQueue.main.async {
                 self.removeLoadingSpinner()
-                self.muxicmatchButton.isHidden = false
             }
         }
     }
@@ -56,15 +54,6 @@ class LyricsViewController: UIViewController {
         return textView
     }()
 
-    var muxicmatchButton:CustomButton = {
-        let myButton = CustomButton(frame: CGRect(x: 0, y: 0, width: 300, height: 60), title: "Open on Musixmatch", icon: #imageLiteral(resourceName: "test"))
-        myButton.backgroundColor = .black
-        myButton.translatesAutoresizingMaskIntoConstraints = false
-        myButton.addTarget(self, action: #selector(redirectToMusixmatch(_:)), for: .touchUpInside)
-        myButton.isHidden = true
-        return myButton
-    }()
-
     func configureScrollView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -76,11 +65,6 @@ class LyricsViewController: UIViewController {
     func configurelyricsTextView() {
         contentView.addSubview(lyricsTextView)
         setLyricsTextViewConstraints()
-    }
-
-    func configureButton() {
-        contentView.addSubview(muxicmatchButton)
-        setButtonConstraints()
     }
 
     func setScrollViewConstraints() {
@@ -114,22 +98,6 @@ class LyricsViewController: UIViewController {
         ]
 
         NSLayoutConstraint.activate(constraints)
-    }
-
-    func setButtonConstraints() {
-        let constraints = [
-            muxicmatchButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 100),
-            muxicmatchButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            muxicmatchButton.widthAnchor.constraint(equalToConstant: 300),
-            muxicmatchButton.heightAnchor.constraint(equalToConstant: 60)
-        ]
-
-        NSLayoutConstraint.activate(constraints)
-    }
-
-    @objc func redirectToMusixmatch(_ sender: UIButton?) {
-        print("tap")
-        // UIApplication.shared.open(connectString)
     }
 
 }
