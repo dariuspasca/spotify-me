@@ -33,7 +33,6 @@ class ArtistManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Artist '%@' created", type: .info, String(describing: artist.name))
             } catch {
                 os_log("Failed to create new artist with error: %@", type: .error, String(describing: error))
             }
@@ -47,7 +46,6 @@ class ArtistManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Artist '%@' updated", type: .info, String(describing: artist.name))
             } catch {
                 os_log("Failed to update artist with error: %@", type: .error, String(describing: error))
             }
@@ -60,15 +58,15 @@ class ArtistManager {
     func fetchArtist(withId id: String) -> Artist? {
         do {
             let fetchRequest = NSFetchRequest<Artist>(entityName: "Artist")
+            fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             var artist: Artist?
 
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching Artist", type: .info)
                     artist = try self.mainContext.fetch(fetchRequest).first
                 } catch {
-                    os_log("Failed to fetch artist", type: .info)
+                    os_log("Failed to fetch artist with error: %@", type: .error, String(describing: error))
                 }
             }
             return artist
@@ -83,10 +81,9 @@ class ArtistManager {
 
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching Artists", type: .info)
                     artists = try self.mainContext.fetch(fetchRequest)
                 } catch {
-                    os_log("Failed to fetch artists", type: .info)
+                    os_log("Failed to fetch artists with error: %@", type: .error, String(describing: error))
                 }
             }
             return artists

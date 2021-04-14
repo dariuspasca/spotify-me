@@ -22,7 +22,7 @@ class PlaylistManager {
 
     // MARK: - CREATE
 
-    func createPlaylist(playlist: SimplifiedPlaylist, userProfileId:NSManagedObjectID?) {
+    func createPlaylist(playlist: SimplifiedPlaylist, type: String = "private", userProfileId:NSManagedObjectID?) {
         backgroundContext.performAndWait {
             let newPlaylist = Playlist(context: backgroundContext)
             newPlaylist.id = playlist.id
@@ -30,7 +30,7 @@ class PlaylistManager {
             newPlaylist.desc = playlist.description
             newPlaylist.snapshotId = playlist.snapshotId
             newPlaylist.owner = playlist.owner.displayName
-            newPlaylist.type = playlist.type
+            newPlaylist.type = type
 
             if let coverImage = playlist.images {
                 newPlaylist.coverImage = coverImage[0].url
@@ -43,9 +43,8 @@ class PlaylistManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Playlist '%@' created", type: .info, String(describing: playlist.name))
             } catch {
-                os_log("Failed to create new Playlist with error: %@", type: .error, String(describing: error))
+                os_log("Failed to create new playlist with error: %@", type: .error, String(describing: error))
             }
         }
     }
@@ -57,12 +56,10 @@ class PlaylistManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Playlist '%@' updated", type: .info, String(describing: playlist.name))
             } catch {
-                os_log("Failed to update Playlist with error: %@", type: .error, String(describing: error))
+                os_log("Failed to update playlist with error: %@", type: .error, String(describing: error))
             }
         }
-
     }
 
     // MARK: - Fetch
@@ -70,19 +67,37 @@ class PlaylistManager {
     func fetchPlaylist(withId id: String) -> Playlist? {
         do {
             let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+            fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
 
             var playlist: Playlist?
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching Playlist", type: .info)
                     playlist = try self.mainContext.fetch(fetchRequest).first
                 } catch {
-                    os_log("Failed to fetch Playlist", type: .info)
+                    os_log("Failed to fetch playlist with error: %@", type: .error, String(describing: error))
                 }
             }
 
             return playlist
+        }
+    }
+
+    func fetchPlaylists(withType type: String) -> [Playlist]? {
+        do {
+            let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+            fetchRequest.predicate = NSPredicate(format: "type == %@", type)
+
+            var playlists: [Playlist]?
+            mainContext.performAndWait {
+                do {
+                    playlists = try self.mainContext.fetch(fetchRequest)
+                } catch {
+                    os_log("Failed to fetch playlist with error: %@", type: .error, String(describing: error))
+                }
+            }
+
+            return playlists
         }
     }
 

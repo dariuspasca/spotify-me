@@ -13,7 +13,6 @@ class PlaylistListViewController: UIViewController {
     var tableView = UITableView()
     var playlists: [Playlist]?
 
-    let downloadManager = DownloadManager()
     let sessionManager = UserSessionManager()
 
     override func viewDidLoad() {
@@ -53,7 +52,7 @@ class PlaylistListViewController: UIViewController {
         }
 
         if userSession!.profile!.playlists!.allObjects.isEmpty {
-            downloadManager.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) { (result) in
+            DownloadManager.shared.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) { (result) in
                 switch result {
                 case .success:
                     if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {

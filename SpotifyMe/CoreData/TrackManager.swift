@@ -34,7 +34,6 @@ class TrackManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Track '%@' created", type: .info, String(describing: track.name))
             } catch {
                 os_log("Failed to create new track with error: %@", type: .error, String(describing: error))
             }
@@ -48,7 +47,6 @@ class TrackManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Track '%@' updated", type: .info, String(describing: track.name))
             } catch {
                 os_log("Failed to update track with error: %@", type: .error, String(describing: error))
             }
@@ -61,15 +59,15 @@ class TrackManager {
     func fetchTrack(withId id: String) -> Track? {
         do {
             let fetchRequest = NSFetchRequest<Track>(entityName: "Track")
+            fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
 
             var track: Track?
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching Track", type: .info)
                     track = try self.mainContext.fetch(fetchRequest).first
                 } catch {
-                    os_log("Failed to fetch Track", type: .info)
+                    os_log("Failed to fetch track with error: %@", type: .error, String(describing: error))
                 }
             }
             return track

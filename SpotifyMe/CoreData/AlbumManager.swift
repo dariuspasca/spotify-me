@@ -22,14 +22,14 @@ class AlbumManager {
 
     // MARK: - CREATE
 
-    func createAlbum(album: SimplifiedAlbum) {
+    func createAlbum(album: SimplifiedAlbum, type: String = "private") {
         backgroundContext.performAndWait {
             let newAlbum = Album(context: backgroundContext)
             newAlbum.albumType = album.type
             newAlbum.href =  album.href
             newAlbum.id = album.id
             newAlbum.name = album.name
-            newAlbum.type = album.type
+            newAlbum.type = type
             newAlbum.uri = album.uri
             newAlbum.releaseDate = album.releaseDate
 
@@ -39,7 +39,6 @@ class AlbumManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Album '%@' created", type: .info, String(describing: newAlbum.name))
             } catch {
                 os_log("Failed to create new album with error: %@", type: .error, String(describing: error))
             }
@@ -53,7 +52,6 @@ class AlbumManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Album '%@' updated", type: .info, String(describing: album.name))
             } catch {
                 os_log("Failed to update album with error: %@", type: .error, String(describing: error))
             }
@@ -66,18 +64,35 @@ class AlbumManager {
     func fetchAlbum(withId id: String) -> Album? {
         do {
             let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
+            fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             var album: Album?
 
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching Album", type: .info)
                     album = try self.mainContext.fetch(fetchRequest).first
                 } catch {
-                    os_log("Failed to fetch Track", type: .info)
+                    os_log("Failed to fetch album with error: %@", type: .error, String(describing: error))
                 }
             }
             return album
+        }
+    }
+
+    func fetchAlbums(withType type: String) -> [Album]? {
+        do {
+            let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
+            fetchRequest.predicate = NSPredicate(format: "type == %@", type)
+            var albums: [Album]?
+
+            mainContext.performAndWait {
+                do {
+                    albums = try self.mainContext.fetch(fetchRequest)
+                } catch {
+                    os_log("Failed to fetch albums with error: %@", type: .error, String(describing: error))
+                }
+            }
+            return albums
         }
     }
 

@@ -32,9 +32,8 @@ class UserSessionManager {
 
             do {
                 try backgroundContext.save()
-                os_log("Created new UserSession", type: .info)
             } catch {
-                os_log("Failed to create UserSession with error: %@", type: .error, String(describing: error))
+                os_log("Failed to create user session with error: %@", type: .error, String(describing: error))
             }
         }
     }
@@ -45,9 +44,8 @@ class UserSessionManager {
         backgroundContext.performAndWait {
             do {
                 try backgroundContext.save()
-                os_log("UserSession updated", type: .info)
             } catch {
-                os_log("Failed to update UserSession with error: %@", type: .error, String(describing: error))
+                os_log("Failed to update user session with error: %@", type: .error, String(describing: error))
             }
         }
 
@@ -63,11 +61,10 @@ class UserSessionManager {
         var userSession: UserSession?
 
         mainContext.performAndWait {
-            os_log("Fetching UserSession", type: .info)
             do {
                 userSession = try mainContext.fetch(fetchRequest).first
             } catch {
-                os_log("Failed to fetch UserSession", type: .info)
+                os_log("Failed to fetch user session with error: %@", type: .error, String(describing: error))
             }
         }
         return userSession

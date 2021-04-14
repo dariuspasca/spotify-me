@@ -87,6 +87,19 @@ extension SpotifyService {
 
 extension SpotifyService {
 
+    func getPlaylist(authorizationValue: String, fromUrl: URL, completion: @escaping (Result<SimplifiedPlaylist, Error>) -> Void) {
+        var request = URLRequest(url: fromUrl)
+        request.httpMethod = "GET"
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        URLSession.shared.getResponse(for: request, responseType: SimplifiedPlaylist.self) { (result) in
+            completion(result)
+        }
+    }
+
     func getPlaylists(authorizationValue: String, fromUrl: URL, completion: @escaping (Result<Paginated<SimplifiedPlaylist>, Error>) -> Void) {
         var request = URLRequest(url: fromUrl)
         request.httpMethod = "GET"
@@ -99,6 +112,20 @@ extension SpotifyService {
             completion(result)
         }
     }
+
+    func getFeaturedPlaylists(authorizationValue: String, fromUrl: URL, completion: @escaping (Result<FeaturedPlaylists, Error>) -> Void) {
+        var request = URLRequest(url: fromUrl)
+        request.httpMethod = "GET"
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        URLSession.shared.getResponse(for: request, responseType: FeaturedPlaylists.self) { (result) in
+            completion(result)
+        }
+    }
+
 }
 
 // MARK: - Tracks
@@ -109,6 +136,7 @@ extension SpotifyService {
         var urlWithParams = URLComponents(string: SpotifyEndpoint.playlistTracks(playlist).url.absoluteString)!
         urlWithParams.queryItems = [
             URLQueryItem(name: "offset", value: String(offset)),
+            URLQueryItem(name: "market", value: "US"),
             URLQueryItem(name: "additional_types", value: "track")
         ]
         var request = URLRequest(url: urlWithParams.url!)
@@ -120,4 +148,23 @@ extension SpotifyService {
             completion(result)
         }
     }
+}
+
+// MARK: - Albums
+
+extension SpotifyService {
+
+    func getNewReleases(authorizationValue: String, fromUrl: URL, completion: @escaping (Result<NewReleases, Error>) -> Void) {
+        var request = URLRequest(url: fromUrl)
+        request.httpMethod = "GET"
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        URLSession.shared.getResponse(for: request, responseType: NewReleases.self) { (result) in
+            completion(result)
+        }
+    }
+
 }

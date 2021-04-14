@@ -10,7 +10,6 @@ import UIKit
 class LyricsViewController: UIViewController {
 
     var track: Track?
-    let downloadManager = DownloadManager()
 
     var containerViewHeight: CGFloat = 100
 
@@ -111,7 +110,7 @@ extension LyricsViewController {
         if let artists = track.artists?.allObjects as? [Artist] {
             trackArtists = artists.map { ($0.name!)}.joined(separator: " ")
         }
-        
+
         MusixmatchService.shared.getLyrics(name: track.name!, artist: trackArtists ) { (lyrics) in
             if let trackLyrics = lyrics, trackLyrics != "" {
                 let cleanLyrics = self.clearLyricsFromWatermark(lyrics: trackLyrics)

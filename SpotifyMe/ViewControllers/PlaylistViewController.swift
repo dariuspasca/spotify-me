@@ -11,7 +11,6 @@ import os.log
 class PlaylistViewController: UIViewController {
 
     var tableView = UITableView(frame: CGRect.zero, style: .grouped)
-    let downloadManager = DownloadManager()
     var tracks: [Track]?
     var playlist:Playlist!
 
@@ -49,7 +48,7 @@ class PlaylistViewController: UIViewController {
 
     func loadTracks() {
         if (playlist.tracks!.allObjects.isEmpty) {
-            downloadManager.downloadTracks(playlist: playlist.id!) { (result) in
+            DownloadManager.shared.downloadTracks(playlist: playlist.id!) { (result) in
                 switch result {
                 case .success:
                     if let playlistTracks = self.playlist.tracks!.allObjects as? [Track] {

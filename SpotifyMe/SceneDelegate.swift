@@ -12,7 +12,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     lazy var launchManager = LaunchManager()
-    lazy var downloadManager = DownloadManager()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -22,9 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.tintColor = .black
 
         if UserDefaults.standard.string(forKey: "authorizationCode") != nil {
-            let navController = UINavigationController(rootViewController: PlaylistListViewController())
-            navController.navigationBar.prefersLargeTitles = true
-            window?.rootViewController = navController
+            window?.rootViewController = TabBarViewController()
         } else {
             window?.rootViewController = WelcomeViewController()
         }
@@ -79,7 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: LaunchManagerDelegate {
     func didCompleteAuthorization(ready: Bool) {
         if ready {
-            downloadManager.downloadProfile { (res) in
+            DownloadManager.shared.downloadProfile { (res) in
                 switch res {
                 case .success:
                     let navController = UINavigationController(rootViewController: PlaylistListViewController())

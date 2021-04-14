@@ -43,9 +43,8 @@ class UserProfileManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Created user with email '%@'", type: .info, String(describing: user.email))
             } catch {
-                os_log("Failed to create new UserProfile with error: %@", type: .error, String(describing: error))
+                os_log("Failed to create new user profile with error: %@", type: .error, String(describing: error))
             }
         }
     }
@@ -57,9 +56,8 @@ class UserProfileManager {
 
             do {
                 try self.backgroundContext.save()
-                os_log("Updated user with email '%@'", type: .info, String(describing: userProfile.email))
             } catch {
-                os_log("Failed to update UserProfile with error: %@", type: .error, String(describing: error))
+                os_log("Failed to update user profile with error: %@", type: .error, String(describing: error))
             }
         }
 
@@ -75,13 +73,11 @@ class UserProfileManager {
             var userProfile: UserProfile?
             mainContext.performAndWait {
                 do {
-                    os_log("Fetching user with email '%@'", type: .info, String(describing: email))
                     userProfile = try self.mainContext.fetch(fetchRequest).first
                 } catch {
-                    os_log("Failed to fetch UserSession", type: .info)
+                    os_log("Failed to fetch user profile with error: %@", type: .error, String(describing: error))
                 }
             }
-
             return userProfile
         }
     }

@@ -10,5 +10,5 @@ import Foundation
 struct PlaylistTrack: Codable {
     let addedAt: Date?
     let isLocal: Bool
-    let track: SimplifiedTrack
+    let track: SimplifiedTrack? // some tracks might be unavailable due to market
 }
