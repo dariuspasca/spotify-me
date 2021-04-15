@@ -306,3 +306,95 @@ extension DownloadManager {
     }
 
 }
+
+// MARK: - Artists
+
+extension DownloadManager {
+
+    func downloadArtist(url: URL, completion: @escaping  ((Result<Void, Error>) -> Void)) {
+        guard userSession != nil else {
+            completion(.failure(ServiceError.missingSession))
+            return
+        }
+
+        if userSession!.isExpired {
+            refreshAccessToken { (res) in
+                switch res {
+                case .success:
+                    self.downloadArtist(url: url, completion: completion)
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+        } else {
+            SpotifyService.shared.getArtist(authorizationValue: userSession!.authorizationValue, fromUrl: url) { (res) in
+                switch res {
+                case .success(let artist):
+                    self.upsertArtist(newArtist: artist)
+                    completion(.success(()))
+                case .failure(let err):
+                    os_log("Failed to download artist with error: %@", type: .error, String(describing: err))
+                    completion(.failure(err))
+                }
+            }
+        }
+    }
+
+    func downloadArtists(artists: [String], completion: @escaping  ((Result<Void, Error>) -> Void)) {
+        guard userSession != nil else {
+            completion(.failure(ServiceError.missingSession))
+            return
+        }
+
+        if userSession!.isExpired {
+            refreshAccessToken { (res) in
+                switch res {
+                case .success:
+                    self.downloadArtists(artists: artists, completion: completion)
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+        } else {
+            var maxRange: Int = 50
+            if artists.count < 50 { maxRange = artists.count }
+            let artistsId = artists[..<maxRange].map { $0 }.joined(separator: ",")
+            print(artistsId)
+            SpotifyService.shared.getArtists(authorizationValue: userSession!.authorizationValue, artists: artistsId) { (res) in
+                switch res {
+                case .success(let res):
+                    print(res)
+                    res.artists.forEach { (artist) in
+                        self.upsertArtist(newArtist: artist)
+                    }
+
+                    if maxRange > 50 {
+                        let remainingArtists = artists[maxRange...].map { $0 }
+                        self.downloadArtists(artists: remainingArtists, completion: completion)
+                    } else {
+                        completion(.success(()))
+                    }
+                case .failure(let err):
+                    os_log("Failed to download artists with error: %@", type: .error, String(describing: err))
+                    completion(.failure(err))
+                }
+            }
+        }
+    }
+
+    func upsertArtist(newArtist: SimplifiedArtist) {
+        if let artist = self.artistManager.fetchArtist(withId: newArtist.id) {
+            artist.name = newArtist.name
+            artist.popularity = Int16(newArtist.popularity!)
+            artist.href = newArtist.href
+
+            if let coverImage = newArtist.images {
+                artist.coverImage = coverImage[0].url
+            }
+
+            self.artistManager.updateArtist(artist: artist)
+        } else {
+            self.artistManager.createArtist(artist: newArtist)
+        }
+    }
+}

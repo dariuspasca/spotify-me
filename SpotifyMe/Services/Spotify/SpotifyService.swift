@@ -168,3 +168,37 @@ extension SpotifyService {
     }
 
 }
+
+// MARK: - Artists
+
+extension SpotifyService {
+
+    func getArtist(authorizationValue: String, fromUrl: URL, completion: @escaping (Result<SimplifiedArtist, Error>) -> Void) {
+        var request = URLRequest(url: fromUrl)
+        request.httpMethod = "GET"
+        request.addValue(authorizationValue, forHTTPHeaderField:
+                            "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:
+                            "Content-Type")
+
+        URLSession.shared.getResponse(for: request, responseType: SimplifiedArtist.self) { (result) in
+            completion(result)
+        }
+    }
+
+    func getArtists(authorizationValue: String, artists: String, completion: @escaping (Result<Artists, Error>) -> ()) {
+        var urlWithParams = URLComponents(string: SpotifyEndpoint.artists.url.absoluteString)!
+        urlWithParams.queryItems = [
+            URLQueryItem(name: "ids", value: artists)
+        ]
+        var request = URLRequest(url: urlWithParams.url!)
+        request.httpMethod = "GET"
+        request.addValue(authorizationValue, forHTTPHeaderField: "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+        URLSession.shared.getResponse(for: request, responseType: Artists.self) { (result) in
+            completion(result)
+        }
+    }
+
+}

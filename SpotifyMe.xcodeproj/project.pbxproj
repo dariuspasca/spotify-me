@@ -67,7 +67,6 @@
 		B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */; };
 		B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */; };
 		B7A4FDEB260015C600CD7B0B /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A4FDEA260015C600CD7B0B /* UserProfileManager.swift */; };
-		B7A7CA572626B6A9008F6B13 /* ArtistObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A7CA562626B6A9008F6B13 /* ArtistObject.swift */; };
 		B7A7CA5C2626D735008F6B13 /* FeaturedPlaylists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A7CA5B2626D735008F6B13 /* FeaturedPlaylists.swift */; };
 		B7A80741261A08B1002D15E4 /* UIViewController+Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A80740261A08B1002D15E4 /* UIViewController+Spinner.swift */; };
 		B7A80749261A166D002D15E4 /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A80748261A166D002D15E4 /* LoadingSpinnerView.swift */; };
@@ -75,6 +74,7 @@
 		B7CA24822600A32E009129BC /* UserSessionManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */; };
 		B7CA77862610D09B00A0F3E4 /* PlaylistHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA77852610D09B00A0F3E4 /* PlaylistHeaderView.swift */; };
 		B7CA77942610E29700A0F3E4 /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA77932610E29700A0F3E4 /* UIView+Separator.swift */; };
+		B7D9500D262845A8009BA302 /* Artists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9500C262845A8009BA302 /* Artists.swift */; };
 		B7D9F67B260DEFD600F43BF2 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */; };
 		B7E09A652606AA8000831787 /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E09A642606AA8000831787 /* TrackManager.swift */; };
 		B7EB4C37260BA0ED006D14C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */; };
@@ -169,7 +169,6 @@
 		B7A4FDE026000AE500CD7B0B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B7A4FDE526000DDC00CD7B0B /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
 		B7A4FDEA260015C600CD7B0B /* UserProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
-		B7A7CA562626B6A9008F6B13 /* ArtistObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistObject.swift; sourceTree = "<group>"; };
 		B7A7CA5B2626D735008F6B13 /* FeaturedPlaylists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylists.swift; sourceTree = "<group>"; };
 		B7A80740261A08B1002D15E4 /* UIViewController+Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Spinner.swift"; sourceTree = "<group>"; };
 		B7A80748261A166D002D15E4 /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
@@ -177,6 +176,7 @@
 		B7CA24812600A32E009129BC /* UserSessionManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManagerTest.swift; sourceTree = "<group>"; };
 		B7CA77852610D09B00A0F3E4 /* PlaylistHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderView.swift; sourceTree = "<group>"; };
 		B7CA77932610E29700A0F3E4 /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
+		B7D9500C262845A8009BA302 /* Artists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artists.swift; sourceTree = "<group>"; };
 		B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		B7E09A642606AA8000831787 /* TrackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
 		B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -384,6 +384,7 @@
 				B7849D052608AE7B006BF971 /* Image.swift */,
 				B7A7CA5B2626D735008F6B13 /* FeaturedPlaylists.swift */,
 				B7323E0E2627273E005CD6DB /* NewReleases.swift */,
+				B7D9500C262845A8009BA302 /* Artists.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -407,7 +408,6 @@
 				B7849D432608B9F0006BF971 /* SimplifiedTrack.swift */,
 				B7849D302608B12C006BF971 /* SimplifiedArtist.swift */,
 				B7849D382608B1A2006BF971 /* SimplifiedAlbum.swift */,
-				B7A7CA562626B6A9008F6B13 /* ArtistObject.swift */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -690,6 +690,7 @@
 			files = (
 				B7849D142608AF03006BF971 /* PrivateUser.swift in Sources */,
 				B7849D282608B0B2006BF971 /* PlaylistTrack.swift in Sources */,
+				B7D9500D262845A8009BA302 /* Artists.swift in Sources */,
 				B7CA77862610D09B00A0F3E4 /* PlaylistHeaderView.swift in Sources */,
 				B72298F725FA731600CFD6A7 /* AppDelegate.swift in Sources */,
 				B7849D312608B12C006BF971 /* SimplifiedArtist.swift in Sources */,
@@ -725,7 +726,6 @@
 				B715CD43261330C500DE22BD /* SpotifyService.swift in Sources */,
 				B7A80749261A166D002D15E4 /* LoadingSpinnerView.swift in Sources */,
 				B7A4FDE626000DDC00CD7B0B /* UserSessionManager.swift in Sources */,
-				B7A7CA572626B6A9008F6B13 /* ArtistObject.swift in Sources */,
 				B7D9F67B260DEFD600F43BF2 /* CustomButton.swift in Sources */,
 				B743B251260F3A3900982B35 /* UIImageView+URL.swift in Sources */,
 				B72298F925FA731600CFD6A7 /* SceneDelegate.swift in Sources */,

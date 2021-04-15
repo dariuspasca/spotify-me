@@ -22,13 +22,12 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(artist: String) {
-        artistLabel.text = artist
+    func set(artist: Artist) {
+        artistLabel.text = artist.name
 
-        coverImage.loadImage(from: URL(string: "https://radionorba.it/wp-content/uploads/2021/02/Daft-Punk.jpg")!)
-        //        if let coverUrl = artist {
-        //            coverImage.loadImage(from: coverUrl)
-        //        }
+        if let coverUrl = artist.coverImage {
+            coverImage.loadImage(from: coverUrl)
+        }
     }
 
     // MARK: - Views
@@ -82,7 +81,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(coverImage)
         setCoverImageViewConstraints()
     }
-
+    
     func setCoverImageViewConstraints() {
         let constraints = [
             coverImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.7),

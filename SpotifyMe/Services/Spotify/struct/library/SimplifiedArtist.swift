@@ -13,4 +13,8 @@ struct SimplifiedArtist: Codable {
     let name: String
     let type: String
     let uri: URL
+
+    // ArtistObject
+    let images: [Image]?
+    let popularity: Int?
 }

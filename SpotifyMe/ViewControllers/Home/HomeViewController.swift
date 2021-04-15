@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
 
     var playlistManager = PlaylistManager()
     var albumManager = AlbumManager()
+    var artistManager = ArtistManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -207,7 +208,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         switch collectionView {
         case popularArtistsCollectionView:
             let artistCell = popularArtistsCollectionView.dequeueReusableCell(withReuseIdentifier: "ArtistCell", for: indexPath) as? ArtistCollectionViewCell
-            artistCell?.set(artist: "Test Artist")
+            artistCell?.set(artist: popularArtists![indexPath.row])
             return artistCell!
         case featuredPlaylistsCollectionView:
             let playlistCell = featuredPlaylistsCollectionView.dequeueReusableCell(withReuseIdentifier: "FeaturedPlaylistCell", for: indexPath) as? FeaturedPlaylistCollectionViewCell
@@ -253,8 +254,8 @@ extension HomeViewController {
                         self.topTracks = playlist!.tracks?.allObjects as? [Track]
                         DispatchQueue.main.async {
                             self.topTracksTableView.reloadData()
+                            self.populatePopularArtists()
                         }
-                        self.populatePopularArtists()
                     case .failure:
                         print("uff")
                     }
@@ -297,6 +298,28 @@ extension HomeViewController {
     }
 
     func populatePopularArtists() {
-       
+        var artists: Set<String> = []
+
+        for track in topTracks! {
+            if let trackArtists = track.artists?.allObjects as? [Artist] {
+                let artistsIds = trackArtists.map { ($0.id)}
+                artistsIds.forEach { (artistId) in
+                    artists.insert(artistId!)
+                }
+            }
+        }
+        let artistsList = artists.map { ($0) }
+        DownloadManager.shared.downloadArtists(artists: artistsList) { (res) in
+            switch res {
+            case .success:
+                self.popularArtists = self.artistManager.fetchArtists(withIds: artists.map { $0 })
+                DispatchQueue.main.async {
+                    self.popularArtistsCollectionView.reloadData()
+                }
+            case .failure:
+                // should handle error
+                print("Failed to get popular artists")
+            }
+        }
     }
 }

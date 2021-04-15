@@ -14,6 +14,8 @@ enum SpotifyEndpoint {
     case playlistTracks(String)
     case featuredPlaylists
     case newReleases
+    case artist(String)
+    case artists
     case tokenRequest
 }
 
@@ -33,6 +35,10 @@ extension SpotifyEndpoint {
             return URL(string: "https://api.spotify.com/v1/browse/featured-playlists")!
         case .newReleases:
             return URL(string: "https://api.spotify.com/v1/browse/new-releases")!
+        case .artist(let id):
+            return URL(string: "https://api.spotify.com/v1/artists/\(id)")!
+        case .artists:
+            return URL(string: "https://api.spotify.com/v1/artists")!
         case .tokenRequest:
             return URL(string: "https://accounts.spotify.com/api/token")!
         }
