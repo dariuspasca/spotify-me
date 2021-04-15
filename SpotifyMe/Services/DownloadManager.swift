@@ -228,7 +228,6 @@ extension DownloadManager {
     }
 
     func createNewTrack(track: SimplifiedTrack, playlistId: String) {
-
         // Track already exists
         guard self.tracktManager.fetchTrack(withId: track.id) == nil else { return }
 
@@ -359,11 +358,9 @@ extension DownloadManager {
             var maxRange: Int = 50
             if artists.count < 50 { maxRange = artists.count }
             let artistsId = artists[..<maxRange].map { $0 }.joined(separator: ",")
-            print(artistsId)
             SpotifyService.shared.getArtists(authorizationValue: userSession!.authorizationValue, artists: artistsId) { (res) in
                 switch res {
                 case .success(let res):
-                    print(res)
                     res.artists.forEach { (artist) in
                         self.upsertArtist(newArtist: artist)
                     }

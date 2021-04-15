@@ -81,7 +81,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(coverImage)
         setCoverImageViewConstraints()
     }
-    
+
     func setCoverImageViewConstraints() {
         let constraints = [
             coverImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.7),
@@ -93,6 +93,16 @@ class ArtistCollectionViewCell: UICollectionViewCell {
 
     func configureArtistLabel() {
         stackView.addArrangedSubview(artistLabel)
+        setArtistLabelConstraints()
+    }
+
+    func setArtistLabelConstraints() {
+        let constraints = [
+            artistLabel.centerXAnchor.constraint(equalTo: coverImage.centerXAnchor),
+            artistLabel.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.8)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
 
 }

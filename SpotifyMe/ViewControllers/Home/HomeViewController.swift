@@ -25,9 +25,76 @@ class HomeViewController: UIViewController {
         configureNavigationBar()
         configureViews()
 
-        populateTopTracks()
-        populateFeaturedPlaylists()
-        populateNewReleases()
+        let dispatchGroup = DispatchGroup()
+
+        // Weekly Top Tracks Table
+        dispatchGroup.enter()
+        populateTopTracks { (res) in
+            dispatchGroup.enter()
+            switch res {
+            case .success:
+                dispatchGroup.leave()
+            case .failure(let err):
+                // should handle error
+                print("uff \(err)")
+                dispatchGroup.leave()
+            }
+            dispatchGroup.leave()
+        }
+
+        // Featured Playlists Collection
+        dispatchGroup.enter()
+        populateFeaturedPlaylists { (res) in
+            dispatchGroup.enter()
+            switch res {
+            case .success:
+                dispatchGroup.leave()
+            case .failure(let err):
+                // should handle error
+                print("uff \(err)")
+                dispatchGroup.leave()
+            }
+            dispatchGroup.leave()
+        }
+
+        // New Releases Collection
+        dispatchGroup.enter()
+        populateNewReleases { (res) in
+            dispatchGroup.enter()
+            switch res {
+            case .success:
+                dispatchGroup.leave()
+            case .failure(let err):
+                // should handle error
+                print("uff \(err)")
+                dispatchGroup.leave()
+            }
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.newReleases = self.albumManager.fetchAlbums(withType: "newReleases")
+            self.newReleasesCollectionView.reloadData()
+
+            self.featuredPlaylists = self.playlistManager.fetchPlaylists(withType: "featured")
+            self.featuredPlaylistsCollectionView.reloadData()
+
+            let playlist = self.playlistManager.fetchPlaylist(withId: self.global50PlaylistId)
+            self.topTracks = playlist!.tracks?.allObjects as? [Track]
+            self.topTracksTableView.reloadData()
+
+            // Popular Artists Collection
+            self.populatePopularArtists { (res) in
+                switch res {
+                case .success(let artists):
+                    self.popularArtists = self.artistManager.fetchArtists(withIds: artists)
+                    self.popularArtistsCollectionView.reloadData()
+                case .failure(let err):
+                    // should handle error
+                    print("uff \(err)")
+                }
+            }
+        }
 
     }
 
@@ -243,61 +310,47 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
 extension HomeViewController {
 
-    func populateTopTracks() {
+    func populateTopTracks(completion: @escaping  ((Result<Void, Error>) -> Void)) {
         DownloadManager.shared.downloadPlaylist(url: SpotifyEndpoint.playlist(global50PlaylistId).url) { res in
             switch res {
             case .success:
                 DownloadManager.shared.downloadTracks(playlist: self.global50PlaylistId) { (res) in
                     switch res {
                     case .success:
-                        let playlist = self.playlistManager.fetchPlaylist(withId: self.global50PlaylistId)
-                        self.topTracks = playlist!.tracks?.allObjects as? [Track]
-                        DispatchQueue.main.async {
-                            self.topTracksTableView.reloadData()
-                            self.populatePopularArtists()
-                        }
-                    case .failure:
-                        print("uff")
+                        completion(.success(()))
+                    case .failure(let err):
+                        completion(.failure(err))
                     }
                 }
-            case .failure:
-                // should handle error
-                print("Failed to get global50 playlist")
+            case .failure(let err):
+                completion(.failure(err))
             }
         }
     }
 
-    func populateFeaturedPlaylists() {
+    func populateFeaturedPlaylists(completion: @escaping  ((Result<Void, Error>) -> Void)) {
         DownloadManager.shared.downloadFeaturedPlaylists(url: SpotifyEndpoint.featuredPlaylists.url) { (res) in
             switch res {
             case .success:
-                self.featuredPlaylists = self.playlistManager.fetchPlaylists(withType: "featured")
-                DispatchQueue.main.async {
-                    self.featuredPlaylistsCollectionView.reloadData()
-                }
-            case .failure:
-                // should handle error
-                print("Failed to get featured playlists")
+                completion(.success(()))
+            case .failure(let err):
+                completion(.failure(err))
             }
         }
     }
 
-    func populateNewReleases() {
+    func populateNewReleases(completion: @escaping  ((Result<Void, Error>) -> Void)) {
         DownloadManager.shared.downloadNewReleases(url: SpotifyEndpoint.newReleases.url) { (res) in
             switch res {
             case .success:
-                self.newReleases = self.albumManager.fetchAlbums(withType: "newReleases")
-                DispatchQueue.main.async {
-                    self.newReleasesCollectionView.reloadData()
-                }
-            case .failure:
-                // should handle error
-                print("Failed to get new releases")
+                completion(.success(()))
+            case .failure(let err):
+                completion(.failure(err))
             }
         }
     }
 
-    func populatePopularArtists() {
+    func populatePopularArtists(completion: @escaping  ((Result<[String], Error>) -> Void)) {
         var artists: Set<String> = []
 
         for track in topTracks! {
@@ -312,13 +365,9 @@ extension HomeViewController {
         DownloadManager.shared.downloadArtists(artists: artistsList) { (res) in
             switch res {
             case .success:
-                self.popularArtists = self.artistManager.fetchArtists(withIds: artists.map { $0 })
-                DispatchQueue.main.async {
-                    self.popularArtistsCollectionView.reloadData()
-                }
-            case .failure:
-                // should handle error
-                print("Failed to get popular artists")
+                completion(.success(artists.map { $0 }))
+            case .failure(let err):
+                completion(.failure(err))
             }
         }
     }

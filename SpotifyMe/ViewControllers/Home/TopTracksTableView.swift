@@ -58,8 +58,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TopTrackCell") as? RankedTrackTableViewCell
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        let track = topTracks![indexPath.row]
-        cell?.set(track: track, rank: indexPath.row + 1)
+        cell?.set(track: topTracks![indexPath.row], rank: indexPath.row + 1)
         return cell!
     }
 }
