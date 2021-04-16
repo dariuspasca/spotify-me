@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.tintColor = .black
 
         if UserDefaults.standard.string(forKey: "authorizationCode") != nil {
-            window?.rootViewController = TabBarViewController()
+            window?.rootViewController = TabBarController()
         } else {
             window?.rootViewController = WelcomeViewController()
         }

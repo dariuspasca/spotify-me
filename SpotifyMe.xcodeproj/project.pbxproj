@@ -36,9 +36,11 @@
 		B743B251260F3A3900982B35 /* UIImageView+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743B250260F3A3900982B35 /* UIImageView+URL.swift */; };
 		B74B880F2614C0BB0025BB2F /* AlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B880E2614C0BB0025BB2F /* AlbumManager.swift */; };
 		B74B88142614C0C50025BB2F /* ArtistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B88132614C0C50025BB2F /* ArtistManager.swift */; };
+		B75377412629741800375E41 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75377402629741800375E41 /* HomeViewModel.swift */; };
+		B7537749262978B800375E41 /* Notifications+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7537748262978B800375E41 /* Notifications+Names.swift */; };
 		B7584E7C2610767000B494A6 /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7584E7B2610767000B494A6 /* PlaylistViewController.swift */; };
 		B7584E81261076E600B494A6 /* TrackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7584E80261076E600B494A6 /* TrackViewCell.swift */; };
-		B7600A9326244628007319B0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7600A9226244628007319B0 /* TabBarViewController.swift */; };
+		B7600A9326244628007319B0 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7600A9226244628007319B0 /* TabBarController.swift */; };
 		B7600A9826244A94007319B0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7600A9726244A94007319B0 /* HomeViewController.swift */; };
 		B7600AA026244EEE007319B0 /* ArtistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7600A9F26244EEE007319B0 /* ArtistCollectionViewCell.swift */; };
 		B771F1B12602084E006E1AE3 /* UserProfileManagerText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */; };
@@ -138,9 +140,11 @@
 		B743B250260F3A3900982B35 /* UIImageView+URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+URL.swift"; sourceTree = "<group>"; };
 		B74B880E2614C0BB0025BB2F /* AlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumManager.swift; sourceTree = "<group>"; };
 		B74B88132614C0C50025BB2F /* ArtistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistManager.swift; sourceTree = "<group>"; };
+		B75377402629741800375E41 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B7537748262978B800375E41 /* Notifications+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notifications+Names.swift"; sourceTree = "<group>"; };
 		B7584E7B2610767000B494A6 /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		B7584E80261076E600B494A6 /* TrackViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewCell.swift; sourceTree = "<group>"; };
-		B7600A9226244628007319B0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		B7600A9226244628007319B0 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		B7600A9726244A94007319B0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B7600A9F26244EEE007319B0 /* ArtistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCollectionViewCell.swift; sourceTree = "<group>"; };
 		B771F1B02602084E006E1AE3 /* UserProfileManagerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManagerText.swift; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 				B7A4FDDF26000AB500CD7B0B /* CoreData */,
 				B7B65E9925FA7F1B00993ED7 /* Services */,
 				B722992E25FA763100CFD6A7 /* Models */,
+				B753773F2629740200375E41 /* ViewModels */,
 				B722992D25FA761F00CFD6A7 /* ViewControllers */,
 				B722992C25FA760F00CFD6A7 /* Views */,
 				B72298F625FA731600CFD6A7 /* AppDelegate.swift */,
@@ -325,7 +330,7 @@
 		B722992D25FA761F00CFD6A7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				B7600A9226244628007319B0 /* TabBarViewController.swift */,
+				B7600A9226244628007319B0 /* TabBarController.swift */,
 				B7131F502624E4CD0052CC9C /* Home */,
 				B7280BFE260CEAE2004472A6 /* WelcomeViewController.swift */,
 				B727C5B1260E7E7300F9F1FB /* PlaylistListViewController.swift */,
@@ -352,8 +357,17 @@
 				B743B243260F264200982B35 /* URLSession+Response.swift */,
 				B743B250260F3A3900982B35 /* UIImageView+URL.swift */,
 				B7A80740261A08B1002D15E4 /* UIViewController+Spinner.swift */,
+				B7537748262978B800375E41 /* Notifications+Names.swift */,
 			);
 			path = "Extensions-Utilities";
+			sourceTree = "<group>";
+		};
+		B753773F2629740200375E41 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B75377402629741800375E41 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		B7849CFA2608AE09006BF971 /* Spotify */ = {
@@ -715,6 +729,7 @@
 				B7849CFE2608AE3C006BF971 /* Paginated.swift in Sources */,
 				B773F9402625E538009BF734 /* TopTracksTableView.swift in Sources */,
 				B7254375262557CD0037DE31 /* FeaturedPlaylistsCollectionView.swift in Sources */,
+				B7537749262978B800375E41 /* Notifications+Names.swift in Sources */,
 				B7A4FDE126000AE500CD7B0B /* CoreDataStack.swift in Sources */,
 				B710959926127DB50083D8DD /* SpotifyAuthorizationConfig.swift in Sources */,
 				B72F73ED25FF842100B6AF55 /* UserSession+CoreDataClass.swift in Sources */,
@@ -744,7 +759,8 @@
 				B7A4FDEB260015C600CD7B0B /* UserProfileManager.swift in Sources */,
 				B78BA6E425FCCD9C00EC2E9C /* SpotifyEndpoint.swift in Sources */,
 				B74B880F2614C0BB0025BB2F /* AlbumManager.swift in Sources */,
-				B7600A9326244628007319B0 /* TabBarViewController.swift in Sources */,
+				B75377412629741800375E41 /* HomeViewModel.swift in Sources */,
+				B7600A9326244628007319B0 /* TabBarController.swift in Sources */,
 				B743B244260F264200982B35 /* URLSession+Response.swift in Sources */,
 				B7849D392608B1A2006BF971 /* SimplifiedAlbum.swift in Sources */,
 				B725438C2625700E0037DE31 /* NewReleaseCollectionViewCell.swift in Sources */,

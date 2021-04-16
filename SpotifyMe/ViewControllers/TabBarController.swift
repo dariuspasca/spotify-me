@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class TabBarViewController: UITabBarController {
 
 // MARK: - Setup
 
-extension TabBarViewController {
+extension TabBarController {
 
     func setupVCs() {
         viewControllers = [

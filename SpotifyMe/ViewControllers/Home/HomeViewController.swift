@@ -10,91 +10,31 @@ import UIKit
 class HomeViewController: UIViewController {
 
     let global50PlaylistId: String = "37i9dQZEVXbLiRSasKsNU9"
+    private var homeViewModel: HomeViewModel?
+    private var playlistManager = PlaylistManager()
+    private var albumManager = AlbumManager()
+    private var artistManager = ArtistManager()
 
     var popularArtists: [Artist]?
     var topTracks: [Track]?
     var featuredPlaylists: [Playlist]?
     var newReleases: [Album]?
 
-    var playlistManager = PlaylistManager()
-    var albumManager = AlbumManager()
-    var artistManager = ArtistManager()
-
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Configure and setup UI
         configureNavigationBar()
         configureViews()
 
-        let dispatchGroup = DispatchGroup()
+        // Setup notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveGlobalTopTracks(notification:)), name: .didDownloadGlobalTopTracks, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveFeaturedPlaylists(notification:)), name: .didDownloadFeaturedPlaylists, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNewAlbumReleases(notification:)), name: .didDownloadNewAlbumReleases, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceivePopularArtists(notification:)), name: .didDownloadPopularArtists, object: nil)
 
-        // Weekly Top Tracks Table
-        dispatchGroup.enter()
-        populateTopTracks { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                dispatchGroup.leave()
-            case .failure(let err):
-                // should handle error
-                print("uff \(err)")
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        // Featured Playlists Collection
-        dispatchGroup.enter()
-        populateFeaturedPlaylists { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                dispatchGroup.leave()
-            case .failure(let err):
-                // should handle error
-                print("uff \(err)")
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        // New Releases Collection
-        dispatchGroup.enter()
-        populateNewReleases { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                dispatchGroup.leave()
-            case .failure(let err):
-                // should handle error
-                print("uff \(err)")
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            self.newReleases = self.albumManager.fetchAlbums(withType: "newReleases")
-            self.newReleasesCollectionView.reloadData()
-
-            self.featuredPlaylists = self.playlistManager.fetchPlaylists(withType: "featured")
-            self.featuredPlaylistsCollectionView.reloadData()
-
-            let playlist = self.playlistManager.fetchPlaylist(withId: self.global50PlaylistId)
-            self.topTracks = playlist!.tracks?.allObjects as? [Track]
-            self.topTracksTableView.reloadData()
-
-            // Popular Artists Collection
-            self.populatePopularArtists { (res) in
-                switch res {
-                case .success(let artists):
-                    self.popularArtists = self.artistManager.fetchArtists(withIds: artists)
-                    self.popularArtistsCollectionView.reloadData()
-                case .failure(let err):
-                    // should handle error
-                    print("uff \(err)")
-                }
-            }
-        }
+        // Init view model
+        homeViewModel = HomeViewModel(playlist: global50PlaylistId)
 
     }
 
@@ -104,6 +44,60 @@ class HomeViewController: UIViewController {
         configureFeaturedPlaylistCollectionView()
         configureTopTracksTableView()
         configureNewReleasesCollectionView()
+    }
+
+    // MARK: - Notifications
+
+    @objc func didReceiveGlobalTopTracks(notification: NSNotification) {
+        if let error = notification.object as? NSError {
+            // should handle errror
+            print(error)
+        } else {
+            let playlist = self.playlistManager.fetchPlaylist(withId: self.global50PlaylistId)
+            self.topTracks = playlist!.tracks?.allObjects as? [Track]
+            DispatchQueue.main.async {
+                self.topTracksTableView.reloadData()
+            }
+        }
+    }
+
+    @objc func didReceiveFeaturedPlaylists(notification: NSNotification) {
+        if let error = notification.object as? NSError {
+            // should handle errror
+            print(error)
+        } else {
+            self.featuredPlaylists = self.playlistManager.fetchPlaylists(withType: "featured")
+            DispatchQueue.main.async {
+                self.featuredPlaylistsCollectionView.reloadData()
+            }
+        }
+    }
+
+    @objc func didReceiveNewAlbumReleases(notification: NSNotification) {
+        if let error = notification.object as? NSError {
+            // should handle errror
+            print(error)
+        } else {
+            self.newReleases = self.albumManager.fetchAlbums(withType: "newReleases")
+            DispatchQueue.main.async {
+                self.newReleasesCollectionView.reloadData()
+            }
+        }
+    }
+
+    @objc func didReceivePopularArtists(notification: NSNotification) {
+        if let error = notification.object as? NSError {
+            // should handle errror
+            print(error)
+        } else {
+            if let artistsIdds = notification.object as? [String] {
+                self.popularArtists = self.artistManager.fetchArtists(withIds: artistsIdds)
+            }
+           // self.popularArtists = self.artistManager.fetchArtists(withIds: artists)
+            DispatchQueue.main.async {
+                self.popularArtistsCollectionView.reloadData()
+            }
+        }
     }
 
     // MARK: - NavigationBar
@@ -304,71 +298,4 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         return CGSize(width: width, height: height)
     }
 
-}
-
-// MARK: - Business Logic
-
-extension HomeViewController {
-
-    func populateTopTracks(completion: @escaping  ((Result<Void, Error>) -> Void)) {
-        DownloadManager.shared.downloadPlaylist(url: SpotifyEndpoint.playlist(global50PlaylistId).url) { res in
-            switch res {
-            case .success:
-                DownloadManager.shared.downloadTracks(playlist: self.global50PlaylistId) { (res) in
-                    switch res {
-                    case .success:
-                        completion(.success(()))
-                    case .failure(let err):
-                        completion(.failure(err))
-                    }
-                }
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
-    }
-
-    func populateFeaturedPlaylists(completion: @escaping  ((Result<Void, Error>) -> Void)) {
-        DownloadManager.shared.downloadFeaturedPlaylists(url: SpotifyEndpoint.featuredPlaylists.url) { (res) in
-            switch res {
-            case .success:
-                completion(.success(()))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
-    }
-
-    func populateNewReleases(completion: @escaping  ((Result<Void, Error>) -> Void)) {
-        DownloadManager.shared.downloadNewReleases(url: SpotifyEndpoint.newReleases.url) { (res) in
-            switch res {
-            case .success:
-                completion(.success(()))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
-    }
-
-    func populatePopularArtists(completion: @escaping  ((Result<[String], Error>) -> Void)) {
-        var artists: Set<String> = []
-
-        for track in topTracks! {
-            if let trackArtists = track.artists?.allObjects as? [Artist] {
-                let artistsIds = trackArtists.map { ($0.id)}
-                artistsIds.forEach { (artistId) in
-                    artists.insert(artistId!)
-                }
-            }
-        }
-        let artistsList = artists.map { ($0) }
-        DownloadManager.shared.downloadArtists(artists: artistsList) { (res) in
-            switch res {
-            case .success:
-                completion(.success(artists.map { $0 }))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
-    }
 }
