@@ -8,19 +8,25 @@
 import UIKit
 import os.log
 
-class PlaylistListViewController: UIViewController {
+class LibraryViewController: UIViewController {
 
     var tableView = UITableView()
     var playlists: [Playlist]?
 
-    let sessionManager = UserSessionManager()
+    private var libraryViewModel: LibraryViewModel!
+    private let playlistManager = PlaylistManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Playlists"
 
         configureTableView()
-        loadPlaylists()
+
+        // Setup notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceivePrivatePlaylists(notification:)), name: .didDownloadPrivatePlaylists, object: nil)
+
+        // Init view model
+        libraryViewModel = LibraryViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -29,6 +35,23 @@ class PlaylistListViewController: UIViewController {
             return
         }
     }
+
+    // MARK: - Notifications
+
+    @objc func didReceivePrivatePlaylists(notification: NSNotification) {
+        if let error = notification.object as? NSError {
+            // should handle errror
+            print(error)
+        } else {
+            playlists = playlistManager.fetchPlaylists(withType: "private")
+            DispatchQueue.main.async {
+                self.removeLoadingSpinner()
+                self.tableView.reloadData()
+            }
+        }
+    }
+
+    // MARK: - Layouts
 
     func configureTableView() {
         view.addSubview(tableView)
@@ -42,44 +65,11 @@ class PlaylistListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-
-    func loadPlaylists() {
-        let authorizationCode = UserDefaults.standard.string(forKey: "authorizationCode")
-        let userSession = sessionManager.fetchUserSession(withAuthorizationCode: authorizationCode!)
-
-        guard userSession != nil else {
-            return
-        }
-
-        if userSession!.profile!.playlists!.allObjects.isEmpty {
-            DownloadManager.shared.downloadPlaylists(url: SpotifyEndpoint.myPlalists.url) { (result) in
-                switch result {
-                case .success:
-                    if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
-                        self.playlists = playlistList
-                    }
-                    DispatchQueue.main.async {
-                        self.removeLoadingSpinner()
-                        self.tableView.reloadData()
-                    }
-                case .failure(let err):
-                    // Failed fetching playlist, should handle error (UI)
-                    self.removeLoadingSpinner()
-                    print(err)
-                }
-
-            }
-        } else {
-            if let playlistList = userSession!.profile!.playlists!.allObjects as? [Playlist] {
-                self.playlists = playlistList
-            }
-        }
-    }
 }
 
-// MARK: - Table Data
+// MARK: - TableView
 
-extension PlaylistListViewController: UITableViewDelegate, UITableViewDataSource {
+extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return playlists?.count ?? 0

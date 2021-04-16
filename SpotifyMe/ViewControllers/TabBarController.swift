@@ -26,8 +26,8 @@ extension TabBarController {
     func setupVCs() {
         viewControllers = [
             createNavController(for: HomeViewController(), title: "Home", image: UIImage(systemName: "house")!),
-            createNavController(for: PlaylistListViewController(), title: "Search", image: UIImage(systemName: "magnifyingglass")!),
-            createNavController(for: PlaylistListViewController(), title: "Library", image: UIImage(systemName: "book")!)
+            createNavController(for: LibraryViewController(), title: "Search", image: UIImage(systemName: "magnifyingglass")!),
+            createNavController(for: LibraryViewController(), title: "Library", image: UIImage(systemName: "book")!)
         ]
     }
 

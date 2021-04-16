@@ -30,6 +30,8 @@ class PlaylistViewController: UIViewController {
         }
     }
 
+    // MARK: - Layout
+
     func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
@@ -45,6 +47,8 @@ class PlaylistViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+
+    // MARK: - Data
 
     func loadTracks() {
         if (playlist.tracks!.allObjects.isEmpty) {
@@ -73,7 +77,7 @@ class PlaylistViewController: UIViewController {
     }
 }
 
-// MARK: - Table Data
+// MARK: - TableView
 
 extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
 

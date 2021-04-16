@@ -110,7 +110,7 @@ class PlaylistManager {
     func fetchPlaylists(withType type: String) -> [Playlist]? {
         do {
             let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-            fetchRequest.predicate = NSPredicate(format: "type == %@", type)
+            fetchRequest.predicate = NSPredicate(format: "type CONTAINS[cd] %@", type)
 
             var playlists: [Playlist]?
             mainContext.performAndWait {
