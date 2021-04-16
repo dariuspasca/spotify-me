@@ -22,20 +22,29 @@ class HomeViewModel: NSObject {
         // Popular artists are fetched from the playlist tracks, thus the populateArtists function is called after playlist tracks are downloaded
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveGlobalTopTracks(notification:)), name: .didDownloadGlobalTopTracks, object: nil)
 
-        populateTopTracks()
-        populateNewReleases()
-        populateFeaturedPlaylists()
+        getTopTracks()
+        getFeaturedPlaylists()
+        getNewReleases()
     }
 
     @objc func didReceiveGlobalTopTracks(notification: NSNotification) {
         guard notification.object == nil else { return }
-        populatePopularArtists()
+        getPopularArtists()
     }
 }
 
 extension HomeViewModel {
 
-    private func populateTopTracks() {
+    private func getTopTracks() {
+        let playlist = playlistManager.fetchPlaylist(withId: playlistId)
+        if playlist?.tracks != nil {
+            NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: nil)
+        } else {
+            downloadTopTracks()
+        }
+    }
+
+    private func downloadTopTracks() {
         DownloadManager.shared.downloadPlaylist(url: SpotifyEndpoint.playlist(playlistId).url) { res in
             switch res {
             case .success:
@@ -53,7 +62,15 @@ extension HomeViewModel {
         }
     }
 
-    func populateFeaturedPlaylists() {
+    private func getFeaturedPlaylists() {
+        if playlistManager.fetchPlaylists(withType: "featured") != nil {
+            NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: nil)
+        } else {
+            downloadFeaturedPlaylists()
+        }
+    }
+
+    private func downloadFeaturedPlaylists() {
         DownloadManager.shared.downloadFeaturedPlaylists(url: SpotifyEndpoint.featuredPlaylists.url) { (res) in
             switch res {
             case .success:
@@ -64,7 +81,15 @@ extension HomeViewModel {
         }
     }
 
-    func populateNewReleases() {
+    private func getNewReleases() {
+        if albumManager.fetchAlbums(withType: "newReleases") != nil {
+            NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: nil)
+        } else {
+            downloadNewReleases()
+        }
+    }
+
+    private func downloadNewReleases() {
         DownloadManager.shared.downloadNewReleases(url: SpotifyEndpoint.newReleases.url) { (res) in
             switch res {
             case .success:
@@ -75,7 +100,7 @@ extension HomeViewModel {
         }
     }
 
-    func populatePopularArtists() {
+    private func getPopularArtists() {
         var artists: Set<String> = []
         let playlist = self.playlistManager.fetchPlaylist(withId: self.playlistId)
         let tracks = playlist!.tracks?.allObjects as? [Track]
@@ -89,10 +114,20 @@ extension HomeViewModel {
             }
         }
         let artistsList = artists.map { ($0) }
-        DownloadManager.shared.downloadArtists(artists: artistsList) { (res) in
+
+        if artistManager.fetchArtists(withIds: artistsList) != nil {
+            NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artistsList)
+        } else {
+            populatePopularArtists(artists: artistsList)
+        }
+
+    }
+
+    private func populatePopularArtists(artists: [String]) {
+        DownloadManager.shared.downloadArtists(artists: artists) { (res) in
             switch res {
             case .success:
-                NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artists.map { $0 })
+                NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artists)
             case .failure(let err):
                 NotificationCenter.default.post(name: .didDownloadPopularArtists, object: err)
             }
