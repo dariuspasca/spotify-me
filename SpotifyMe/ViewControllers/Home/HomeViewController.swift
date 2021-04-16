@@ -92,7 +92,6 @@ class HomeViewController: UIViewController {
             if let artistsIdds = notification.object as? [String] {
                 self.popularArtists = self.artistManager.fetchArtists(withIds: artistsIdds)
             }
-           // self.popularArtists = self.artistManager.fetchArtists(withIds: artists)
             DispatchQueue.main.async {
                 self.popularArtistsCollectionView.reloadData()
             }
@@ -251,10 +250,9 @@ extension HomeViewController: UIScrollViewDelegate {
         let offsetY = scrollView.contentOffset.y
         if offsetY > 10 {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
-            self.navigationController?.setToolbarHidden(true, animated: true)
         } else if offsetY < 10 {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            self.navigationController?.setToolbarHidden(false, animated: true)
+
         }
     }
 }
