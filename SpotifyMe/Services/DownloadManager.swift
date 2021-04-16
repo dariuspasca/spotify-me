@@ -18,8 +18,8 @@ class DownloadManager {
     private lazy var sessionManager = UserSessionManager()
     private lazy var userManager = UserProfileManager()
     private lazy var playlistManager = PlaylistManager()
-    private lazy var tracktManager = TrackManager()
-    private lazy var albumtManager = AlbumManager()
+    private lazy var trackManager = TrackManager()
+    private lazy var albumManager = AlbumManager()
     private lazy var artistManager = ArtistManager()
 
     private init() {
@@ -105,7 +105,7 @@ extension DownloadManager {
                 case .success(let res):
                     let playlists = res.items
                     for playlist in playlists {
-                        self.playlistManager.createPlaylist(playlist: playlist, userProfileId: self.userSession!.profile?.objectID)
+                        self.playlistManager.upsertPlaylist(playlist: playlist, userProfileId: self.userSession!.profile?.objectID)
                     }
 
                     if let next = res.next {
@@ -140,7 +140,7 @@ extension DownloadManager {
             SpotifyService.shared.getPlaylist(authorizationValue: userSession!.authorizationValue, fromUrl: url) { (res) in
                 switch res {
                 case .success(let playlist):
-                    self.playlistManager.createPlaylist(playlist: playlist, userProfileId: self.userSession!.profile?.objectID)
+                    self.playlistManager.upsertPlaylist(playlist: playlist, userProfileId: self.userSession!.profile?.objectID)
                     completion(.success(()))
                 case .failure(let err):
                     os_log("Failed to download playlist with error: %@", type: .error, String(describing: err))
@@ -170,7 +170,7 @@ extension DownloadManager {
                 switch res {
                 case .success(let res):
                     for playlist in res.playlists.items {
-                        self.playlistManager.createPlaylist(playlist: playlist, type: "featured", userProfileId: self.userSession!.profile?.objectID)
+                        self.playlistManager.upsertPlaylist(playlist: playlist, type: "featured", userProfileId: self.userSession!.profile?.objectID)
                     }
                     completion(.success(()))
                 case .failure(let err):
@@ -229,34 +229,32 @@ extension DownloadManager {
 
     func createNewTrack(track: SimplifiedTrack, playlistId: String) {
         // Track already exists
-        guard self.tracktManager.fetchTrack(withId: track.id) == nil else { return }
+        guard self.trackManager.fetchTrack(withId: track.id) == nil else { return }
 
         // Create track
-        self.tracktManager.createTrack(track: track)
-        let trackRef = self.tracktManager.fetchTrack(withId: track.id)
+        self.trackManager.createTrack(track: track)
+        let trackRef = self.trackManager.fetchTrack(withId: track.id)
 
         // Album
-        var albumRef = self.albumtManager.fetchAlbum(withId: track.album.id)
+        var albumRef = self.albumManager.fetchAlbum(withId: track.album.id)
 
-        if albumRef == nil {
-            self.albumtManager.createAlbum(album: track.album)
-            albumRef = self.albumtManager.fetchAlbum(withId: track.album.id)
-        }
+        self.albumManager.upsertAlbum(album: track.album)
+        albumRef = self.albumManager.fetchAlbum(withId: track.album.id)
+
         trackRef!.addToAlbums(albumRef!)
 
         // Artists
         for artist in track.artists {
-            if self.artistManager.fetchArtist(withId: artist.id) == nil {
-                self.artistManager.createArtist(artist: artist)
-            }
+            self.artistManager.upsertArtist(artist: artist)
         }
         let artistsRef = self.artistManager.fetchArtists(withIds: track.artists.map { ($0.id)})
         trackRef!.addToArtists(NSSet.init(array: artistsRef!))
+
         // Playlist
         let playlistRef = self.playlistManager.fetchPlaylist(withId: playlistId)
         trackRef?.addToPlaylists(playlistRef!)
 
-        self.tracktManager.updateTrack(track: trackRef!)
+        self.trackManager.updateTrack(track: trackRef!)
     }
 }
 
@@ -284,8 +282,8 @@ extension DownloadManager {
                 switch res {
                 case .success(let res):
                     for album in res.albums.items {
-                        self.albumtManager.createAlbum(album: album, type: "newReleases")
-                        let albumRef = self.albumtManager.fetchAlbum(withId: album.id)
+                        self.albumManager.upsertAlbum(album: album, type: "newReleases")
+                        let albumRef = self.albumManager.fetchAlbum(withId: album.id)
 
                         for artist in album.artists {
                             if self.artistManager.fetchArtist(withId: artist.id) == nil {
@@ -329,7 +327,7 @@ extension DownloadManager {
             SpotifyService.shared.getArtist(authorizationValue: userSession!.authorizationValue, fromUrl: url) { (res) in
                 switch res {
                 case .success(let artist):
-                    self.upsertArtist(newArtist: artist)
+                    self.artistManager.upsertArtist(artist: artist)
                     completion(.success(()))
                 case .failure(let err):
                     os_log("Failed to download artist with error: %@", type: .error, String(describing: err))
@@ -362,7 +360,7 @@ extension DownloadManager {
                 switch res {
                 case .success(let res):
                     res.artists.forEach { (artist) in
-                        self.upsertArtist(newArtist: artist)
+                        self.artistManager.upsertArtist(artist: artist)
                     }
 
                     if maxRange > 50 {
@@ -376,22 +374,6 @@ extension DownloadManager {
                     completion(.failure(err))
                 }
             }
-        }
-    }
-
-    func upsertArtist(newArtist: SimplifiedArtist) {
-        if let artist = self.artistManager.fetchArtist(withId: newArtist.id) {
-            artist.name = newArtist.name
-            artist.popularity = Int16(newArtist.popularity!)
-            artist.href = newArtist.href
-
-            if let coverImage = newArtist.images {
-                artist.coverImage = coverImage[0].url
-            }
-
-            self.artistManager.updateArtist(artist: artist)
-        } else {
-            self.artistManager.createArtist(artist: newArtist)
         }
     }
 }

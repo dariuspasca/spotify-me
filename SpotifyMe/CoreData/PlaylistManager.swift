@@ -49,6 +49,30 @@ class PlaylistManager {
         }
     }
 
+    func upsertPlaylist(playlist: SimplifiedPlaylist, type: String = "private", userProfileId:NSManagedObjectID?) {
+        if let currentPlaylist = self.fetchPlaylist(withId: playlist.id) {
+            currentPlaylist.id = playlist.id
+            currentPlaylist.name = playlist.name
+            currentPlaylist.desc = playlist.description
+            currentPlaylist.snapshotId = playlist.snapshotId
+            currentPlaylist.owner = playlist.owner.displayName
+
+            if currentPlaylist.type != type {
+                currentPlaylist.type = "\(currentPlaylist.type!) \(type)"
+            }
+
+            if let coverImage = playlist.images {
+                currentPlaylist.coverImage = coverImage[0].url
+            }
+
+            self.updatePlaylist(playlist: currentPlaylist)
+
+        } else {
+            self.createPlaylist(playlist: playlist, type: type, userProfileId: userProfileId)
+        }
+
+    }
+
     // MARK: - UPDATE
 
     func updatePlaylist(playlist: Playlist) {

@@ -39,6 +39,26 @@ class ArtistManager {
         }
     }
 
+    func upsertArtist(artist: SimplifiedArtist) {
+        if let currentArtist = self.fetchArtist(withId: artist.id) {
+            currentArtist.name = artist.name
+            currentArtist.href = artist.href
+
+            if let popularity = artist.popularity {
+                currentArtist.popularity = Int16(popularity)
+            }
+
+            if let coverImage = artist.images {
+                currentArtist.coverImage = coverImage[0].url
+            }
+
+            self.updateArtist(artist: currentArtist)
+        } else {
+            self.createArtist(artist: artist)
+        }
+
+    }
+
     // MARK: - UPDATE
 
     func updateArtist(artist: Artist) {

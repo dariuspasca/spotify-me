@@ -45,6 +45,26 @@ class AlbumManager {
         }
     }
 
+    func upsertAlbum(album: SimplifiedAlbum, type: String = "private") {
+        if let currentAlbum = self.fetchAlbum(withId: album.id) {
+            currentAlbum.href =  album.href
+            currentAlbum.id = album.id
+            currentAlbum.name = album.name
+            currentAlbum.type = type
+            currentAlbum.uri = album.uri
+            currentAlbum.releaseDate = album.releaseDate
+
+            if currentAlbum.type != type {
+                currentAlbum.type = "\(currentAlbum.type!) \(type)"
+            }
+
+            self.updateAlbum(album: currentAlbum)
+
+        } else {
+            createAlbum(album: album, type: type)
+        }
+    }
+
     // MARK: - UPDATE
 
     func updateAlbum(album: Album) {
