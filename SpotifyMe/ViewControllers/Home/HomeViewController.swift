@@ -35,7 +35,6 @@ class HomeViewController: UIViewController {
 
         // Init view model
         homeViewModel = HomeViewModel(playlist: global50PlaylistId)
-
     }
 
     func configureViews() {
@@ -220,9 +219,11 @@ class HomeViewController: UIViewController {
 
 // MARK: - ScrollView
 
-extension HomeViewController {
+extension HomeViewController: UIScrollViewDelegate {
 
     func configureScrollView() {
+        scrollView.delegate = self
+
         view.addSubview(scrollView)
         setScrollViewConstraints()
 
@@ -243,6 +244,18 @@ extension HomeViewController {
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    // Hide/Show navigation bar on scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        if offsetY > 10 {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.navigationController?.setToolbarHidden(true, animated: true)
+        } else if offsetY < 10 {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.navigationController?.setToolbarHidden(false, animated: true)
+        }
     }
 }
 
