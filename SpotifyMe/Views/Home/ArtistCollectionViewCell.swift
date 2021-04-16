@@ -35,7 +35,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     lazy var coverImage: UIImageView = {
         let image = UIImageView()
         image.layer.masksToBounds = true
-        image.layer.cornerRadius = (contentView.bounds.height * 0.7) / 2
+        image.layer.cornerRadius = (contentView.bounds.height * 0.8) / 2
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -43,11 +43,10 @@ class ArtistCollectionViewCell: UICollectionViewCell {
 
     lazy var artistLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .center
         label.textColor = UIColor(named: "light_gray")
         label.numberOfLines = 1
-        label.text = "Artist Name"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -84,8 +83,8 @@ class ArtistCollectionViewCell: UICollectionViewCell {
 
     func setCoverImageViewConstraints() {
         let constraints = [
-            coverImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.7),
-            coverImage.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.7)
+            coverImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.8),
+            coverImage.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.8)
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -99,7 +98,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     func setArtistLabelConstraints() {
         let constraints = [
             artistLabel.centerXAnchor.constraint(equalTo: coverImage.centerXAnchor),
-            artistLabel.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.8)
+            artistLabel.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.9)
         ]
 
         NSLayoutConstraint.activate(constraints)
