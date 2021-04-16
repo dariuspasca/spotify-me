@@ -18,74 +18,24 @@ class HomeViewModel: NSObject {
     init(playlist: String) {
         super.init()
         playlistId = playlist
-        loadData()
+
+        // Popular artists are fetched from the playlist tracks, thus the populateArtists function is called after playlist tracks are downloaded
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveGlobalTopTracks(notification:)), name: .didDownloadGlobalTopTracks, object: nil)
+
+        populateTopTracks()
+        populateNewReleases()
+        populateFeaturedPlaylists()
     }
 
-    private func loadData() {
-        let dispatchGroup = DispatchGroup()
-
-        // Weekly Top Tracks Table
-        dispatchGroup.enter()
-        populateTopTracks { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: nil)
-                dispatchGroup.leave()
-            case .failure(let err):
-                NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: err)
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        // Featured Playlists Collection
-        dispatchGroup.enter()
-        populateFeaturedPlaylists { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: nil)
-                dispatchGroup.leave()
-            case .failure(let err):
-                NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: err)
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        // New Releases Collection
-        dispatchGroup.enter()
-        populateNewReleases { (res) in
-            dispatchGroup.enter()
-            switch res {
-            case .success:
-                NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: nil)
-                dispatchGroup.leave()
-            case .failure(let err):
-                NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: err)
-                dispatchGroup.leave()
-            }
-            dispatchGroup.leave()
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            // Popular Artists Collection
-            self.populatePopularArtists { (res) in
-                switch res {
-                case .success(let artists):
-                    NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artists)
-                case .failure(let err):
-                    NotificationCenter.default.post(name: .didDownloadPopularArtists, object: err)
-                }
-            }
-        }
+    @objc func didReceiveGlobalTopTracks(notification: NSNotification) {
+        guard notification.object == nil else { return }
+        populatePopularArtists()
     }
 }
 
 extension HomeViewModel {
 
-    private func populateTopTracks(completion: @escaping  ((Result<Void, Error>) -> Void)) {
+    private func populateTopTracks() {
         DownloadManager.shared.downloadPlaylist(url: SpotifyEndpoint.playlist(playlistId).url) { res in
             switch res {
             case .success:
@@ -94,38 +44,38 @@ extension HomeViewModel {
                     case .success:
                         NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: nil)
                     case .failure(let err):
-                        completion(.failure(err))
+                        NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: err)
                     }
                 }
             case .failure(let err):
-                completion(.failure(err))
+                NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: err)
             }
         }
     }
 
-    func populateFeaturedPlaylists(completion: @escaping  ((Result<Void, Error>) -> Void)) {
+    func populateFeaturedPlaylists() {
         DownloadManager.shared.downloadFeaturedPlaylists(url: SpotifyEndpoint.featuredPlaylists.url) { (res) in
             switch res {
             case .success:
-                completion(.success(()))
+                NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: nil)
             case .failure(let err):
-                completion(.failure(err))
+                NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: err)
             }
         }
     }
 
-    func populateNewReleases(completion: @escaping  ((Result<Void, Error>) -> Void)) {
+    func populateNewReleases() {
         DownloadManager.shared.downloadNewReleases(url: SpotifyEndpoint.newReleases.url) { (res) in
             switch res {
             case .success:
-                completion(.success(()))
+                NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: nil)
             case .failure(let err):
-                completion(.failure(err))
+                NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: err)
             }
         }
     }
 
-    func populatePopularArtists(completion: @escaping  ((Result<[String], Error>) -> Void)) {
+    func populatePopularArtists() {
         var artists: Set<String> = []
         let playlist = self.playlistManager.fetchPlaylist(withId: self.playlistId)
         let tracks = playlist!.tracks?.allObjects as? [Track]
@@ -142,9 +92,9 @@ extension HomeViewModel {
         DownloadManager.shared.downloadArtists(artists: artistsList) { (res) in
             switch res {
             case .success:
-                completion(.success(artists.map { $0 }))
+                NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artists.map { $0 })
             case .failure(let err):
-                completion(.failure(err))
+                NotificationCenter.default.post(name: .didDownloadPopularArtists, object: err)
             }
         }
     }

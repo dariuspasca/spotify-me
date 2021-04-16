@@ -79,9 +79,7 @@ extension SceneDelegate: LaunchManagerDelegate {
             DownloadManager.shared.downloadProfile { (res) in
                 switch res {
                 case .success:
-                    let navController = UINavigationController(rootViewController: PlaylistListViewController())
-                    navController.navigationBar.prefersLargeTitles = true
-                    self.window?.rootViewController = navController
+                    self.window?.rootViewController = TabBarController()
                 case .failure(let err):
                     // Should handle error
                     print("failed creating user with err \(err)")
