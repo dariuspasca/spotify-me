@@ -37,10 +37,10 @@ extension HomeViewModel {
 
     private func getTopTracks() {
         let playlist = playlistManager.fetchPlaylist(withId: playlistId)
-        if playlist?.tracks != nil {
-            NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: nil)
-        } else {
+        if playlist?.tracks == nil {
             downloadTopTracks()
+        } else {
+            NotificationCenter.default.post(name: .didDownloadGlobalTopTracks, object: nil)
         }
     }
 
@@ -63,10 +63,10 @@ extension HomeViewModel {
     }
 
     private func getFeaturedPlaylists() {
-        if playlistManager.fetchPlaylists(withType: "featured") != nil {
-            NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: nil)
-        } else {
+        if playlistManager.fetchPlaylists(withType: "featured")!.isEmpty {
             downloadFeaturedPlaylists()
+        } else {
+            NotificationCenter.default.post(name: .didDownloadFeaturedPlaylists, object: nil)
         }
     }
 
@@ -82,10 +82,10 @@ extension HomeViewModel {
     }
 
     private func getNewReleases() {
-        if albumManager.fetchAlbums(withType: "newReleases") != nil {
-            NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: nil)
-        } else {
+        if albumManager.fetchAlbums(withType: "newReleases")!.isEmpty {
             downloadNewReleases()
+        } else {
+            NotificationCenter.default.post(name: .didDownloadNewAlbumReleases, object: nil)
         }
     }
 
@@ -115,10 +115,10 @@ extension HomeViewModel {
         }
         let artistsList = artists.map { ($0) }
 
-        if artistManager.fetchArtists(withIds: artistsList) != nil {
-            NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artistsList)
-        } else {
+        if artistManager.fetchArtists(withIds: artistsList)!.isEmpty {
             populatePopularArtists(artists: artistsList)
+        } else {
+            NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artistsList)
         }
 
     }

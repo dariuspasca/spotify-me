@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    let global50PlaylistId: String = "37i9dQZEVXbLiRSasKsNU9"
+    private let global50PlaylistId: String = "37i9dQZEVXbLiRSasKsNU9"
     private var homeViewModel: HomeViewModel?
     private var playlistManager = PlaylistManager()
     private var albumManager = AlbumManager()
@@ -55,7 +55,7 @@ class HomeViewController: UIViewController {
             let playlist = self.playlistManager.fetchPlaylist(withId: self.global50PlaylistId)
             self.topTracks = playlist!.tracks?.allObjects as? [Track]
             DispatchQueue.main.async {
-                self.topTracksTableView.reloadData()
+                self.topTracksTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             }
         }
     }
@@ -67,7 +67,11 @@ class HomeViewController: UIViewController {
         } else {
             self.featuredPlaylists = self.playlistManager.fetchPlaylists(withType: "featured")
             DispatchQueue.main.async {
-                self.featuredPlaylistsCollectionView.reloadData()
+                // self.featuredPlaylistsCollectionView.reloadData()
+                self.featuredPlaylistsCollectionView.performBatchUpdates({
+                    let indexSet = IndexSet(integersIn: 0...0)
+                    self.featuredPlaylistsCollectionView.reloadSections(indexSet)
+                }, completion: nil)
             }
         }
     }
@@ -89,11 +93,15 @@ class HomeViewController: UIViewController {
             // should handle errror
             print(error)
         } else {
-            if let artistsIdds = notification.object as? [String] {
-                self.popularArtists = self.artistManager.fetchArtists(withIds: artistsIdds)
+            if let artistsIds = notification.object as? [String] {
+                self.popularArtists = self.artistManager.fetchArtists(withIds: artistsIds)
             }
             DispatchQueue.main.async {
-                self.popularArtistsCollectionView.reloadData()
+                // self.popularArtistsCollectionView.reloadData()
+                self.popularArtistsCollectionView.performBatchUpdates({
+                    let indexSet = IndexSet(integersIn: 0...0)
+                    self.popularArtistsCollectionView.reloadSections(indexSet)
+                }, completion: nil)
             }
         }
     }
