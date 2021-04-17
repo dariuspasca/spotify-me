@@ -115,8 +115,28 @@ extension HomeViewModel {
         }
         let artistsList = artists.map { ($0) }
 
-        if artistManager.fetchArtists(withIds: artistsList)!.isEmpty {
-            populatePopularArtists(artists: artistsList)
+        /*
+         Check whetever the track artists exists and if they have a coverImage
+
+         Artists don't have a coverImage when they are taken within a SimplifiedTrack obj but only when
+         you donwnload the artist by ID
+         */
+
+        if let currentArtists = artistManager.fetchArtists(withIds: artistsList) {
+
+            if currentArtists.isEmpty {
+                populatePopularArtists(artists: artistsList)
+            } else {
+                // Check whetever the artists have a coverImage url
+                let currentArtistsCovers = currentArtists.compactMap { $0.coverImage }
+
+                if currentArtistsCovers.isEmpty {
+                    populatePopularArtists(artists: artistsList)
+                } else {
+                    NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artistsList)
+                }
+            }
+
         } else {
             NotificationCenter.default.post(name: .didDownloadPopularArtists, object: artistsList)
         }
