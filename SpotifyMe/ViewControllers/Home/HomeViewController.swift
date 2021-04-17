@@ -144,10 +144,10 @@ class HomeViewController: UIViewController {
 
     var popularArtistsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -172,10 +172,10 @@ class HomeViewController: UIViewController {
 
     var featuredPlaylistsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -186,10 +186,10 @@ class HomeViewController: UIViewController {
 
     var topTracksLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -215,10 +215,10 @@ class HomeViewController: UIViewController {
 
     var newReleasesLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         label.textAlignment = .left
         label.textColor = UIColor(named: "dark_gray")
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

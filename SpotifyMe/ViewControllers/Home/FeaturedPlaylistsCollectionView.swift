@@ -40,6 +40,7 @@ extension HomeViewController {
     func configureFeaturedPlaylistLabel() {
         contentView.addSubview(featuredPlaylistsLabel)
         featuredPlaylistsLabel.text = "Featured Playlists"
+        featuredPlaylistsLabel.addCharacterSpacing(kernValue: 1)
         setFeatuedPlaylistLabelConstraints()
     }
 

@@ -39,6 +39,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func configureTopTracksLabel() {
         contentView.addSubview(topTracksLabel)
         topTracksLabel.text = "Weekly Top Tracks"
+        topTracksLabel.addCharacterSpacing(kernValue: 1)
         setTopTracksConstraints()
     }
 

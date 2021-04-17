@@ -81,6 +81,7 @@
 		B7D9F67B260DEFD600F43BF2 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */; };
 		B7E09A652606AA8000831787 /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E09A642606AA8000831787 /* TrackManager.swift */; };
 		B7EB4C37260BA0ED006D14C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */; };
+		B7FC86E8262B38EE00004126 /* UILabel+LetterSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FC86E7262B38EE00004126 /* UILabel+LetterSpacing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,7 @@
 		B7D9F67A260DEFD600F43BF2 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		B7E09A642606AA8000831787 /* TrackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
 		B7EB4C36260BA0ED006D14C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B7FC86E7262B38EE00004126 /* UILabel+LetterSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LetterSpacing.swift"; sourceTree = "<group>"; };
 		E60A2CE9EB63396D41355369 /* Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig"; path = "Target Support Files/Pods-SpotifyMe-SpotifyMeUITests/Pods-SpotifyMe-SpotifyMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -356,6 +358,7 @@
 				B743B250260F3A3900982B35 /* UIImageView+URL.swift */,
 				B7A80740261A08B1002D15E4 /* UIViewController+Spinner.swift */,
 				B7537748262978B800375E41 /* Notifications+Names.swift */,
+				B7FC86E7262B38EE00004126 /* UILabel+LetterSpacing.swift */,
 			);
 			path = "Extensions-Utilities";
 			sourceTree = "<group>";
@@ -741,6 +744,7 @@
 				B799E659261BAD5500EA00CE /* Lyrics.swift in Sources */,
 				B727C5C8260E892600F9F1FB /* PlaylistViewCell.swift in Sources */,
 				B725437A26255E160037DE31 /* FeaturedPlaylistCollectionViewCell.swift in Sources */,
+				B7FC86E8262B38EE00004126 /* UILabel+LetterSpacing.swift in Sources */,
 				B7A80741261A08B1002D15E4 /* UIViewController+Spinner.swift in Sources */,
 				B722990125FA731600CFD6A7 /* SpotifyMe.xcdatamodeld in Sources */,
 				B7280BFF260CEAE2004472A6 /* WelcomeViewController.swift in Sources */,

@@ -37,6 +37,7 @@ extension HomeViewController {
     func configureNewReleasesLabel() {
         contentView.addSubview(newReleasesLabel)
         newReleasesLabel.text = "New Releases"
+        newReleasesLabel.addCharacterSpacing(kernValue: 1)
         setNewReleasesLabelConstraints()
     }
 
